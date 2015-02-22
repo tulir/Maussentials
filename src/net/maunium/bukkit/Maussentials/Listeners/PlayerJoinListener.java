@@ -6,9 +6,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import net.maunium.bukkit.Maussentials.ChatFormatter;
-import net.maunium.bukkit.Maussentials.MauModule;
 import net.maunium.bukkit.Maussentials.Maussentials;
+import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
+import net.maunium.bukkit.Maussentials.Utils.MauModule;
 
 public class PlayerJoinListener implements Listener, MauModule {
 	private Maussentials plugin;

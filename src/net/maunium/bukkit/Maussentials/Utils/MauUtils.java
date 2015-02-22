@@ -1,4 +1,4 @@
-package net.maunium.bukkit.Maussentials;
+package net.maunium.bukkit.Maussentials.Utils;
 
 import org.bukkit.block.Block;
 import org.bukkit.metadata.MetadataValue;

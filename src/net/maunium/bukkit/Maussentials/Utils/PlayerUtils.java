@@ -1,4 +1,4 @@
-package net.maunium.bukkit.Maussentials;
+package net.maunium.bukkit.Maussentials.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

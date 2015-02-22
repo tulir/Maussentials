@@ -24,6 +24,8 @@ import lib.PatPeter.SQLibrary.mSQL;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.maunium.bukkit.Maussentials.Utils.MauModule;
+
 public class Maussentials extends JavaPlugin {
 	
 	public String version;

@@ -1,4 +1,6 @@
-package net.maunium.bukkit.Maussentials;
+package net.maunium.bukkit.Maussentials.Utils;
+
+import net.maunium.bukkit.Maussentials.Maussentials;
 
 /**
  * The base of every module in Maussentials.

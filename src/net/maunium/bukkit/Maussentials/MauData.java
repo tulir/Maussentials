@@ -8,6 +8,8 @@ import lib.PatPeter.SQLibrary.Database;
 
 import org.bukkit.Location;
 
+import net.maunium.bukkit.Maussentials.Utils.SerializableLocation;
+
 public class MauData {
 	private Database sql;
 	public static final String TABLE_PLAYERS = "Players", TABLE_HISTORY = "OldNames";
