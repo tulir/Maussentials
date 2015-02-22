@@ -46,7 +46,7 @@ public class MauData {
 	
 	public ResultSet setEntry(UUID uuid, String username, String ip, Location l) throws SQLException {
 		return sql.query("INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES (" + "'" + uuid.toString() + "','" + username + "','" + ip + "','"
-				+ System.currentTimeMillis() + "','" + MauUtils.toString(l) + "');");
+				+ System.currentTimeMillis() + "','" + SerializableLocation.toString(l) + "');");
 	}
 	
 	public ResultSet setTime(UUID uuid) throws SQLException {
@@ -54,6 +54,6 @@ public class MauData {
 	}
 	
 	public ResultSet setLocation(UUID uuid, Location l) throws SQLException {
-		return sql.query("UPDATE " + TABLE_PLAYERS + " SET Location='" + MauUtils.toString(l) + "' WHERE UUID='" + uuid.toString() + "';");
+		return sql.query("UPDATE " + TABLE_PLAYERS + " SET Location='" + SerializableLocation.toString(l) + "' WHERE UUID='" + uuid.toString() + "';");
 	}
 }
