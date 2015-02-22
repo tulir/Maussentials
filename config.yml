@@ -3,10 +3,10 @@ sql:
   # Supported types:
   # MySQL, SQLite, H2, PostgreSQL, MicrosoftSQL, Oracle,
   # Ingres, Informix, DB2, FrontBase, Firebird, Mongo,
-  # mSQL, MaxDB
+  # mSQL, MaxDB.
   type: sqlite
-  # File name for file databases (sqlite, h2) database
-  # name for hostname databases (mysql, postgresql, etc.)
+  # File name for file databases (sqlite, h2)
+  # Database name for hostname databases (mysql, postgresql, etc.) 
   database: maussentials
   # Hostname and port only required for hostname databases.
   hostname: localhost
@@ -17,6 +17,7 @@ sql:
 # {DISPLAYNAME} = Player display name
 # {ONLINE} = Player count
 # {MAXPLAYERS} = Max player count
+# Format codes with & prefix
 welcome-message:
   - "&6Hello, &e{PLAYER}&6. There are &e{ONLINE} / {MAXPLAYERS}&6 players online."
   - "This is the second line of the message."
