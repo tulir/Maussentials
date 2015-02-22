@@ -1,7 +1,9 @@
 package net.maunium.bukkit.Maussentials;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import lib.PatPeter.SQLibrary.DB2;
@@ -27,6 +29,7 @@ public class Maussentials extends JavaPlugin {
 	public String version;
 	public final String name = "Maussentials", author = "Tulir293", stag = ChatColor.DARK_GREEN + "[" + ChatColor.GREEN + name + ChatColor.DARK_GREEN + "] "
 			+ ChatColor.GRAY, errtag = ChatColor.DARK_RED + "[" + ChatColor.RED + name + ChatColor.DARK_RED + "] " + ChatColor.RED;
+	private Map<String, MauModule> modules = new HashMap<String, MauModule>();
 	private MauData md;
 	
 	@Override
@@ -59,6 +62,11 @@ public class Maussentials extends JavaPlugin {
 	
 	public MauData getMauData() {
 		return md;
+	}
+	
+	public void enableModule(String name, MauModule m){
+		m.initialize(this);
+		modules.put(name, m);
 	}
 	
 	/**
