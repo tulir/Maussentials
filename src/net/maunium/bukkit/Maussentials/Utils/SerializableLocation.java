@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 /**
- * A serializable location containing the x, y, z, yaw and pitch values and the UUID of the world.<br>
+ * A serializable location containing the x, y, z, yaw and pitch values and the name of the world.<br>
  * Can be serialized using the java serialization system or the bukkit configuration serialization system.
  * 
  * @author Tulir293
@@ -22,7 +22,7 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 	private static final long serialVersionUID = -3174227815222499224L;
 	private final double x, y, z;
 	private final float yaw, pitch;
-	private final UUID world;
+	private final String world;
 	
 	/**
 	 * Creates a SerializableLocation using the values of the given location.
@@ -35,10 +35,10 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		this.z = l.getZ();
 		this.yaw = l.getYaw();
 		this.pitch = l.getPitch();
-		this.world = l.getWorld().getUID();
+		this.world = l.getWorld().getName();
 	}
 	
-	public SerializableLocation(double x, double y, double z, float yaw, float pitch, UUID world) {
+	public SerializableLocation(double x, double y, double z, float yaw, float pitch, String world) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -48,15 +48,25 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 	}
 	
 	public SerializableLocation(double x, double y, double z, float yaw, float pitch, World world) {
-		this(x, y, z, yaw, pitch, world.getUID());
+		this(x, y, z, yaw, pitch, world.getName());
 	}
 	
 	public SerializableLocation(double x, double y, double z, World world) {
-		this(x, y, z, 0, 0, world.getUID());
+		this(x, y, z, 0, 0, world.getName());
 	}
 	
-	public SerializableLocation(double x, double y, double z, UUID world) {
+	public SerializableLocation(double x, double y, double z, String world) {
 		this(x, y, z, 0, 0, world);
+	}
+	
+	/**
+	 * Converts this SerializableLocation to a Bukkit Location.
+	 * @return The Location, or null if the world couldn't be found.
+	 */
+	public Location toLocation() {
+		World w = Bukkit.getServer().getWorld(world);
+		if (w != null) return new Location(w, x, y, z, yaw, pitch);
+		else return null;
 	}
 	
 	/**
@@ -72,8 +82,7 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		double z = Double.parseDouble(ss[2]);
 		float yaw = Float.parseFloat(ss[3]);
 		float pitch = Float.parseFloat(ss[4]);
-		UUID world = UUID.fromString(ss[5]);
-		return new SerializableLocation(x, y, z, yaw, pitch, world);
+		return new SerializableLocation(x, y, z, yaw, pitch, ss[5]);
 	}
 	
 	/**
@@ -81,7 +90,7 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 	 */
 	@Override
 	public String toString() {
-		return x + ", " + y + ", " + z + ", " + yaw + ", " + pitch + ", " + world.toString();
+		return x + ", " + y + ", " + z + ", " + yaw + ", " + pitch + ", " + world;
 	}
 	
 	/**
@@ -89,27 +98,7 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 	 *         world too, use {@link #toReadableString(Location)}.
 	 */
 	public String toReadableString() {
-		return round(x, 2) + ", " + round(y, 2) + ", " + round(z, 2);
-	}
-	
-	/**
-	 * @param l The location from which to take the values from.
-	 * @return A string containing the x, y, z, yaw, pitch values and the world name.
-	 */
-	public static String toString(Location l) {
-		if (l != null) return l.getX() + ", " + l.getY() + ", " + l.getZ() + ", " + l.getYaw() + ", " + l.getPitch() + ", "
-				+ (l.getWorld() == null ? "Null" : l.getWorld().getUID());
-		else return "Null Location";
-	}
-	
-	/**
-	 * @param l The location from which to take the values from
-	 * @return A human-readable string representation of this location. Contains the x, y and z values rounded to two decimals and the name of the world.
-	 */
-	public static String toReadableString(Location l) {
-		if (l != null) return round(l.getX(), 2) + ", " + round(l.getY(), 2) + ", " + round(l.getZ(), 2) + " @ "
-				+ (l.getWorld() == null ? "Null" : l.getWorld().getName());
-		else return "Null Location";
+		return round(x, 2) + ", " + round(y, 2) + ", " + round(z, 2) + " @ " + world;
 	}
 	
 	/**
@@ -126,7 +115,7 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		location.put("z", z);
 		location.put("yaw", yaw);
 		location.put("pitch", pitch);
-		location.put("world", world.toString());
+		location.put("world", world);
 		return location;
 	}
 	
@@ -142,7 +131,7 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		this.z = parseDouble(location.get("z"));
 		this.yaw = parseFloat(location.get("yaw"));
 		this.pitch = parseFloat(location.get("pitch"));
-		this.world = UUID.fromString((String) location.get("uuid"));
+		this.world = (String) location.get("uuid");
 	}
 	
 	/**
