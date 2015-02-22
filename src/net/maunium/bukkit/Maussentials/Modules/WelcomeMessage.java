@@ -3,6 +3,7 @@ package net.maunium.bukkit.Maussentials.Modules;
 import java.util.List;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -14,7 +15,7 @@ import net.maunium.bukkit.Maussentials.Utils.MauModule;
  * @author Tulir293
  * @since 0.1
  */
-public class PlayerJoinListener implements Listener, MauModule {
+public class WelcomeMessage implements Listener, MauModule {
 	private Maussentials plugin;
 	private String[] welcome;
 	
@@ -39,7 +40,7 @@ public class PlayerJoinListener implements Listener, MauModule {
 			welcome[i] = ChatFormatter.translateAll(ss);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent evt) {
 		// Send every line in the welcome message array.
 		evt.getPlayer().sendMessage(welcome);
