@@ -66,8 +66,9 @@ public class PlayerData implements Listener, MauModule {
 	}
 	
 	public ResultSet setEntry(UUID uuid, String username, String ip, Location l) throws SQLException {
-		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES (" + "'" + uuid.toString() + "','" + username + "','" + ip + "','"
-				+ System.currentTimeMillis() + "','" + new SerializableLocation(l).toString() + "');");
+		return plugin.getDB().query(
+				"INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES (" + "'" + uuid.toString() + "','" + username + "','" + ip + "','"
+						+ System.currentTimeMillis() + "','" + new SerializableLocation(l).toString() + "');");
 	}
 	
 	public ResultSet setTime(UUID uuid) throws SQLException {
@@ -75,6 +76,7 @@ public class PlayerData implements Listener, MauModule {
 	}
 	
 	public ResultSet setLocation(UUID uuid, Location l) throws SQLException {
-		return plugin.getDB().query("UPDATE " + TABLE_PLAYERS + " SET Location='" + new SerializableLocation(l).toString() + "' WHERE UUID='" + uuid.toString() + "';");
+		return plugin.getDB().query(
+				"UPDATE " + TABLE_PLAYERS + " SET Location='" + new SerializableLocation(l).toString() + "' WHERE UUID='" + uuid.toString() + "';");
 	}
 }
