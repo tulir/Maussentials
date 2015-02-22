@@ -24,8 +24,8 @@ import lib.PatPeter.SQLibrary.mSQL;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.maunium.bukkit.Maussentials.Listeners.PlayerJoinListener;
-import net.maunium.bukkit.Maussentials.Listeners.PlayerLoginListener;
+import net.maunium.bukkit.Maussentials.Modules.PlayerData;
+import net.maunium.bukkit.Maussentials.Modules.WelcomeMessage;
 import net.maunium.bukkit.Maussentials.Utils.MauModule;
 
 public class Maussentials extends JavaPlugin {
@@ -50,8 +50,8 @@ public class Maussentials extends JavaPlugin {
 			e.printStackTrace();
 		}
 		
-		enableModule("join-listener", new PlayerJoinListener());
-		enableModule("login-listener", new PlayerLoginListener());
+		enableModule("welcome-message", new WelcomeMessage());
+		enableModule("player-data", new PlayerData());
 		
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info(name + " v" + version + " by " + author + " enabled in " + et + "ms.");
