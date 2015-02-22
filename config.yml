@@ -1,0 +1,13 @@
+# SQL settings
+sql:
+  # Supported types:
+  # MySQL, SQLite, H2, PostgreSQL, MicrosoftSQL, Oracle,
+  # Ingres, Informix, DB2, FrontBase, Firebird, Mongo,
+  # mSQL, MaxDB
+  type: sqlite
+  # File name for file databases (sqlite, h2) database
+  # name for hostname databases (mysql, postgresql, etc.)
+  database: maussentials
+  # Hostname and port only required for hostname databases.
+  hostname: localhost
+  port: 3306
