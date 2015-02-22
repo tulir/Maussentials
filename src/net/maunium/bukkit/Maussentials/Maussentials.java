@@ -35,7 +35,13 @@ public class Maussentials extends JavaPlugin {
 		version = this.getDescription().getVersion();
 		this.saveDefaultConfig();
 		
-		initDatabase();
+		try {
+			initDatabase();
+			md.open();
+		} catch (SQLException e) {
+			getLogger().severe("Failed to initialize database!");
+			e.printStackTrace();
+		}
 		
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info(name + " v" + version + " by " + author + " enabled in " + et + "ms.");
@@ -51,12 +57,21 @@ public class Maussentials extends JavaPlugin {
 		getLogger().info(name + " v" + version + " by " + author + " disabled in " + et + "ms.");
 	}
 	
-	public void initDatabase() {
+	public MauData getMauData() {
+		return md;
+	}
+	
+	/**
+	 * Initializes the MauData system.
+	 * 
+	 * @throws SQLException
+	 */
+	public void initDatabase() throws SQLException {
 		String database = getConfig().getString("sql.database");
 		switch (this.getConfig().getString("sql.type").toLowerCase(Locale.ENGLISH)) {
 			case "mysql":
-				md = new MauData(new MySQL(Logger.getLogger("Minecraft"), "Maussentials", getConfig().getString("sql.hostname"), getConfig().getInt(
-						"sql.port"), database, getConfig().getString("sql.username"), getConfig().getString("sql.password")));
+				md = new MauData(new MySQL(Logger.getLogger("Minecraft"), "Maussentials", getConfig().getString("sql.hostname"),
+						getConfig().getInt("sql.port"), database, getConfig().getString("sql.username"), getConfig().getString("sql.password")));
 				break;
 			case "sqlite":
 				md = new MauData(new SQLite(Logger.getLogger("Minecraft"), "Maussentials", this.getDataFolder().getPath(), database));
@@ -70,22 +85,12 @@ public class Maussentials extends JavaPlugin {
 				break;
 			case "microsoftsql":
 			case "mssql":
-				try {
-					md = new MauData(new MicrosoftSQL(Logger.getLogger("Minecraft"), "Maussentials", getConfig().getString("sql.hostname"), getConfig()
-							.getInt("sql.port"), database, getConfig().getString("sql.username"), getConfig().getString("sql.password")));
-				} catch (SQLException e) {
-					getLogger().severe("Failed to initialize MicrosoftSQL connection");
-					e.printStackTrace();
-				}
+				md = new MauData(new MicrosoftSQL(Logger.getLogger("Minecraft"), "Maussentials", getConfig().getString("sql.hostname"), getConfig().getInt(
+						"sql.port"), database, getConfig().getString("sql.username"), getConfig().getString("sql.password")));
 				break;
 			case "oracle":
-				try {
-					md = new MauData(new Oracle(Logger.getLogger("Minecraft"), "Maussentials", getConfig().getString("sql.hostname"), getConfig().getInt(
-							"sql.port"), database, getConfig().getString("sql.username"), getConfig().getString("sql.password")));
-				} catch (SQLException e) {
-					getLogger().severe("Failed to initialize Oracle database connection");
-					e.printStackTrace();
-				}
+				md = new MauData(new Oracle(Logger.getLogger("Minecraft"), "Maussentials", getConfig().getString("sql.hostname"), getConfig()
+						.getInt("sql.port"), database, getConfig().getString("sql.username"), getConfig().getString("sql.password")));
 				break;
 			case "ingres":
 				md = new MauData(new Ingres(Logger.getLogger("Minecraft"), "[Maussentials] ", getConfig().getString("sql.hostname"), getConfig().getInt(
@@ -96,8 +101,8 @@ public class Maussentials extends JavaPlugin {
 						"sql.port"), database, getConfig().getString("sql.username"), getConfig().getString("sql.password")));
 				break;
 			case "db2":
-				md = new MauData(new DB2(Logger.getLogger("Minecraft"), "[Maussentials] ", getConfig().getString("sql.hostname"), getConfig().getInt(
-						"sql.port"), database, getConfig().getString("sql.username"), getConfig().getString("sql.password")));
+				md = new MauData(new DB2(Logger.getLogger("Minecraft"), "[Maussentials] ", getConfig().getString("sql.hostname"), getConfig()
+						.getInt("sql.port"), database, getConfig().getString("sql.username"), getConfig().getString("sql.password")));
 				break;
 			case "frontbase":
 				md = new MauData(new FrontBase(Logger.getLogger("Minecraft"), "[Maussentials] ", getConfig().getString("sql.hostname"), getConfig().getInt(
