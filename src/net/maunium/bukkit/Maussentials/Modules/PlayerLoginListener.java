@@ -1,4 +1,4 @@
-package net.maunium.bukkit.Maussentials.Listeners;
+package net.maunium.bukkit.Maussentials.Modules;
 
 import java.sql.SQLException;
 
