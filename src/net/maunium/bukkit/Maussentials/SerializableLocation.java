@@ -11,21 +11,24 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
+/**
+ * A serializable location containing the x, y, z, yaw and pitch values and the UUID of the world.<br>
+ * Can be serialized using the java serialization system or the bukkit configuration serialization system.
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class SerializableLocation implements Serializable, ConfigurationSerializable {
 	private static final long serialVersionUID = -3174227815222499224L;
 	private final double x, y, z;
 	private final float yaw, pitch;
 	private final UUID world;
 	
-	public SerializableLocation(Map<String, Object> location) {
-		this.x = parseDouble(location.get("x"));
-		this.y = parseDouble(location.get("y"));
-		this.z = parseDouble(location.get("z"));
-		this.yaw = parseFloat(location.get("yaw"));
-		this.pitch = parseFloat(location.get("pitch"));
-		this.world = UUID.fromString((String) location.get("uuid"));
-	}
-	
+	/**
+	 * Creates a SerializableLocation using the values of the given location.
+	 * 
+	 * @param l The location to use for values.
+	 */
 	public SerializableLocation(Location l) {
 		this.x = l.getX();
 		this.y = l.getY();
@@ -109,6 +112,12 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		else return "Null Location";
 	}
 	
+	/**
+	 * Serializes a SerializedLocation to configuration. It is not recommended to use this manually, as it is intended for the Bukkit configuration
+	 * serialization system.
+	 * 
+	 * @return The serialized map.
+	 */
 	@Override
 	public Map<String, Object> serialize() {
 		Map<String, Object> location = new HashMap<String, Object>();
@@ -121,10 +130,37 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		return location;
 	}
 	
+	/**
+	 * Deserializes a SerializedLocation from configuration. It is not recommended to use this manually, as it is intended for the Bukkit configuration
+	 * serialization system.
+	 * 
+	 * @param location The map containing the values.
+	 */
+	public SerializableLocation(Map<String, Object> location) {
+		this.x = parseDouble(location.get("x"));
+		this.y = parseDouble(location.get("y"));
+		this.z = parseDouble(location.get("z"));
+		this.yaw = parseFloat(location.get("yaw"));
+		this.pitch = parseFloat(location.get("pitch"));
+		this.world = UUID.fromString((String) location.get("uuid"));
+	}
+	
+	/**
+	 * Deserializes a SerializedLocation from configuration. It is not recommended to use this manually, as it is intended for the Bukkit configuration
+	 * serialization system.
+	 * 
+	 * @param location The map containing the values.
+	 */
 	public SerializableLocation valueOf(Map<String, Object> location) {
 		return new SerializableLocation(location);
 	}
 	
+	/**
+	 * Deserializes a SerializedLocation from configuration. It is not recommended to use this manually, as it is intended for the Bukkit configuration
+	 * serialization system.
+	 * 
+	 * @param location The map containing the values.
+	 */
 	public SerializableLocation deserialize(Map<String, Object> location) {
 		return new SerializableLocation(location);
 	}
