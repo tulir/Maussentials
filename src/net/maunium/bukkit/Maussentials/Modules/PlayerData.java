@@ -3,6 +3,7 @@ package net.maunium.bukkit.Maussentials.Modules;
 import java.sql.SQLException;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
@@ -25,7 +26,7 @@ public class PlayerData implements Listener, MauModule {
 	@Override
 	public void reload() {}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerLogin(PlayerLoginEvent evt) {
 		try {
 			plugin.getMauData().setEntry(evt.getPlayer().getUniqueId(), evt.getPlayer().getName(), evt.getAddress().getHostAddress(),
