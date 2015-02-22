@@ -13,7 +13,7 @@ import net.maunium.bukkit.Maussentials.Utils.MauModule;
  * @author Tulir293
  * @since 0.1
  */
-public class PlayerLoginListener implements Listener, MauModule {
+public class PlayerData implements Listener, MauModule {
 	private Maussentials plugin;
 	
 	@Override
