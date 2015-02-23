@@ -1,4 +1,4 @@
-package net.maunium.bukkit.Maussentials.Utils;
+package net.maunium.bukkit.Maussentials.Modules.Util;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 
