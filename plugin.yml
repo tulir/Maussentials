@@ -3,3 +3,17 @@ author: Tulir293
 main: net.maunium.bukkit.Maussentials.Maussentials
 website: http://maunium.net
 version: 0.1
+commands:
+  mauwelcomemessage:
+    description: Print the welcome message.
+    aliases: [welcomemessage, mauwm, wm, mauwelcomemsg, welcomemsg, mauwelcome, welcome, maumotd, motd]
+  maukill:
+    description: Kill a player.
+    aliases: [kill, mauslay, slay]
+permissions:
+  maussentials.welcomemessage:
+    description: Print the welcome message.
+    default: true
+  maussentials.kill:
+    description: Kill a player.
+    default: OP
