@@ -14,8 +14,7 @@ import java.util.Properties;
 import org.bukkit.ChatColor;
 
 /**
- * An basic internationalization class that uses files with the Java Properties format.
- * I18n = Internationalization
+ * An basic internationalization class that uses files with the Java Properties format. I18n = Internationalization
  * 
  * @author Tulir293
  * @since 0.1
@@ -97,6 +96,7 @@ public class I18n {
 	/**
 	 * Formats the given node with the given arguments using the instance with the given name.
 	 * 
+	 * @deprecated Use {@link #translate(String, String, Object...)}
 	 * @param instanceName The name of the instance to be used.
 	 * @param node The internationalization node.
 	 * @param arguments The arguments.
@@ -104,7 +104,23 @@ public class I18n {
 	 *         If the instance could not be found, it returns a string with the following format:<br>
 	 *         instanceName | node (arguments)
 	 */
+	@Deprecated
 	public static String format(String instanceName, String node, Object... arguments) {
+		if (instances.containsKey(instanceName)) return instances.get(instanceName).format(node, arguments);
+		else return instanceName + " | " + node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
+	}
+	
+	/**
+	 * Formats the given node with the given arguments using the instance with the given name.
+	 * 
+	 * @param instanceName The name of the instance to be used.
+	 * @param node The internationalization node.
+	 * @param arguments The arguments.
+	 * @return The string returned by {@link #format(node, replace)} of the instance with the given name.<br>
+	 *         If the instance could not be found, it returns a string with the following format:<br>
+	 *         instanceName | node (arguments)
+	 */
+	public static String translate(String instanceName, String node, Object... arguments) {
 		if (instances.containsKey(instanceName)) return instances.get(instanceName).format(node, arguments);
 		else return instanceName + " | " + node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
 	}
@@ -112,12 +128,14 @@ public class I18n {
 	/**
 	 * Formats the given node with the given arguments using this I18n instance.
 	 * 
+	 * @deprecated Use {@link #translate(String, Object...)}
 	 * @param node The internationalization node.
 	 * @param arguments The arguments.
 	 * @return The value got from the language file with added arguments.<br>
 	 *         If the node couldn't be found, it returns a string with the following format:<br>
 	 *         node (arguments)
 	 */
+	@Deprecated
 	public String format(String node, Object... arguments) {
 		if (lang.containsKey(node)) {
 			String rtrn = lang.getProperty(node);
@@ -132,12 +150,34 @@ public class I18n {
 	}
 	
 	/**
-	 * A basic interface that has a method which is usually used to call the {@link #format(node, arguments)} method of a specific i18n instance.
-	 * I15r = Internationalizer
+	 * Formats the given node with the given arguments using this I18n instance.
+	 * 
+	 * @param node The internationalization node.
+	 * @param arguments The arguments.
+	 * @return The value got from the language file with added arguments.<br>
+	 *         If the node couldn't be found, it returns a string with the following format:<br>
+	 *         node (arguments)
+	 */
+	public String translate(String node, Object... arguments) {
+		if (lang.containsKey(node)) {
+			String rtrn = lang.getProperty(node);
+			rtrn = ChatFormatter.translateAll(rtrn);
+			int i = 0;
+			for (Object o : arguments) {
+				rtrn = rtrn.replace("{" + i + "}", o.toString());
+				i++;
+			}
+			return rtrn.replace('&', ChatColor.COLOR_CHAR).replace(ChatColor.COLOR_CHAR + "" + ChatColor.COLOR_CHAR, "&").replace("<br>", "\n");
+		} else return node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
+	}
+	
+	/**
+	 * A basic interface that has a method which is usually used to call the {@link #format(node, arguments)} method of a specific i18n instance. I15r =
+	 * Internationalizer
 	 * 
 	 * @author Tulir293
 	 */
 	public static interface I15r {
-		public String format(String node, Object... replace);
+		public String translate(String node, Object... replace);
 	}
 }
