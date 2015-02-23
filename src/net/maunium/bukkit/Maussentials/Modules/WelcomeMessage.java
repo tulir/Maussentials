@@ -2,20 +2,23 @@ package net.maunium.bukkit.Maussentials.Modules;
 
 import java.util.List;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
+import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
-import net.maunium.bukkit.Maussentials.Utils.MauModule;
 
 /**
  * @author Tulir293
  * @since 0.1
  */
-public class WelcomeMessage implements Listener, MauModule {
+public class WelcomeMessage implements Listener, CommandExecutor, MauModule {
 	private Maussentials plugin;
 	private String[] welcome;
 	
@@ -23,6 +26,7 @@ public class WelcomeMessage implements Listener, MauModule {
 	public void initialize(Maussentials plugin) {
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		plugin.getCommand("mauwelcomemessage");
 		// The reload method contains the loading code so it can be used for loading too.
 		reload();
 	}
@@ -44,5 +48,11 @@ public class WelcomeMessage implements Listener, MauModule {
 	public void onPlayerJoin(PlayerJoinEvent evt) {
 		// Send every line in the welcome message array.
 		evt.getPlayer().sendMessage(welcome);
+	}
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		sender.sendMessage(welcome);
+		return true;
 	}
 }
