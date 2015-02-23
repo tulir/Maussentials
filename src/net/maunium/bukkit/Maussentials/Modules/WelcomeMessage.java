@@ -52,6 +52,8 @@ public class WelcomeMessage implements Listener, CommandExecutor, MauModule {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if(!plugin.checkPerms(sender, "maussentials.welcomemessage")) return true;
+		// Send every line in the welcome message array.
 		sender.sendMessage(welcome);
 		return true;
 	}
