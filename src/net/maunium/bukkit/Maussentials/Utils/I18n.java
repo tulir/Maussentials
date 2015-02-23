@@ -15,6 +15,7 @@ import org.bukkit.ChatColor;
 
 /**
  * An basic internationalization class that uses files with the Java Properties format.
+ * I18n = Internationalization
  * 
  * @author Tulir293
  * @since 0.1
@@ -132,10 +133,11 @@ public class I18n {
 	
 	/**
 	 * A basic interface that has a method which is usually used to call the {@link #format(node, arguments)} method of a specific i18n instance.
+	 * I15r = Internationalizer
 	 * 
 	 * @author Tulir293
 	 */
-	public static interface Internationalizer {
+	public static interface I15r {
 		public String format(String node, Object... replace);
 	}
 }
