@@ -6,13 +6,14 @@ import org.bukkit.command.CommandSender;
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 
-public class CommandKill implements CommandModule {
+public class CommandKill extends CommandModule {
 	private Maussentials plugin;
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if(!plugin.checkPerms(sender, "maussentials.welcomemessage")) return true;
-		// TODO: Kill command executor
+	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
+		if(args.length > 0){
+			
+		}
 		return false;
 	}
 
@@ -24,7 +25,13 @@ public class CommandKill implements CommandModule {
 	@Override
 	public void initialize(Maussentials plugin) {
 		this.plugin = plugin;
+		this.permission = "maussentials.kill";
 		reload();
+	}
+
+	@Override
+	public void help(CommandSender sender) {
+		
 	}
 	
 }
