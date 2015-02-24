@@ -12,7 +12,7 @@ public class CommandKill extends CommandModule {
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length > 0){
-			
+			// TODO: Kill implementation
 		}
 		return false;
 	}
@@ -30,8 +30,8 @@ public class CommandKill extends CommandModule {
 	}
 
 	@Override
-	public void help(CommandSender sender) {
-		
+	public void help(CommandSender sender, Command command, String label, String[] args) {
+		// TODO: Help for /kill
 	}
 	
 }
