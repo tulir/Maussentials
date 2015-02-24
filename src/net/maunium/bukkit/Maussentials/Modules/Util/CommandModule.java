@@ -18,7 +18,7 @@ public abstract class CommandModule implements MauModule, CommandExecutor {
 	@Override
 	public final boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!checkPerms(sender, permission)) return true;
-		if(!execute(sender, cmd, label, args)) help(sender);
+		if(!execute(sender, cmd, label, args)) help(sender, cmd, label, args);
 		return true;
 	}
 	
@@ -31,5 +31,5 @@ public abstract class CommandModule implements MauModule, CommandExecutor {
 		} else return true;
 	}
 	
-	public abstract void help(CommandSender sender);
+	public abstract void help(CommandSender sender, Command cmd, String label, String[] args);
 }
