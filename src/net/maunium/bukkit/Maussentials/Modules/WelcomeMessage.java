@@ -3,7 +3,6 @@ package net.maunium.bukkit.Maussentials.Modules;
 import java.util.List;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -11,14 +10,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
-import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
+import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 
 /**
  * @author Tulir293
  * @since 0.1
  */
-public class WelcomeMessage implements Listener, CommandExecutor, MauModule {
+public class WelcomeMessage extends CommandModule implements Listener {
 	private Maussentials plugin;
 	private String[] welcome;
 	
@@ -51,10 +50,14 @@ public class WelcomeMessage implements Listener, CommandExecutor, MauModule {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(!plugin.checkPerms(sender, "maussentials.welcomemessage")) return true;
+	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		// Send every line in the welcome message array.
 		sender.sendMessage(welcome);
 		return true;
+	}
+	
+	@Override
+	public void help(CommandSender sender, Command cmd, String label, String[] args) {
+		// This can be empty, since the execute always returns true and thus this method will never be called
 	}
 }
