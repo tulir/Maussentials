@@ -7,8 +7,14 @@ import java.util.logging.Logger;
 import lib.PatPeter.SQLibrary.*;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
-import net.maunium.bukkit.Maussentials.Utils.MauModule;
+import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
+/**
+ * Handles the database for Maussentials.
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class DatabaseHandler implements MauModule {
 	private Maussentials plugin;
 	private Database db;
@@ -21,7 +27,6 @@ public class DatabaseHandler implements MauModule {
 	public Database getDB() {
 		return db;
 	}
-	
 	
 	@Override
 	public void reload() {
@@ -45,8 +50,8 @@ public class DatabaseHandler implements MauModule {
 			case "microsoftsql":
 			case "mssql":
 				try {
-					db = new MicrosoftSQL(Logger.getLogger("Minecraft"), "Maussentials", plugin.getConfig().getString("sql.hostname"), plugin.getConfig().getInt(
-							"sql.port"), database, plugin.getConfig().getString("sql.username"), plugin.getConfig().getString("sql.password"));
+					db = new MicrosoftSQL(Logger.getLogger("Minecraft"), "Maussentials", plugin.getConfig().getString("sql.hostname"), plugin.getConfig()
+							.getInt("sql.port"), database, plugin.getConfig().getString("sql.username"), plugin.getConfig().getString("sql.password"));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
