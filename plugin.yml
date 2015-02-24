@@ -10,10 +10,16 @@ commands:
   maukill:
     description: Kill a player.
     aliases: [kill, mauslay, slay]
+  mauuuid:
+    description: "UUID tools (fetches data from Mojangs' servers)"
+    aliases: [uuid, mauuuidtools, uuidtools]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message.
     default: true
   maussentials.kill:
     description: Kill a player.
+    default: OP
+  maussentials.uuid:
+    description: "UUID tools (fetches data from Mojangs' servers)"
     default: OP
