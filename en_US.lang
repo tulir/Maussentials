@@ -1,0 +1,7 @@
+stag=&2[&aMaussentials&2] &7
+errtag=&4[&cMaussentials&4] &c
+uuid.error=Failed to fetch data: {0} (See console)
+uuid.get.invalid=Failed to get profile {0}.
+uuid.get.error=Failed to get profile of {0}: {1}
+uuid.get.name=Current Name: {0} 
+uuid.get.uuid=UUID: {0}
