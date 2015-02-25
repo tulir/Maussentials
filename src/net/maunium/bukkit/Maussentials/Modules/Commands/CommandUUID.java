@@ -42,7 +42,7 @@ public class CommandUUID extends CommandModule {
 					
 					// Make sure that it isn't empty. If it is, show an error.
 					if (in.isEmpty()) {
-						sender.sendMessage(plugin.translate("uuid.get.invalid", name));
+						sender.sendMessage(plugin.errtag + plugin.translate("uuid.get.invalid", name));
 						return true;
 					}
 					
@@ -51,15 +51,15 @@ public class CommandUUID extends CommandModule {
 					// Check if the username was found.
 					if (jo.has("error")) {
 						// Not found. Show error.
-						sender.sendMessage(plugin.translate("uuid.get.error", jo.get("error").getAsString(), jo.get("errorMessage").getAsString()));
+						sender.sendMessage(plugin.errtag + plugin.translate("uuid.get.error", name, jo.get("error").getAsString(), jo.get("errorMessage").getAsString()));
 					} else if (jo.has("id")) {
 						// Found. Show latest username and UUID.
-						sender.sendMessage(plugin.translate("uuid.get.uuid", jo.get("id").getAsString()));
-						sender.sendMessage(plugin.translate("uuid.get.name", jo.get("name").getAsString()));
+						sender.sendMessage(plugin.stag + plugin.translate("uuid.get.uuid", jo.get("id").getAsString()));
+						sender.sendMessage(plugin.stag + plugin.translate("uuid.get.name", jo.get("name").getAsString()));
 					}
 				} catch (IOException e1) {
 					// Something went wrong. Tell it to the user...
-					sender.sendMessage(plugin.translate("uuid.error", e1.getMessage()));
+					sender.sendMessage(plugin.errtag + plugin.translate("uuid.error", e1.getMessage()));
 					// ... and print it to the console
 					plugin.getLogger().severe("Error while fetching name history from UUID: ");
 					e1.printStackTrace();
@@ -84,14 +84,14 @@ public class CommandUUID extends CommandModule {
 					
 					// Make sure that it isn't empty. If it is, show an error.
 					if (in.isEmpty()) {
-						sender.sendMessage(plugin.translate("uuid.history.invalid", uuid));
+						sender.sendMessage(plugin.errtag + plugin.translate("uuid.history.invalid", uuid));
 						return true;
 					}
 					
 					// Parse the response json.
 					JsonArray ja = new JsonParser().parse(in).getAsJsonArray();
 					List<String> ss = new ArrayList<String>();
-					ss.add(plugin.translate("uuid.history", uuid));
+					ss.add(plugin.stag + plugin.translate("uuid.history", uuid));
 					// Loop through the name change entries and add the details to the string list.
 					for (int i = 0; i < ja.size(); i++) {
 						JsonObject jo = ja.get(i).getAsJsonObject();
@@ -115,7 +115,7 @@ public class CommandUUID extends CommandModule {
 					sender.sendMessage(ss.toArray(new String[0]));
 				} catch (IOException e1) {
 					// Something went wrong. Tell it to the user...
-					sender.sendMessage(plugin.translate("uuid.error", e1.getMessage()));
+					sender.sendMessage(plugin.errtag + plugin.translate("uuid.error", e1.getMessage()));
 					// ... and print it to the console
 					plugin.getLogger().severe("Error while fetching name history from UUID: ");
 					e1.printStackTrace();
