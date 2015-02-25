@@ -7,7 +7,6 @@ import java.util.Map;
 
 import lib.PatPeter.SQLibrary.Database;
 
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
@@ -18,9 +17,8 @@ import net.maunium.bukkit.Maussentials.Utils.I18n;
 import net.maunium.bukkit.Maussentials.Utils.I18n.I15r;
 
 public class Maussentials extends JavaPlugin implements I15r {
-	public String version;
-	public final String name = "Maussentials", author = "Tulir293", stag = ChatColor.DARK_GREEN + "[" + ChatColor.GREEN + name + ChatColor.DARK_GREEN + "] "
-			+ ChatColor.GRAY, errtag = ChatColor.DARK_RED + "[" + ChatColor.RED + name + ChatColor.DARK_RED + "] " + ChatColor.RED;
+	public String version, stag, errtag;
+	public final String name = "Maussentials", author = "Tulir293";
 	private Map<String, MauModule> modules = new HashMap<String, MauModule>();
 	private DatabaseHandler dbh;
 	private PlayerData pd;
@@ -28,7 +26,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 	private static Maussentials instance;
 	
 	@Override
-	public void onLoad(){
+	public void onLoad() {
 		instance = this;
 	}
 	
@@ -43,6 +41,9 @@ public class Maussentials extends JavaPlugin implements I15r {
 		} catch (IOException e) {
 			die("Failed to initialize internationalization", e);
 		}
+		
+		this.stag = translate("message.stag");
+		this.errtag = translate("message.errtag");
 		
 		enableModule("database", dbh = new DatabaseHandler());
 		enableModule("welcome-message", new WelcomeMessage());
@@ -86,7 +87,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 		modules.put(name, m);
 	}
 	
-	public static Maussentials getInstance(){
+	public static Maussentials getInstance() {
 		return instance;
 	}
 	
