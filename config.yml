@@ -1,3 +1,9 @@
+# Languages available by default: en_US, fi_FI
+
+# If you make your own language file, make sure the extension is lang
+# and the file is located in the language directory. Then put the name
+# of the file without the extension in this field.
+language: en_US
 # SQL settings
 sql:
   # Supported types:
