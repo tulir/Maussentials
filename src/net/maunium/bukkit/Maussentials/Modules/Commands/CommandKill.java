@@ -18,7 +18,7 @@ public class CommandKill extends CommandModule {
 			if (p != null) {
 				p.setHealth(0);
 				sender.sendMessage(plugin.stag + plugin.translate("kill.ed", p.getName()));
-			} else sender.sendMessage(plugin.errtag + plugin.translate("kill.notfound"));
+			} else sender.sendMessage(plugin.errtag + plugin.translate("kill.notfound", args[0]));
 			return true;
 		}
 		return false;
