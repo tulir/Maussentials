@@ -32,3 +32,15 @@ god.on.dmg=Damage god mode enabled.
 god.on.def.for=Default god mode enabled for &6{0}&7.
 god.on.dmg.for=Damage god mode enabled for &6{0}&7.
 god.notfound=Couldn't find the player &6{0}&c!
+# 0: Label
+god.help=Usage: /{0} [user/default/damage] [default/damage]
+
+# 0: From
+# 1: To
+# 2: Message
+pm.msg=&3[&6{0}&3 -> &6{1}&3] &f{2}
+pm.reply.onlyplayer=Replying from the console is not yet implemented
+pm.reply.nobody=You have nobody to reply to.
+pm.help.msg=Usage: /{0} <to> <message>
+pm.help.reply=Usage: /{0} <message>
+pm.help.socialspy=Usage: /{0} [player]
