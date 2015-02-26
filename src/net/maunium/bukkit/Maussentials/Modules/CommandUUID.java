@@ -19,6 +19,11 @@ import com.google.gson.JsonParser;
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 
+/**
+ * UUID tools (/uuid command)
+ * @author Tulir293
+ * @since 0.1
+ */
 public class CommandUUID extends CommandModule {
 	private Maussentials plugin;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy ss:mm:HH");

@@ -14,6 +14,8 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 
 /**
+ * Welcome message
+ * 
  * @author Tulir293
  * @since 0.1
  */

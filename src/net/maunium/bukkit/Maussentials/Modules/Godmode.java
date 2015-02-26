@@ -12,6 +12,12 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.PlayerCommandModule;
 import net.maunium.bukkit.Maussentials.Utils.PlayerUtils;
 
+/**
+ * God mode command
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class Godmode extends PlayerCommandModule implements Listener {
 	private Maussentials plugin;
 	private static final String DEFAULT_GOD = "MaussentialsGodDefault", PRIVATE_GOD = "MaussentialsGodPrivatized", DAMAGE_GOD = "MaussentialsGodDamage";
