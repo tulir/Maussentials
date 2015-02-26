@@ -49,7 +49,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 				sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DEFAULT_GOD, sender) ? "on.def" : "off")));
 			} else if (args[0].equalsIgnoreCase("damage")) {
 				if (args.length > 1 && args[1].equalsIgnoreCase("private")) sender.setMetadata(PRIVATE_GOD, new FixedMetadataValue(plugin, true));
-				sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DAMAGE_GOD, sender) ? "on.def" : "off")));
+				sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DAMAGE_GOD, sender) ? "on.dmg" : "off")));
 			} else if (checkPerms(sender, "maussentials.god.others")) {
 				Player p = PlayerUtils.getPlayer(args[0]);
 				if (p != null) {
@@ -62,7 +62,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 							else sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DEFAULT_GOD, p) ? "on.def" : "off") + ".for", p.getName()));
 						} else if (args[1].equalsIgnoreCase("damage")) {
 							if (p.hasMetadata(PRIVATE_GOD)) sender.sendMessage(plugin.errtag + plugin.translate("god.private", p.getName()));
-							else sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DAMAGE_GOD, p) ? "on.def" : "off") + ".for", p.getName()));
+							else sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DAMAGE_GOD, p) ? "on.dmg" : "off") + ".for", p.getName()));
 						}
 					}
 				} else sender.sendMessage(plugin.errtag + plugin.translate("god.notfound"));
