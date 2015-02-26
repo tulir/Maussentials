@@ -9,12 +9,12 @@ import lib.PatPeter.SQLibrary.Database;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.maunium.bukkit.Maussentials.Modules.Commands.CommandKill;
-import net.maunium.bukkit.Maussentials.Modules.Commands.CommandUUID;
-import net.maunium.bukkit.Maussentials.Modules.Mixed.DatabaseHandler;
-import net.maunium.bukkit.Maussentials.Modules.Mixed.Godmode;
-import net.maunium.bukkit.Maussentials.Modules.Mixed.PlayerData;
-import net.maunium.bukkit.Maussentials.Modules.Mixed.WelcomeMessage;
+import net.maunium.bukkit.Maussentials.Modules.CommandKill;
+import net.maunium.bukkit.Maussentials.Modules.CommandUUID;
+import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
+import net.maunium.bukkit.Maussentials.Modules.Godmode;
+import net.maunium.bukkit.Maussentials.Modules.PlayerData;
+import net.maunium.bukkit.Maussentials.Modules.WelcomeMessage;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.I18n;
 import net.maunium.bukkit.Maussentials.Utils.I18n.I15r;

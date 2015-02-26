@@ -1,4 +1,4 @@
-package net.maunium.bukkit.Maussentials.Modules.Mixed;
+package net.maunium.bukkit.Maussentials.Modules;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package net.maunium.bukkit.Maussentials.Modules.Commands;
+package net.maunium.bukkit.Maussentials.Modules;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
