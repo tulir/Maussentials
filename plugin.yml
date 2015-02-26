@@ -16,6 +16,9 @@ commands:
   maugod:
     description: Invincibility
     aliases: [god, maunodamage, nodamage]
+  maumessage:
+    description: The private messaging system
+    aliases: [message, maumsg, msg, maupm, pm, mauprivatemessage, privatemessage]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message.
@@ -32,3 +35,22 @@ permissions:
   maussentials.god.others:
     description: Invincibility
     default: OP
+  maussentials.message:
+    description: Use the private messaging system.
+    default: true
+  maussentials.message.color:
+    description: Use colors (format codes 0-9a-f) in private messages
+    default: OP
+  maussentials.message.style:
+    description: Use styles (format codes l-o) in private messages
+    default: OP
+  maussentials.message.magic:
+    description: Use magic (format code k) in private messages
+    default: OP
+  maussentials.message.format:
+    description: Use all formatting codes in private messages
+    default: OP
+    children: 
+      maussentials.message.color: true
+      maussentials.message.style: true
+      maussentials.message.magic: true
