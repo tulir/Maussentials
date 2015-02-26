@@ -72,7 +72,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 							else sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DAMAGE_GOD, p) ? "on.dmg" : "off") + ".for", p.getName()));
 						}
 					}
-				} else sender.sendMessage(plugin.errtag + plugin.translate("god.notfound"));
+				} else sender.sendMessage(plugin.errtag + plugin.translate("god.notfound", label));
 			}
 		}
 		return true;
