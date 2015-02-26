@@ -38,6 +38,9 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		this.world = l.getWorld().getName();
 	}
 	
+	/**
+	 * Creates a SerializableLocation using the given values
+	 */
 	public SerializableLocation(double x, double y, double z, float yaw, float pitch, String world) {
 		this.x = x;
 		this.y = y;
@@ -47,20 +50,30 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		this.world = world;
 	}
 	
+	/**
+	 * Creates a SerializableLocation using the given values
+	 */
 	public SerializableLocation(double x, double y, double z, float yaw, float pitch, World world) {
 		this(x, y, z, yaw, pitch, world.getName());
 	}
 	
+	/**
+	 * Creates a SerializableLocation using the given values
+	 */
 	public SerializableLocation(double x, double y, double z, World world) {
 		this(x, y, z, 0, 0, world.getName());
 	}
 	
+	/**
+	 * Creates a SerializableLocation using the given values
+	 */
 	public SerializableLocation(double x, double y, double z, String world) {
 		this(x, y, z, 0, 0, world);
 	}
 	
 	/**
 	 * Converts this SerializableLocation to a Bukkit Location.
+	 * 
 	 * @return The Location, or null if the world couldn't be found.
 	 */
 	public Location toLocation() {
@@ -94,16 +107,16 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 	}
 	
 	/**
-	 * @return A human-readable string representation of this location. Contains the x, y and z values rounded to two decimals. If you want a string with the
-	 *         world too, use {@link #toReadableString(Location)}.
+	 * @return A human-readable string representation of this location. Contains the x, y and z values rounded to two
+	 *         decimals. If you want a string with the world too, use {@link #toReadableString(Location)}.
 	 */
 	public String toReadableString() {
 		return round(x, 2) + ", " + round(y, 2) + ", " + round(z, 2) + " @ " + world;
 	}
 	
 	/**
-	 * Serializes a SerializedLocation to configuration. It is not recommended to use this manually, as it is intended for the Bukkit configuration
-	 * serialization system.
+	 * Serializes a SerializedLocation to configuration. It is not recommended to use this manually, as it is intended
+	 * for the Bukkit configuration serialization system.
 	 * 
 	 * @return The serialized map.
 	 */
@@ -120,8 +133,8 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 	}
 	
 	/**
-	 * Deserializes a SerializedLocation from configuration. It is not recommended to use this manually, as it is intended for the Bukkit configuration
-	 * serialization system.
+	 * Deserializes a SerializedLocation from configuration. It is not recommended to use this manually, as it is
+	 * intended for the Bukkit configuration serialization system.
 	 * 
 	 * @param location The map containing the values.
 	 */
@@ -135,8 +148,8 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 	}
 	
 	/**
-	 * Deserializes a SerializedLocation from configuration. It is not recommended to use this manually, as it is intended for the Bukkit configuration
-	 * serialization system.
+	 * Deserializes a SerializedLocation from configuration. It is not recommended to use this manually, as it is
+	 * intended for the Bukkit configuration serialization system.
 	 * 
 	 * @param location The map containing the values.
 	 */
@@ -145,8 +158,8 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 	}
 	
 	/**
-	 * Deserializes a SerializedLocation from configuration. It is not recommended to use this manually, as it is intended for the Bukkit configuration
-	 * serialization system.
+	 * Deserializes a SerializedLocation from configuration. It is not recommended to use this manually, as it is
+	 * intended for the Bukkit configuration serialization system.
 	 * 
 	 * @param location The map containing the values.
 	 */
@@ -154,6 +167,10 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		return new SerializableLocation(location);
 	}
 	
+	/**
+	 * Rounds a double to the given amount of decimal places.
+	 * @return The rounded double.
+	 */
 	private static double round(double value, int places) {
 		if (places < 0) throw new IllegalArgumentException();
 		
@@ -162,11 +179,17 @@ public class SerializableLocation implements Serializable, ConfigurationSerializ
 		return bd.doubleValue();
 	}
 	
+	/**
+	 * Parses a double from an object.
+	 */
 	private double parseDouble(Object o) {
 		if (o instanceof Double) return (Double) o;
 		else return Double.parseDouble(o.toString());
 	}
 	
+	/**
+	 * Parses a float from an object.
+	 */
 	private float parseFloat(Object o) {
 		if (o instanceof Float) return (Float) o;
 		else return Float.parseFloat(o.toString());
