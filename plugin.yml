@@ -17,8 +17,14 @@ commands:
     description: Invincibility
     aliases: [god, maunodamage, nodamage]
   maumessage:
-    description: The private messaging system
+    description: Send a private message
     aliases: [message, maumsg, msg, maupm, pm, mauprivatemessage, privatemessage]
+  maureply:
+    description: Reply to the last person that sent you a private message
+    aliases: [reply, maur, r, maurepl, repl]
+  mausocialspy:
+    description: Spy on private messages
+    aliases: [socialspy, mauss, ss, maumsgspy, msgspy, maupmspy, pmspy]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message.
