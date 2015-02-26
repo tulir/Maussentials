@@ -1,7 +1,34 @@
+# No arguments
 stag=&2[&aMaussentials&2] &7
 errtag=&4[&cMaussentials&4] &c
+
+# 0: throwable.getMessage()
 uuid.error=Failed to fetch data: {0} (See console)
-uuid.get.invalid=Failed to get profile {0}.
+# 0: Username
+uuid.get.invalid=Failed to get profile of {0}.
+# 0: Username
+# 1: error field from returned JSON
+# 2: errorMessage field from returned JSON
 uuid.get.error=Failed to get profile of {0}: {1}
+# 0: Username
 uuid.get.name=Current Name: {0} 
+# 0: UUID
 uuid.get.uuid=UUID: {0}
+uuid.history.invalid=Failed to get history of {0}.
+uuid.history=Name History of UUID {0}:
+# 0: Username
+uuid.history.original=&7 - {0} (Original Name)
+uuid.history.new=&7 - {0} (Changed to at {1}).
+
+# 0: Username
+kill.ed=Killed &6{0}&7.
+kill.notfound=Couldn't find the player &6{0}&c!
+
+# No arguments
+god.off=God mode disabled.
+god.on.def=Default god mode enabled.
+god.on.dmg=Damage god mode enabled.
+# 0: Username
+god.on.def.for=Default god mode enabled for &6{0}&7.
+god.on.dmg.for=Damage god mode enabled for &6{0}&7.
+god.notfound=Couldn't find the player &6{0}&c!
