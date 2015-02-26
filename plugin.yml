@@ -13,6 +13,9 @@ commands:
   mauuuid:
     description: "UUID tools (fetches data from Mojangs' servers)"
     aliases: [uuid, mauuuidtools, uuidtools]
+  maugod:
+    description: Invincibility
+    aliases: [god, maunodamage, nodamage]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message.
@@ -22,4 +25,10 @@ permissions:
     default: OP
   maussentials.uuid:
     description: "UUID tools (fetches data from Mojangs' servers)"
+    default: OP
+  maussentials.god:
+    description: Invincibility
+    default: OP
+  maussentials.god.others:
+    description: Invincibility
     default: OP
