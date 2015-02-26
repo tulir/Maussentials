@@ -26,6 +26,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 	public void initialize(Maussentials plugin) {
 		this.plugin = plugin;
 		this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		reload();
 	}
 	
 	@Override
