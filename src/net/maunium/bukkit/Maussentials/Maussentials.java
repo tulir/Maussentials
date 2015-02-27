@@ -64,7 +64,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 	public void onDisable() {
 		long st = System.currentTimeMillis();
 		
-		// TODO: Disable code
+		if(instance == this) instance = null;
 		
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info(name + " v" + version + " by " + author + " disabled in " + et + "ms.");
@@ -94,6 +94,10 @@ public class Maussentials extends JavaPlugin implements I15r {
 		modules.put(name, m);
 	}
 	
+	/**
+	 * Get the latest instance of Maussentials.
+	 * @return An instance of Maussentials, or null if Maussentials isn't loaded.
+	 */
 	public static Maussentials getInstance() {
 		return instance;
 	}
