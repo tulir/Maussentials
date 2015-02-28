@@ -17,7 +17,7 @@ import net.maunium.bukkit.Maussentials.Utils.PlayerUtils;
  */
 public class PrivateMessaging extends CommandModule {
 	private Maussentials plugin;
-	private static final String REPLY_META = "MaussentialsPMReplyTarget", SPY_META = "MaussentialsPMSpy";
+	private static final String REPLY_META = "MaussentialsPMReplyTarget", MSGSPY_META = "MaussentialsPMSpy";
 	
 	@Override
 	public void initialize(Maussentials plugin) {
@@ -80,9 +80,9 @@ public class PrivateMessaging extends CommandModule {
 				s.sendMessage(msg);
 				p.setMetadata(REPLY_META, new FixedMetadataValue(plugin, sender.getName()));
 				
-				String spymsg = plugin.translate("pm.msg.spy", sender.getName(), p.getName(), sb.toString());
+				String spymsg = plugin.translate("pm.spy.msg", sender.getName(), p.getName(), sb.toString());
 				for (Player spy : plugin.getServer().getOnlinePlayers())
-					if (spy.hasMetadata(SPY_META) && spy.hasPermission("maussentials.message.spy")) spy.sendMessage(spymsg);
+					if (spy.hasMetadata(MSGSPY_META) && spy.hasPermission("maussentials.message.spy")) spy.sendMessage(spymsg);
 				plugin.getLogger().info(spymsg);
 			}
 		} else if (cmd.getName().equals("mausocialspy")) {
@@ -92,11 +92,11 @@ public class PrivateMessaging extends CommandModule {
 				return true;
 			}
 			Player p = (Player) sender;
-			if (p.hasMetadata(SPY_META)) {
-				p.setMetadata(SPY_META, new FixedMetadataValue(plugin, true));
+			if (p.hasMetadata(MSGSPY_META)) {
+				p.setMetadata(MSGSPY_META, new FixedMetadataValue(plugin, true));
 				p.sendMessage(plugin.stag + plugin.translate("pm.spy.on"));
 			} else {
-				p.removeMetadata(SPY_META, plugin);
+				p.removeMetadata(MSGSPY_META, plugin);
 				p.sendMessage(plugin.stag + plugin.translate("pm.spy.off"));
 			}
 		}
