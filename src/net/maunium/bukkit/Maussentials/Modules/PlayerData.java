@@ -175,7 +175,7 @@ public class PlayerData implements Listener, MauModule {
 							+ ";");
 					// °FormatOn°
 					
-					if (!rs.first()) {
+					if (!rs.next()) {
 						if (jo.has("changedToAt")) {
 							long time = jo.get("changedToAt").getAsLong();
 							setHistory(uuid, name, time);
