@@ -26,14 +26,14 @@ public class WelcomeMessage extends CommandModule implements Listener {
 	@Override
 	public void initialize(Maussentials plugin) {
 		this.plugin = plugin;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		plugin.getCommand("mauwelcomemessage");
+		plugin.getCommand("mauwelcomemessage").setExecutor(this);
 		// The reload method contains the loading code so it can be used for loading too.
 		reload();
 	}
 	
 	@Override
 	public void reload() {
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		// Load the list of lines to be in the welcome message from config.
 		List<String> s = plugin.getConfig().getStringList("welcome-message");
 		// Initialize the welcome message array
