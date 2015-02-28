@@ -11,16 +11,16 @@ import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 
 /**
  * UUID tools (/uuid command)
+ * 
  * @author Tulir293
  * @since 0.1
  */
@@ -56,7 +56,8 @@ public class CommandUUID extends CommandModule {
 					// Check if the username was found.
 					if (jo.has("error")) {
 						// Not found. Show error.
-						sender.sendMessage(plugin.errtag + plugin.translate("uuid.get.error", name, jo.get("error").getAsString(), jo.get("errorMessage").getAsString()));
+						sender.sendMessage(plugin.errtag
+								+ plugin.translate("uuid.get.error", name, jo.get("error").getAsString(), jo.get("errorMessage").getAsString()));
 					} else if (jo.has("id")) {
 						// Found. Show latest username and UUID.
 						sender.sendMessage(plugin.stag + plugin.translate("uuid.get.uuid", jo.get("id").getAsString()));
