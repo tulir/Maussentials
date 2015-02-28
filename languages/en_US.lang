@@ -2,6 +2,9 @@
 stag=&2[&aMaussentials&2] &7
 errtag=&4[&cMaussentials&4] &c
 
+# 0: Permission node
+permission-error=You do not have access to {0}.
+
 # 0: throwable.getMessage()
 uuid.error=Failed to fetch data: {0} (See console)
 # 0: Username
