@@ -18,6 +18,7 @@ public class CommandSeen extends CommandModule {
 	@Override
 	public void reload() {
 		plugin.getCommand("mauseen").setExecutor(this);
+		this.permission = "maussentials.seen";
 	}
 	
 	@Override
