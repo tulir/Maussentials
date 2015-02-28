@@ -38,6 +38,7 @@ public class PlayerData implements Listener, MauModule {
 	public void initialize(Maussentials plugin) {
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		reload();
 	}
 	
 	@Override

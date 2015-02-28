@@ -22,6 +22,7 @@ public class DatabaseHandler implements MauModule {
 	@Override
 	public void initialize(Maussentials plugin) {
 		this.plugin = plugin;
+		reload();
 	}
 	
 	public Database getDB() {
