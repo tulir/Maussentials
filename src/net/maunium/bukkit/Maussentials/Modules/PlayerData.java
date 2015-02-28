@@ -51,7 +51,7 @@ public class PlayerData implements Listener, MauModule {
 					+ COLUMN_USERNAME + " varchar(16) NOT NULL,"
 					+ COLUMN_IP + " varchar(16) NOT NULL,"
 					+ COLUMN_LASTLOGIN + " INTEGER NOT NULL,"
-					+ COLUMN_LOCATION + " TEXT NOT NULL"
+					+ COLUMN_LOCATION + " TEXT NOT NULL,"
 					+ "PRIMARY KEY (" + COLUMN_UUID + "));");
 			// Create the table OldNames
 			plugin.getDB().query("CREATE TABLE " + TABLE_HISTORY + " ("
