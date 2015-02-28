@@ -10,14 +10,14 @@ import net.maunium.bukkit.Maussentials.Maussentials;
  */
 public interface MauModule {
 	/**
-	 * Reloads all the configurations and everything else that needs reloading.
-	 */
-	public void reload();
-	
-	/**
 	 * Initializes the module and loads all the configurations and everything else that needs to be loaded.
 	 * 
 	 * @param plugin The hosting instance of Maussentials.
 	 */
 	public void initialize(Maussentials plugin);
+	
+	/**
+	 * Reloads all the configurations and everything else that needs reloading.
+	 */
+	public void reload();
 }
