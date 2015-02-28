@@ -17,7 +17,7 @@ import net.maunium.bukkit.Maussentials.Utils.PlayerUtils;
  */
 public class PrivateMessaging extends CommandModule {
 	private Maussentials plugin;
-	private static final String REPLY_META = "MaussentialsPMReplyTarget";
+	private static final String REPLY_META = "MaussentialsPMReplyTarget", SPY_META = "MaussentialsPMSpy";
 	
 	@Override
 	public void initialize(Maussentials plugin) {
@@ -79,18 +79,35 @@ public class PrivateMessaging extends CommandModule {
 				p.sendMessage(msg);
 				s.sendMessage(msg);
 				p.setMetadata(REPLY_META, new FixedMetadataValue(plugin, sender.getName()));
+				
+				String spymsg = plugin.translate("pm.msg.spy", sender.getName(), p.getName(), sb.toString());
+				for (Player spy : plugin.getServer().getOnlinePlayers())
+					if (spy.hasMetadata(SPY_META) && spy.hasPermission("maussentials.message.spy")) spy.sendMessage(spymsg);
+				plugin.getLogger().info(spymsg);
 			}
-		} else if (cmd.getName().equals("mausocialspy")){
-			// TODO: Implementation for /mausocialspy
+		} else if (cmd.getName().equals("mausocialspy")) {
+			if (!checkPerms(sender, "maussentials.message.spy")) return true;
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(plugin.errtag + plugin.translate("pm.spy.onlyplayer"));
+				return true;
+			}
+			Player p = (Player) sender;
+			if (p.hasMetadata(SPY_META)) {
+				p.setMetadata(SPY_META, new FixedMetadataValue(plugin, true));
+				p.sendMessage(plugin.stag + plugin.translate("pm.spy.on"));
+			} else {
+				p.removeMetadata(SPY_META, plugin);
+				p.sendMessage(plugin.stag + plugin.translate("pm.spy.off"));
+			}
 		}
 		return false;
 	}
 	
 	@Override
 	public void help(CommandSender sender, Command cmd, String label, String[] args) {
-		if(cmd.getName().equals("maumessage")) sender.sendMessage(plugin.stag + plugin.translate("pm.help.pm", label));
-		else if(cmd.getName().equals("maureply")) sender.sendMessage(plugin.stag + plugin.translate("pm.help.reply", label));
-		else if(cmd.getName().equals("mausocialspy")) sender.sendMessage(plugin.stag + plugin.translate("pm.help.socialspy", label));
+		if (cmd.getName().equals("maumessage")) sender.sendMessage(plugin.stag + plugin.translate("pm.help.pm", label));
+		else if (cmd.getName().equals("maureply")) sender.sendMessage(plugin.stag + plugin.translate("pm.help.reply", label));
+		else if (cmd.getName().equals("mausocialspy")) sender.sendMessage(plugin.stag + plugin.translate("pm.help.socialspy", label));
 	}
 	
 }

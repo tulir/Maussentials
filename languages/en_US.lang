@@ -44,3 +44,7 @@ pm.reply.nobody=You have nobody to reply to.
 pm.help.msg=Usage: /{0} <to> <message>
 pm.help.reply=Usage: /{0} <message>
 pm.help.socialspy=Usage: /{0} [player]
+
+pm.spy.onlyplayer=Social spying from console is always on.
+pm.spy.on=Social Spy enabled.
+pm.spy.off=Social Spy disabled.

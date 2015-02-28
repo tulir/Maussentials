@@ -60,3 +60,6 @@ permissions:
       maussentials.message.color: true
       maussentials.message.style: true
       maussentials.message.magic: true
+  maussentials.message.spy:
+    description: Spy on private messages
+    default: OP
