@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -47,7 +48,20 @@ public class WelcomeMessage extends CommandModule implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent evt) {
 		// Send every line in the welcome message array.
-		evt.getPlayer().sendMessage(welcome);
+		evt.getPlayer().sendMessage(variables(welcome, evt.getPlayer()));
+	}
+	
+	public String[] variables(String[] s, Player p) {
+		String[] n = new String[s.length];
+		for (int i = 0; i < s.length; i++) {
+			String ss = s[i];
+			ss = ss.replace("{PLAYER}", p.getName());
+			ss = ss.replace("{DISPLAYNAME}", p.getDisplayName());
+			ss = ss.replace("{ONLINE}", Integer.toString(plugin.getServer().getOnlinePlayers().size()));
+			ss = ss.replace("{MAXPLAYERS}", Integer.toString(plugin.getServer().getMaxPlayers()));
+			n[i] = ss;
+		}
+		return n;
 	}
 	
 	@Override
