@@ -49,8 +49,8 @@ public class Maussentials extends JavaPlugin implements I15r {
 			die("Failed to initialize internationalization", e);
 		}
 		
-		this.stag = translate("message.stag");
-		this.errtag = translate("message.errtag");
+		this.stag = translate("stag");
+		this.errtag = translate("errtag");
 		
 		enableModule("database", dbh = new DatabaseHandler());
 		enableModule("welcome-message", new WelcomeMessage());
