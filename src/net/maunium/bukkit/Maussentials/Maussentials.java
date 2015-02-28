@@ -10,10 +10,12 @@ import lib.PatPeter.SQLibrary.Database;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.maunium.bukkit.Maussentials.Modules.CommandKill;
+import net.maunium.bukkit.Maussentials.Modules.CommandSpy;
 import net.maunium.bukkit.Maussentials.Modules.CommandUUID;
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
 import net.maunium.bukkit.Maussentials.Modules.Godmode;
 import net.maunium.bukkit.Maussentials.Modules.PlayerData;
+import net.maunium.bukkit.Maussentials.Modules.PrivateMessaging;
 import net.maunium.bukkit.Maussentials.Modules.WelcomeMessage;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.I18n;
@@ -55,6 +57,8 @@ public class Maussentials extends JavaPlugin implements I15r {
 		enableModule("command-uuid", new CommandUUID());
 		enableModule("command-kill", new CommandKill());
 		enableModule("godmode", new Godmode());
+		enableModule("privatemessaging", new PrivateMessaging());
+		enableModule("commandspy", new CommandSpy());
 		
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info(name + " v" + version + " by " + author + " enabled in " + et + "ms.");
