@@ -38,11 +38,10 @@ public class WelcomeMessage extends CommandModule implements Listener {
 		List<String> s = plugin.getConfig().getStringList("welcome-message");
 		// Initialize the welcome message array
 		welcome = new String[s.size()];
-		int i = 0;
 		// Loop through the lines
-		for (String ss : s)
+		for (int i = 0; i < s.size(); i++)
 			// Translate the alt format codes to real format codes and add the string to the array.
-			welcome[i] = ChatFormatter.translateAll(ss);
+			welcome[i] = ChatFormatter.translateAll(s.get(i));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
