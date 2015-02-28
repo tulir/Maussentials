@@ -23,8 +23,8 @@ uuid.history=Name History of UUID {0}:
 uuid.history.original=&7 - {0} (Original Name)
 uuid.history.new=&7 - {0} (Changed to at {1}).
 # 0: Label
-uuid.help.get=Usage: /{0} get <username>
-uuid.help.get=Usage: /{0} history <uuid>
+uuid.help.get=Usage: /{0} get <username> [timestamp]
+uuid.help.history=Usage: /{0} history <uuid>
 
 # 0: Username
 kill.ed=Killed &6{0}&7.
