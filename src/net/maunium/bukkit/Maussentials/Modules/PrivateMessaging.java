@@ -3,11 +3,10 @@ package net.maunium.bukkit.Maussentials.Modules;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
-import net.maunium.bukkit.Maussentials.Utils.PlayerUtils;
+import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
 /**
  * A module for private messaging between players.
@@ -35,7 +34,7 @@ public class PrivateMessaging extends CommandModule {
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equals("maumessage")) {
 			if (args.length > 1) {
-				Player p = PlayerUtils.getPlayer(args[0]);
+				Player p = plugin.getServer().getPlayer(args[0]);
 				StringBuffer sb = new StringBuffer();
 				for (int i = 1; i < args.length; i++) {
 					sb.append(args[i]);
@@ -47,8 +46,8 @@ public class PrivateMessaging extends CommandModule {
 				p.sendMessage(msg);
 				sender.sendMessage(msg);
 				
-				p.setMetadata(REPLY_META, new FixedMetadataValue(plugin, sender.getName()));
-				if (sender instanceof Player) ((Player) sender).setMetadata(REPLY_META, new FixedMetadataValue(plugin, p.getName()));
+				MetadataUtils.setFixedMetadata(p, REPLY_META, sender.getName(), plugin);
+				if (sender instanceof Player) MetadataUtils.setFixedMetadata((Player) sender, REPLY_META, p.getName(), plugin);
 			}
 		} else if (cmd.getName().equals("maureply")) {
 			if (!(sender instanceof Player)) {
@@ -56,12 +55,12 @@ public class PrivateMessaging extends CommandModule {
 				return true;
 			}
 			Player s = (Player) sender;
-			String md = PlayerUtils.getMetadata(s, REPLY_META, plugin).asString();
+			String md = MetadataUtils.getMetadata(s, REPLY_META, plugin).asString();
 			if (md == null || md.isEmpty()) {
 				s.sendMessage(plugin.errtag + plugin.translate("pm.reply.nobody"));
 				return true;
 			}
-			Player p = PlayerUtils.getPlayer(md);
+			Player p = plugin.getServer().getPlayer(md);
 			if (p == null) {
 				s.sendMessage(plugin.errtag + plugin.translate("pm.reply.nobody"));
 				return true;
@@ -78,7 +77,7 @@ public class PrivateMessaging extends CommandModule {
 				String msg = plugin.translate("pm.msg", sender.getName(), p.getName(), sb.toString());
 				p.sendMessage(msg);
 				s.sendMessage(msg);
-				p.setMetadata(REPLY_META, new FixedMetadataValue(plugin, sender.getName()));
+				MetadataUtils.setFixedMetadata(p, REPLY_META, sender.getName(), plugin);
 				
 				String spymsg = plugin.translate("pm.spy.msg", sender.getName(), p.getName(), sb.toString());
 				for (Player spy : plugin.getServer().getOnlinePlayers())
@@ -93,10 +92,10 @@ public class PrivateMessaging extends CommandModule {
 			}
 			Player p = (Player) sender;
 			if (p.hasMetadata(MSGSPY_META)) {
-				p.setMetadata(MSGSPY_META, new FixedMetadataValue(plugin, true));
+				MetadataUtils.setFixedMetadata(p, MSGSPY_META, true, plugin);
 				p.sendMessage(plugin.stag + plugin.translate("pm.spy.on"));
 			} else {
-				p.removeMetadata(MSGSPY_META, plugin);
+				MetadataUtils.removeMetadata(p, MSGSPY_META, plugin);
 				p.sendMessage(plugin.stag + plugin.translate("pm.spy.off"));
 			}
 		}

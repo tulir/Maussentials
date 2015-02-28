@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
-import net.maunium.bukkit.Maussentials.Utils.PlayerUtils;
 
 /**
  * The /kill command
@@ -20,7 +19,7 @@ public class CommandKill extends CommandModule {
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length > 0) {
-			Player p = PlayerUtils.getPlayer(args[0]);
+			Player p = plugin.getServer().getPlayer(args[0]);
 			if (p != null) {
 				p.setHealth(0);
 				sender.sendMessage(plugin.stag + plugin.translate("kill.ed", p.getName()));

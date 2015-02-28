@@ -6,11 +6,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.PlayerCommandModule;
-import net.maunium.bukkit.Maussentials.Utils.PlayerUtils;
+import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
 /**
  * God mode command
@@ -52,13 +51,13 @@ public class Godmode extends PlayerCommandModule implements Listener {
 			sender.sendMessage(plugin.stag + plugin.translate("god." + (removed ? "off" : "on.def")));
 		} else if (args.length > 1) {
 			if (args[0].equalsIgnoreCase("default")) {
-				if (args.length > 1 && args[1].equalsIgnoreCase("private")) sender.setMetadata(PRIVATE_GOD, new FixedMetadataValue(plugin, true));
+				if (args.length > 1 && args[1].equalsIgnoreCase("private")) MetadataUtils.setFixedMetadata(sender, PRIVATE_GOD, true, plugin);
 				sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DEFAULT_GOD, sender) ? "on.def" : "off")));
 			} else if (args[0].equalsIgnoreCase("damage")) {
-				if (args.length > 1 && args[1].equalsIgnoreCase("private")) sender.setMetadata(PRIVATE_GOD, new FixedMetadataValue(plugin, true));
+				if (args.length > 1 && args[1].equalsIgnoreCase("private")) MetadataUtils.setFixedMetadata(sender, PRIVATE_GOD, true, plugin);
 				sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DAMAGE_GOD, sender) ? "on.dmg" : "off")));
 			} else if (checkPerms(sender, "maussentials.god.others")) {
-				Player p = PlayerUtils.getPlayer(args[0]);
+				Player p = plugin.getServer().getPlayer(args[0]);
 				if (p != null) {
 					if (args.length == 1) {
 						if (p.hasMetadata(PRIVATE_GOD)) sender.sendMessage(plugin.errtag + plugin.translate("god.private", p.getName()));
@@ -80,19 +79,19 @@ public class Godmode extends PlayerCommandModule implements Listener {
 	
 	public boolean toggle(String type, Player p) {
 		if (p.hasMetadata(type)) {
-			p.removeMetadata(type, plugin);
+			MetadataUtils.removeMetadata(p, type, plugin);
 			return false;
 		} else {
-			p.setMetadata(type, new FixedMetadataValue(plugin, true));
+			MetadataUtils.setFixedMetadata(p, type, true, plugin);
 			return true;
 		}
 	}
 	
 	public boolean toggle_def(Player p) {
-		if (p.hasMetadata(DEFAULT_GOD)) p.removeMetadata(DEFAULT_GOD, plugin);
-		else if (p.hasMetadata(DAMAGE_GOD)) p.removeMetadata(DAMAGE_GOD, plugin);
+		if (p.hasMetadata(DEFAULT_GOD)) MetadataUtils.removeMetadata(p, DEFAULT_GOD, plugin);
+		else if (p.hasMetadata(DAMAGE_GOD)) MetadataUtils.removeMetadata(p, DAMAGE_GOD, plugin);
 		else {
-			p.setMetadata(DEFAULT_GOD, new FixedMetadataValue(plugin, true));
+			MetadataUtils.setFixedMetadata(p, DEFAULT_GOD, true, plugin);
 			return false;
 		}
 		return true;

@@ -7,10 +7,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
+import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
 public class CommandSpy extends CommandModule implements Listener {
 	private Maussentials plugin;
@@ -45,10 +45,10 @@ public class CommandSpy extends CommandModule implements Listener {
 		Player p = (Player) sender;
 		
 		if (p.hasMetadata(CMDSPY_META)) {
-			p.setMetadata(CMDSPY_META, new FixedMetadataValue(plugin, true));
+			MetadataUtils.removeMetadata(p, CMDSPY_META, plugin);
 			p.sendMessage(plugin.stag + plugin.translate("cmdspy.on"));
 		} else {
-			p.removeMetadata(CMDSPY_META, plugin);
+			MetadataUtils.setFixedMetadata(p, CMDSPY_META, true, plugin);
 			p.sendMessage(plugin.stag + plugin.translate("cmdspy.off"));
 		}
 		

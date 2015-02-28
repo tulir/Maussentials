@@ -42,7 +42,6 @@ public class Maussentials extends JavaPlugin implements I15r {
 		version = this.getDescription().getVersion();
 		this.saveDefaultConfig();
 		this.saveResource("languages/en_US.lang", true);
-		
 		try {
 			this.i18n = I18n.createInstance(new File(this.getDataFolder(), "languages"), getConfig().getString("language"));
 		} catch (IOException e) {
