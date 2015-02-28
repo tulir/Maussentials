@@ -60,9 +60,7 @@ public class PlayerData implements Listener, MauModule {
 					+ COLUMN_CHANGEDTO + " INTEGER NOT NULL,"
 					+ "PRIMARY KEY (" + COLUMN_UUID + ", " + COLUMN_USERNAME + "));");
 			// °FormatOn°
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		} catch (SQLException e) {}
 	}
 	
 	// °FormatOff°
