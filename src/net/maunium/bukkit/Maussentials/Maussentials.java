@@ -10,6 +10,7 @@ import lib.PatPeter.SQLibrary.Database;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.maunium.bukkit.Maussentials.Modules.CommandKill;
+import net.maunium.bukkit.Maussentials.Modules.CommandSeen;
 import net.maunium.bukkit.Maussentials.Modules.CommandSpy;
 import net.maunium.bukkit.Maussentials.Modules.CommandUUID;
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
@@ -26,7 +27,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 	public final String name = "Maussentials", author = "Tulir293";
 	private Map<String, MauModule> modules = new HashMap<String, MauModule>();
 	private DatabaseHandler dbh;
-	private PlayerData pd;
+//	private PlayerData pd;
 	private I18n i18n;
 	private static Maussentials instance;
 	
@@ -53,9 +54,10 @@ public class Maussentials extends JavaPlugin implements I15r {
 		
 		enableModule("database", dbh = new DatabaseHandler());
 		enableModule("welcome-message", new WelcomeMessage());
-		enableModule("playerdata", pd = new PlayerData());
+		enableModule("playerdata", /*pd = */new PlayerData());
 		enableModule("command-uuid", new CommandUUID());
 		enableModule("command-kill", new CommandKill());
+		enableModule("command-seen", new CommandSeen());
 		enableModule("godmode", new Godmode());
 		enableModule("privatemessaging", new PrivateMessaging());
 		enableModule("commandspy", new CommandSpy());
