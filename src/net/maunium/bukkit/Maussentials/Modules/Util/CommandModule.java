@@ -26,7 +26,7 @@ public abstract class CommandModule implements MauModule, CommandExecutor {
 	
 	public boolean checkPerms(CommandSender p, String permission) {
 		if (!p.hasPermission(permission)) {
-			p.sendMessage(Maussentials.getInstance().translate("permission-error"));
+			p.sendMessage(Maussentials.getInstance().translate("permission-error", permission));
 			return false;
 		} else return true;
 	}
