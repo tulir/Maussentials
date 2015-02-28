@@ -67,9 +67,10 @@ public class CommandUUID extends CommandModule {
 					// Something went wrong. Tell it to the user...
 					sender.sendMessage(plugin.errtag + plugin.translate("uuid.error", e1.getMessage()));
 					// ... and print it to the console
-					plugin.getLogger().severe("Error while fetching name history from UUID: ");
+					plugin.getLogger().severe("Error while fetching UUID from name: ");
 					e1.printStackTrace();
 				}
+				return true;
 			} else if (args[0].equalsIgnoreCase("history")) {
 				String uuid = args[1];
 				if (args.length > 2 && args[1].equalsIgnoreCase("name")) {
