@@ -1,5 +1,9 @@
 package net.maunium.bukkit.Maussentials.Modules;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -11,6 +15,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
@@ -38,19 +46,19 @@ public class PlayerData implements Listener, MauModule {
 			// °FormatOff°
 			// Create the table Players
 			plugin.getDB().query("CREATE TABLE " + TABLE_PLAYERS + " ("
-					+ COLUMN_UUID + " varchar(25) PRIMARY KEY"
-					+ COLUMN_USERNAME + " varchar(16) NOT NULL"
-					+ COLUMN_IP + " varchar(16) NOT NULL"
-					+ COLUMN_LASTLOGIN + " INTEGER NOT NULL"
+					+ COLUMN_UUID + " varchar(25) NOT NULL,"
+					+ COLUMN_USERNAME + " varchar(16) NOT NULL,"
+					+ COLUMN_IP + " varchar(16) NOT NULL,"
+					+ COLUMN_LASTLOGIN + " INTEGER NOT NULL,"
 					+ COLUMN_LOCATION + " TEXT NOT NULL"
-					+ ");");
+					+ "PRIMARY KEY (" + COLUMN_UUID + "));");
 			// Create the table OldNames
 			plugin.getDB().query("CREATE TABLE " + TABLE_HISTORY + " ("
-					+ COLUMN_UUID + " varchar(25) NOT NULL"
-					+ COLUMN_USERNAME + " varchar(16) NOT NULL"
-					+ COLUMN_CHANGEDTO + " INTEGER NOT NULL"
-					+ COLUMN_CHANGEDFROM + " INTEGER NOT NULL"
-					+ ");");
+					+ COLUMN_UUID + " varchar(25) NOT NULL,"
+					+ COLUMN_USERNAME + " varchar(16) NOT NULL,"
+					+ COLUMN_CHANGEDTO + " INTEGER NOT NULL,"
+					+ COLUMN_CHANGEDFROM + " INTEGER NOT NULL,"
+					+ "PRIMARY KEY (" + COLUMN_UUID + ", " + COLUMN_USERNAME + "));");
 			// °FormatOn°
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,14 +87,34 @@ public class PlayerData implements Listener, MauModule {
 				+ " SET " + COLUMN_LOCATION + "='" + new SerializableLocation(l).toString() + "'"
 				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
 	}
+	
+	public ResultSet setHistory(UUID uuid, String username, long changedTo, long changedFrom) throws SQLException{
+		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
+				+ uuid.toString() + "','"
+				+ username + "','"
+				+ changedTo + "','"
+				+ changedFrom
+				+ "');");
+	}
 	// °FormatOn°
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent evt) {
 		if (evt.getAddress() != null && evt.getUniqueId() != null && evt.getName() != null) {
+			try {
+				ResultSet rs = plugin.getDB().query(
+						"SELECT " + COLUMN_USERNAME + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + evt.getUniqueId() + "';");
+				if (rs.last()) {
+					String old = rs.getString(COLUMN_USERNAME);
+					if (!old.equals(evt.getName())) processNameChange(evt.getUniqueId(), old, evt.getName());
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
 			String ia = evt.getAddress().getHostAddress();
 			try {
-				setEntry(evt.getUniqueId(), evt.getName(), ia, new Location(plugin.getServer().getWorld("world"), 0, 0, 0, 0, 0));
+				setEntry(evt.getUniqueId(), evt.getName(), ia, new Location(plugin.getServer().getWorlds().get(0), 0, 0, 0));
 				plugin.getLogger().fine("Updated database. New entry: " + evt.getUniqueId() + ", " + evt.getName() + ", " + ia);
 			} catch (SQLException e) {
 				plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getUniqueId() + ", " + evt.getName() + ", " + ia);
@@ -121,6 +149,39 @@ public class PlayerData implements Listener, MauModule {
 		} catch (SQLException e) {
 			plugin.getLogger().severe("Failed to update Location for " + evt.getPlayer().getName());
 			e.printStackTrace();
+		}
+	}
+	
+	private void processNameChange(UUID uuid, String oldUsername, String newUsername) {
+		try {
+			// Request the name history of the UUID.
+			BufferedReader br = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/user/profiles/" + uuid + "/names").openStream()));
+			String in = "";
+			String s;
+			// Read the response
+			while ((s = br.readLine()) != null)
+				in += s;
+			
+			// Make sure that it isn't empty.
+			if (in.isEmpty()) throw new RuntimeException("Failed to process name change: Mojang API returned empty name history.");
+			
+			// Parse the response json.
+			JsonArray ja = new JsonParser().parse(in).getAsJsonArray();
+			// Loop through the name change entries and add the details to the string list.
+			for (int i = 0; i < ja.size(); i++) {
+				JsonObject jo = ja.get(i).getAsJsonObject();
+				// Get the name changed to
+				String name = jo.get("name").getAsString();
+				// Check if the name is the new name or the original one
+				if (jo.has("changedToAt")) {
+					long time = jo.get("changedToAt").getAsLong();
+					
+				} else {
+					
+				}
+			}
+		} catch (IOException e1) {
+			throw new RuntimeException("Failed to fetch name history from Mojang API", e1);
 		}
 	}
 }
