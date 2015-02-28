@@ -5,10 +5,10 @@ website: http://maunium.net
 version: 0.1
 commands:
   mauwelcomemessage:
-    description: Print the welcome message.
+    description: Print the welcome message
     aliases: [welcomemessage, mauwm, wm, mauwelcomemsg, welcomemsg, mauwelcome, welcome, maumotd, motd]
   maukill:
-    description: Kill a player.
+    description: Kill a player
     aliases: [kill, mauslay, slay]
   mauuuid:
     description: "UUID tools (fetches data from Mojangs' servers)"
@@ -25,12 +25,15 @@ commands:
   mausocialspy:
     description: Spy on private messages
     aliases: [socialspy, mauss, ss, maumsgspy, msgspy, maupmspy, pmspy]
+  maucommandspy:
+    description: Spy on player commands
+    aliases: [commandspy, maucmdspy, cmdspy]
 permissions:
   maussentials.welcomemessage:
-    description: Print the welcome message.
+    description: Print the welcome message
     default: true
   maussentials.kill:
-    description: Kill a player.
+    description: Kill a player
     default: OP
   maussentials.uuid:
     description: "UUID tools (fetches data from Mojangs' servers)"
@@ -42,7 +45,7 @@ permissions:
     description: Invincibility
     default: OP
   maussentials.message:
-    description: Use the private messaging system.
+    description: Use the private messaging system
     default: true
   maussentials.message.color:
     description: Use colors (format codes 0-9a-f) in private messages
@@ -62,4 +65,7 @@ permissions:
       maussentials.message.magic: true
   maussentials.message.spy:
     description: Spy on private messages
+    default: OP
+  maussentials.commandspy:
+    description: Spy player commands
     default: OP
