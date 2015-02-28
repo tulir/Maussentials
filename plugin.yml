@@ -3,6 +3,7 @@ author: Tulir293
 main: net.maunium.bukkit.Maussentials.Maussentials
 website: http://maunium.net
 version: 0.1
+depend: [SQLibrary]
 commands:
   mauwelcomemessage:
     description: Print the welcome message
@@ -75,3 +76,6 @@ permissions:
   maussentials.seen:
     description: See info about a player
     default: OP
+  maussentials.plugins:
+    description: See the plugin list
+    default: true
