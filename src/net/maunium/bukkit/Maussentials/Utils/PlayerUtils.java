@@ -8,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
 
 public class PlayerUtils {
 	public static List<Player> getPlayers(Location location, double radius) {
@@ -31,12 +29,6 @@ public class PlayerUtils {
 	public static OfflinePlayer getOfflinePlayer(String name) {
 		for (OfflinePlayer op : Bukkit.getServer().getOfflinePlayers())
 			if (op.getName().equalsIgnoreCase(name)) return op;
-		return null;
-	}
-	
-	public static MetadataValue getMetadata(Player p, String tag, Plugin owner) {
-		for (MetadataValue mv : p.getMetadata(tag))
-			if (mv.getOwningPlugin().equals(owner)) return mv;
 		return null;
 	}
 	
