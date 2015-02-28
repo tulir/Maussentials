@@ -103,7 +103,7 @@ public class PlayerData implements Listener, MauModule {
 			try {
 				ResultSet rs = plugin.getDB().query(
 						"SELECT " + COLUMN_USERNAME + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + evt.getUniqueId() + "';");
-				if (rs.last()) {
+				if (rs.next()) {
 					String old = rs.getString(COLUMN_USERNAME);
 					if (!old.equals(evt.getName())) updateNameHistory(evt.getUniqueId());
 				} else updateNameHistory(evt.getUniqueId());
