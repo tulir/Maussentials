@@ -57,7 +57,6 @@ public class PlayerData implements Listener, MauModule {
 					+ COLUMN_UUID + " varchar(25) NOT NULL,"
 					+ COLUMN_USERNAME + " varchar(16) NOT NULL,"
 					+ COLUMN_CHANGEDTO + " INTEGER NOT NULL,"
-					+ COLUMN_CHANGEDFROM + " INTEGER NOT NULL,"
 					+ "PRIMARY KEY (" + COLUMN_UUID + ", " + COLUMN_USERNAME + "));");
 			// °FormatOn°
 		} catch (SQLException e) {
@@ -88,12 +87,11 @@ public class PlayerData implements Listener, MauModule {
 				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
 	}
 	
-	public ResultSet setHistory(UUID uuid, String username, long changedTo, long changedFrom) throws SQLException{
+	public ResultSet setHistory(UUID uuid, String username, long changedTo) throws SQLException{
 		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
 				+ uuid.toString() + "','"
 				+ username + "','"
-				+ changedTo + "','"
-				+ changedFrom
+				+ changedTo
 				+ "');");
 	}
 	// °FormatOn°
@@ -106,8 +104,8 @@ public class PlayerData implements Listener, MauModule {
 						"SELECT " + COLUMN_USERNAME + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + evt.getUniqueId() + "';");
 				if (rs.last()) {
 					String old = rs.getString(COLUMN_USERNAME);
-					if (!old.equals(evt.getName())) processNameChange(evt.getUniqueId(), old, evt.getName());
-				}
+					if (!old.equals(evt.getName())) updateNameHistory(evt.getUniqueId());
+				} else updateNameHistory(evt.getUniqueId());
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -152,7 +150,7 @@ public class PlayerData implements Listener, MauModule {
 		}
 	}
 	
-	private void processNameChange(UUID uuid, String oldUsername, String newUsername) {
+	private void updateNameHistory(UUID uuid) {
 		try {
 			// Request the name history of the UUID.
 			BufferedReader br = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/user/profiles/" + uuid + "/names").openStream()));
@@ -170,14 +168,23 @@ public class PlayerData implements Listener, MauModule {
 			// Loop through the name change entries and add the details to the string list.
 			for (int i = 0; i < ja.size(); i++) {
 				JsonObject jo = ja.get(i).getAsJsonObject();
-				// Get the name changed to
 				String name = jo.get("name").getAsString();
-				// Check if the name is the new name or the original one
-				if (jo.has("changedToAt")) {
-					long time = jo.get("changedToAt").getAsLong();
+				try {
+					// °FormatOff°
+					ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_HISTORY
+							+ " WHERE " + COLUMN_UUID + " = '" + uuid.toString() + "'"
+							+ " AND " + COLUMN_USERNAME + " = '" + name + "'"
+							+ ";");
+					// °FormatOn°
 					
-				} else {
-					
+					if (!rs.first()) {
+						if (jo.has("changedToAt")) {
+							long time = jo.get("changedToAt").getAsLong();
+							setHistory(uuid, name, time);
+						} else setHistory(uuid, name, 0);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
 		} catch (IOException e1) {
