@@ -25,9 +25,9 @@ commands:
   mausocialspy:
     description: Spy on private messages
     aliases: [socialspy, mauss, ss, maumsgspy, msgspy, maupmspy, pmspy]
-  maucommandspy:
-    description: Spy on player commands
-    aliases: [commandspy, maucmdspy, cmdspy]
+  mauseen:
+    description: See info about a player
+    aliases: [seen, maulastseen, lastseen, mauplayerinfo, playerinfo]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message
@@ -68,4 +68,7 @@ permissions:
     default: OP
   maussentials.commandspy:
     description: Spy player commands
+    default: OP
+  maussentials.seen:
+    description: See info about a player
     default: OP
