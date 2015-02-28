@@ -10,6 +10,7 @@ import lib.PatPeter.SQLibrary.Database;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.maunium.bukkit.Maussentials.Modules.CommandKill;
+import net.maunium.bukkit.Maussentials.Modules.CommandPlugins;
 import net.maunium.bukkit.Maussentials.Modules.CommandSeen;
 import net.maunium.bukkit.Maussentials.Modules.CommandSpy;
 import net.maunium.bukkit.Maussentials.Modules.CommandUUID;
@@ -57,6 +58,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 		enableModule("command-uuid", new CommandUUID());
 		enableModule("command-kill", new CommandKill());
 		enableModule("command-seen", new CommandSeen());
+		enableModule("command-plugins", new CommandPlugins());
 		enableModule("godmode", new Godmode());
 		enableModule("privatemessaging", new PrivateMessaging());
 		enableModule("commandspy", new CommandSpy());
