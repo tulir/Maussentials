@@ -81,7 +81,7 @@ public class CommandUUID extends CommandModule {
 				try {
 					// Request the name history of the given UUID.
 					BufferedReader br = new BufferedReader(new InputStreamReader(
-							new URL("https://api.mojang.com/user/profiles/" + uuid + "/names").openStream()));
+							new URL("https://api.mojang.com/user/profiles/" + uuid.replace("-", "") + "/names").openStream()));
 					String in = "";
 					String s;
 					// Read the response

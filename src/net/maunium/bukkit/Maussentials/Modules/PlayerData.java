@@ -151,7 +151,7 @@ public class PlayerData implements Listener, MauModule {
 	private void updateNameHistory(UUID uuid) {
 		try {
 			// Request the name history of the UUID.
-			BufferedReader br = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/user/profiles/" + uuid + "/names").openStream()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/user/profiles/" + uuid.toString().replace("-", "") + "/names").openStream()));
 			String in = "";
 			String s;
 			// Read the response
