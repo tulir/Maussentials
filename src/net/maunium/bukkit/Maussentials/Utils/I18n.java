@@ -167,7 +167,7 @@ public class I18n {
 				rtrn = rtrn.replace("{" + i + "}", o.toString());
 				i++;
 			}
-			return rtrn.replace('&', ChatColor.COLOR_CHAR).replace(ChatColor.COLOR_CHAR + "" + ChatColor.COLOR_CHAR, "&").replace("<br>", "\n");
+			return ChatFormatter.translateAll(rtrn).replace("<br>", "\n");
 		} else return node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
 	}
 	
