@@ -13,10 +13,12 @@ import org.bukkit.entity.Player;
  * @since 0.1
  */
 public abstract class IngameCommandExecutor implements CommandExecutor {
+	protected String error_message = ChatColor.RED + "This command can only be used in-game.";
+	
 	@Override
 	public final boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) return onCommand((Player) sender, cmd, label, args);
-		else sender.sendMessage(ChatColor.RED + "This command can only be used in-game.");
+		else sender.sendMessage(error_message);
 		return true;
 	}
 	
