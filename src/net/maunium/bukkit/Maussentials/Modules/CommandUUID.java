@@ -81,8 +81,8 @@ public class CommandUUID extends CommandModule {
 				
 				try {
 					// Request the name history of the given UUID.
-					BufferedReader br = new BufferedReader(new InputStreamReader(
-							new URL("https://api.mojang.com/user/profiles/" + uuid.replace("-", "") + "/names").openStream()));
+					BufferedReader br = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/user/profiles/" + uuid.replace("-", "")
+							+ "/names").openStream()));
 					String in = "";
 					String s;
 					// Read the response
@@ -135,15 +135,15 @@ public class CommandUUID extends CommandModule {
 	}
 	
 	@Override
-	public void reload() {
-		plugin.getCommand("mauuuid").setExecutor(this);
+	public void unload() {
+		plugin.getCommand("mauuuid").setExecutor(plugin);
 	}
 	
 	@Override
-	public void initialize(Maussentials plugin) {
+	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		this.permission = "maussentials.uuid";
-		reload();
+		plugin.getCommand("mauuuid").setExecutor(this);
 	}
 	
 	@Override

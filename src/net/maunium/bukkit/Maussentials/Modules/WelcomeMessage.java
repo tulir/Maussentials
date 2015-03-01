@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -25,15 +26,10 @@ public class WelcomeMessage extends CommandModule implements Listener {
 	private String[] welcome;
 	
 	@Override
-	public void initialize(Maussentials plugin) {
+	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		// The reload method contains the loading code so it can be used for loading too.
-		reload();
-	}
-	
-	@Override
-	public void reload() {
+		// Set executor
 		plugin.getCommand("mauwelcomemessage").setExecutor(this);
 		// Load the list of lines to be in the welcome message from config.
 		List<String> s = plugin.getConfig().getStringList("welcome-message");
@@ -43,6 +39,13 @@ public class WelcomeMessage extends CommandModule implements Listener {
 		for (int i = 0; i < s.size(); i++)
 			// Translate the alt format codes to real format codes and add the string to the array.
 			welcome[i] = ChatFormatter.translateAll(s.get(i));
+	}
+	
+	@Override
+	public void unload() {
+		welcome = null;
+		HandlerList.unregisterAll(this);
+		plugin.getCommand("mauwelcomemessage").setExecutor(plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

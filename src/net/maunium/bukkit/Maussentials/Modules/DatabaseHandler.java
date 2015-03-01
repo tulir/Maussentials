@@ -20,17 +20,8 @@ public class DatabaseHandler implements MauModule {
 	private Database db;
 	
 	@Override
-	public void initialize(Maussentials plugin) {
+	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-		reload();
-	}
-	
-	public Database getDB() {
-		return db;
-	}
-	
-	@Override
-	public void reload() {
 		String database = plugin.getConfig().getString("sql.database");
 		switch (plugin.getConfig().getString("sql.type").toLowerCase(Locale.ENGLISH)) {
 			case "mysql":
@@ -100,5 +91,14 @@ public class DatabaseHandler implements MauModule {
 				break;
 		}
 		db.open();
+	}
+	
+	public Database getDB() {
+		return db;
+	}
+	
+	@Override
+	public void unload() {
+		db.close();
 	}
 }

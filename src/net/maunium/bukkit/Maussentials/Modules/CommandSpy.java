@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
@@ -17,16 +18,17 @@ public class CommandSpy extends CommandModule implements Listener {
 	private static final String CMDSPY_META = "MaussentialsCommandSpy";
 	
 	@Override
-	public void initialize(Maussentials plugin) {
+	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		reload();
+		this.plugin.getCommand("maucommandspy").setExecutor(this);
+		this.permission = "maussentials.commandspy";
 	}
 	
 	@Override
-	public void reload() {
-		this.plugin.getCommand("maucommandspy").setExecutor(this);
-		this.permission = "maussentials.commandspy";
+	public void unload() {
+		HandlerList.unregisterAll(this);
+		this.plugin.getCommand("maucommandspy").setExecutor(plugin);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

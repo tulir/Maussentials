@@ -30,20 +30,19 @@ public class CommandKill extends CommandModule {
 	}
 	
 	@Override
-	public void reload() {
+	public void load(Maussentials plugin) {
+		this.plugin = plugin;
+		this.permission = "maussentials.kill";
 		plugin.getCommand("maukill").setExecutor(this);
 	}
 	
 	@Override
-	public void initialize(Maussentials plugin) {
-		this.plugin = plugin;
-		this.permission = "maussentials.kill";
-		reload();
+	public void unload() {
+		plugin.getCommand("maukill").setExecutor(plugin);
 	}
 	
 	@Override
 	public void help(CommandSender sender, Command command, String label, String[] args) {
 		sender.sendMessage(plugin.stag + plugin.translate("kill.help", label));
 	}
-	
 }

@@ -10,15 +10,15 @@ public class CommandSeen extends CommandModule {
 	private Maussentials plugin;
 	
 	@Override
-	public void initialize(Maussentials plugin) {
+	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-		reload();
+		plugin.getCommand("mauseen").setExecutor(this);
+		this.permission = "maussentials.seen";
 	}
 	
 	@Override
-	public void reload() {
-		plugin.getCommand("mauseen").setExecutor(this);
-		this.permission = "maussentials.seen";
+	public void unload() {
+		plugin.getCommand("mauseen").setExecutor(plugin);
 	}
 	
 	@Override

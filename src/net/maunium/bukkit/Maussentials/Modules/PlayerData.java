@@ -14,6 +14,7 @@ import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -34,14 +35,9 @@ public class PlayerData implements Listener, MauModule {
 			COLUMN_LOCATION = "Location", COLUMN_CHANGEDFROM = "ChangedFrom", COLUMN_CHANGEDTO = "ChangedTo";
 	
 	@Override
-	public void initialize(Maussentials plugin) {
+	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		reload();
-	}
-	
-	@Override
-	public void reload() {
 		try {
 			// °FormatOff°
 			// Create the table Players
@@ -60,6 +56,11 @@ public class PlayerData implements Listener, MauModule {
 					+ "PRIMARY KEY (" + COLUMN_UUID + ", " + COLUMN_USERNAME + "));");
 			// °FormatOn°
 		} catch (SQLException e) {}
+	}
+	
+	@Override
+	public void unload() {
+		HandlerList.unregisterAll(this);
 	}
 	
 	// °FormatOff°
@@ -151,7 +152,8 @@ public class PlayerData implements Listener, MauModule {
 	private void updateNameHistory(UUID uuid) {
 		try {
 			// Request the name history of the UUID.
-			BufferedReader br = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/user/profiles/" + uuid.toString().replace("-", "") + "/names").openStream()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/user/profiles/" + uuid.toString().replace("-", "")
+					+ "/names").openStream()));
 			String in = "";
 			String s;
 			// Read the response

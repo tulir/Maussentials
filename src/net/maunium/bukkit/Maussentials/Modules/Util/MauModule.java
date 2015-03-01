@@ -14,10 +14,10 @@ public interface MauModule {
 	 * 
 	 * @param plugin The hosting instance of Maussentials.
 	 */
-	public void initialize(Maussentials plugin);
+	public void load(Maussentials plugin);
 	
 	/**
-	 * Reloads all the configurations and everything else that needs reloading.
+	 * Unload the MauModule.
 	 */
-	public void reload();
+	public void unload();
 }

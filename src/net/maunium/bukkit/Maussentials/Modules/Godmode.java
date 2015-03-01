@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -22,16 +23,17 @@ public class Godmode extends PlayerCommandModule implements Listener {
 	private static final String DEFAULT_GOD = "MaussentialsGodDefault", PRIVATE_GOD = "MaussentialsGodPrivatized", DAMAGE_GOD = "MaussentialsGodDamage";
 	
 	@Override
-	public void initialize(Maussentials plugin) {
+	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		reload();
+		this.plugin.getCommand("maugod").setExecutor(this);
+		this.permission = "maussentials.god";
 	}
 	
 	@Override
-	public void reload() {
-		this.plugin.getCommand("maugod").setExecutor(this);
-		this.permission = "maussentials.god";
+	public void unload() {
+		this.plugin.getCommand("maugod").setExecutor(plugin);
+		HandlerList.unregisterAll(this);
 	}
 	
 	public void onPlayerDamage(EntityDamageEvent evt) {

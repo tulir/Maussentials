@@ -21,16 +21,18 @@ public class PrivateMessaging extends CommandModule {
 	private boolean CONSOLE_SPY = true;
 	
 	@Override
-	public void initialize(Maussentials plugin) {
+	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-		reload();
-	}
-	
-	@Override
-	public void reload() {
 		this.plugin.getCommand("maumessage").setExecutor(this);
 		this.plugin.getCommand("maureply").setExecutor(this);
 		this.plugin.getCommand("mausocialspy").setExecutor(this);
+	}
+	
+	@Override
+	public void unload() {
+		this.plugin.getCommand("maumessage").setExecutor(plugin);
+		this.plugin.getCommand("maureply").setExecutor(plugin);
+		this.plugin.getCommand("mausocialspy").setExecutor(plugin);
 	}
 	
 	@Override
