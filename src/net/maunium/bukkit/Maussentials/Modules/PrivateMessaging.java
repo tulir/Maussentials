@@ -56,6 +56,7 @@ public class PrivateMessaging extends CommandModule {
 				message(sb.toString(), sender, p);
 				return true;
 			}
+			return false;
 		} else if (cmd.getName().equals("maureply")) {
 			String replyTo = null;
 			if (sender instanceof Player) replyTo = MetadataUtils.getMetadata((Player) sender, REPLY_META, plugin).asString();
@@ -85,6 +86,7 @@ public class PrivateMessaging extends CommandModule {
 				message(sb.toString(), sender, p);
 				return true;
 			}
+			return false;
 		} else if (cmd.getName().equals("mausocialspy")) {
 			if (!checkPerms(sender, "maussentials.message.spy")) return true;
 			if (!(sender instanceof Player)) {
@@ -106,8 +108,7 @@ public class PrivateMessaging extends CommandModule {
 				p.sendMessage(plugin.stag + plugin.translate("pm.spy.on"));
 			}
 			return true;
-		}
-		return false;
+		} else return false;
 	}
 	
 	public void message(String message, CommandSender s, CommandSender t) {
