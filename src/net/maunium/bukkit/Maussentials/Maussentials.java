@@ -52,16 +52,16 @@ public class Maussentials extends JavaPlugin implements I15r {
 		this.stag = translate("stag");
 		this.errtag = translate("errtag");
 		
-		enableModule("database", dbh = new DatabaseHandler());
-		enableModule("welcome-message", new WelcomeMessage());
-		enableModule("playerdata", /*pd = */new PlayerData());
-		enableModule("command-uuid", new CommandUUID());
-		enableModule("command-kill", new CommandKill());
-		enableModule("command-seen", new CommandSeen());
-		enableModule("command-plugins", new CommandPlugins());
-		enableModule("godmode", new Godmode());
-		enableModule("privatemessaging", new PrivateMessaging());
-		enableModule("commandspy", new CommandSpy());
+		addModule("database", dbh = new DatabaseHandler(), true);
+		addModule("welcome-message", new WelcomeMessage(), true);
+		addModule("playerdata", /* pd = */new PlayerData(), true);
+		addModule("command-uuid", new CommandUUID(), true);
+		addModule("command-kill", new CommandKill(), true);
+		addModule("command-seen", new CommandSeen(), true);
+		addModule("command-plugins", new CommandPlugins(), true);
+		addModule("godmode", new Godmode(), true);
+		addModule("privatemessaging", new PrivateMessaging(), true);
+		addModule("commandspy", new CommandSpy(), true);
 		
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info(name + " v" + version + " by " + author + " enabled in " + et + "ms.");
@@ -71,7 +71,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 	public void onDisable() {
 		long st = System.currentTimeMillis();
 		
-		if(instance == this) instance = null;
+		if (instance == this) instance = null;
 		
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info(name + " v" + version + " by " + author + " disabled in " + et + "ms.");
@@ -89,20 +89,30 @@ public class Maussentials extends JavaPlugin implements I15r {
 	}
 	
 	public void reloadModule(String name) {
-		getModule(name).reload();
+		unloadModule(name);
+		loadModule(name);
+	}
+	
+	public void unloadModule(String name) {
+		getModule(name).unload();
+	}
+	
+	public void loadModule(String name) {
+		getModule(name).load(this);
+	}
+	
+	public void addModule(String name, MauModule m, boolean load) {
+		modules.put(name, m);
+		if (load) m.load(this);
 	}
 	
 	public MauModule getModule(String name) {
 		return modules.get(name);
 	}
 	
-	public void enableModule(String name, MauModule m) {
-		m.initialize(this);
-		modules.put(name, m);
-	}
-	
 	/**
 	 * Get the latest instance of Maussentials.
+	 * 
 	 * @return An instance of Maussentials, or null if Maussentials isn't loaded.
 	 */
 	public static Maussentials getInstance() {
