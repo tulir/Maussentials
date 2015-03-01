@@ -111,7 +111,7 @@ public class PrivateMessaging extends CommandModule {
 		} else return false;
 	}
 	
-	public void message(String message, CommandSender s, CommandSender t) {
+	private void message(String message, CommandSender s, CommandSender t) {
 		boolean sender = s instanceof Player;
 		boolean target = t instanceof Player;
 		
