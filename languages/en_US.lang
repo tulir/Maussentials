@@ -44,21 +44,20 @@ god.help=Usage: /{0} [user/default/damage] [default/damage]
 # 0: From
 # 1: To
 # 2: Message
-pm.msg=&3[&6{0}&3 -> &6{1}&3] &f{2}
+pm.msg.to=&3[&6{0}&3 -> &6me&3] &f{2}
+pm.msg.from=&3[&6me&3 -> &6{1}&3] &f{2}
+pm.spy.msg=&2[SPY] &3[&6{0}&3 -> &6{1}&3] &f{2}
 # Label
-pm.help.msg=Usage: /{0} <to> <message>
+pm.help.pm=Usage: /{0} <to> <message>
 pm.help.reply=Usage: /{0} <message>
 pm.help.socialspy=Usage: /{0} [player]
 # No arguments
-pm.reply.onlyplayer=Replying from the console is not yet implemented
+pm.msg.nobody=That player couldn't be found.
 pm.reply.nobody=You have nobody to reply to.
-
-# No arguments
-pm.spy.onlyplayer=Social spying from console is always on.
 pm.spy.on=Social Spy enabled.
 pm.spy.off=Social Spy disabled.
-pm.msg=&2[SPY] &3[&6{0}&3 -> &6{1}&3] &f{2}
 
+# No arguments
 cmdspy.onlyplayer=Command spying from console is always on.
 # 0: Username
 # 1: Command
