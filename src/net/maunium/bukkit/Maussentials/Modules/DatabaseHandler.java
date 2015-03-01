@@ -16,12 +16,10 @@ import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
  * @since 0.1
  */
 public class DatabaseHandler implements MauModule {
-	private Maussentials plugin;
 	private Database db;
 	
 	@Override
 	public void load(Maussentials plugin) {
-		this.plugin = plugin;
 		String database = plugin.getConfig().getString("sql.database");
 		switch (plugin.getConfig().getString("sql.type").toLowerCase(Locale.ENGLISH)) {
 			case "mysql":
