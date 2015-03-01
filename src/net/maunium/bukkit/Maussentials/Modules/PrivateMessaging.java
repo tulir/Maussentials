@@ -37,12 +37,11 @@ public class PrivateMessaging extends CommandModule {
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equals("maumessage")) {
 			if (args.length > 1) {
-				Player p = null;
-				boolean console = false;
+				CommandSender p;
 				if (!args[0].equalsIgnoreCase("console")) p = plugin.getServer().getPlayer(args[0]);
-				else console = true;
+				else p = plugin.getServer().getConsoleSender();
 				
-				if(!console && p == null) {
+				if (p == null) {
 					sender.sendMessage(plugin.errtag + plugin.translate("pm.msg.nobody"));
 					return true;
 				}
@@ -65,11 +64,12 @@ public class PrivateMessaging extends CommandModule {
 				sender.sendMessage(plugin.errtag + plugin.translate("pm.reply.nobody"));
 				return true;
 			}
-			Player p = null;
-			boolean console = false;
+			
+			CommandSender p;
 			if (!replyTo.equals("CONSOLE")) p = plugin.getServer().getPlayer(replyTo);
-			else console = true;
-			if (!console && p == null) {
+			else p = plugin.getServer().getConsoleSender();
+			
+			if (p == null) {
 				sender.sendMessage(plugin.errtag + plugin.translate("pm.reply.nobody"));
 				return true;
 			}
@@ -88,7 +88,7 @@ public class PrivateMessaging extends CommandModule {
 		} else if (cmd.getName().equals("mausocialspy")) {
 			if (!checkPerms(sender, "maussentials.message.spy")) return true;
 			if (!(sender instanceof Player)) {
-				if(CONSOLE_SPY){
+				if (CONSOLE_SPY) {
 					CONSOLE_SPY = false;
 					sender.sendMessage(plugin.stag + plugin.translate("pm.spy.off"));
 				} else {
@@ -110,22 +110,22 @@ public class PrivateMessaging extends CommandModule {
 		return false;
 	}
 	
-	public void message(String message, CommandSender s, Player t) {
-		String target = t == null ? "CONSOLE" : t.getName();
-		s.sendMessage(plugin.translate("pm.msg.from", s.getName(), target, message));
-		if (!target.equals("CONSOLE")) t.sendMessage(plugin.translate("pm.msg.to", s.getName(), target, message));
-		else System.out.println(plugin.translate("pm.msg.to", s.getName(), target, message));
+	public void message(String message, CommandSender s, CommandSender t) {
+		boolean sender = s instanceof Player;
+		boolean target = t instanceof Player;
 		
-		if(t != null) MetadataUtils.setFixedMetadata(t, REPLY_META, s.getName(), plugin);
+		s.sendMessage(plugin.translate("pm.msg.from", s.getName(), t.getName(), message));
+		t.sendMessage(plugin.translate("pm.msg.to", s.getName(), t.getName(), message));
+		
+		if (sender) MetadataUtils.setFixedMetadata((Player) s, REPLY_META, t.getName(), plugin);
+		else CONSOLE_REPLY = t.getName();
+		if (target) MetadataUtils.setFixedMetadata((Player) t, REPLY_META, s.getName(), plugin);
 		else CONSOLE_REPLY = s.getName();
 		
-		if (s instanceof Player) MetadataUtils.setFixedMetadata((Player) s, REPLY_META, target, plugin);
-		else CONSOLE_REPLY = target;
-		
-		String spymsg = plugin.translate("pm.spy.msg", s.getName(), target, message);
+		String spymsg = plugin.translate("pm.spy.msg", s.getName(), t.getName(), message);
 		for (Player spy : plugin.getServer().getOnlinePlayers())
 			if (spy.hasMetadata(MSGSPY_META) && spy.hasPermission("maussentials.message.spy")) spy.sendMessage(spymsg);
-		if (!target.equals("CONSOLE")) plugin.getLogger().info(spymsg);
+		if (CONSOLE_SPY) plugin.getServer().getConsoleSender().sendMessage(spymsg);
 	}
 	
 	@Override
