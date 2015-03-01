@@ -39,6 +39,7 @@ public class CommandKill extends CommandModule {
 	@Override
 	public void unload() {
 		plugin.getCommand("maukill").setExecutor(plugin);
+		plugin = null;
 	}
 	
 	@Override

@@ -29,6 +29,7 @@ public class CommandSpy extends CommandModule implements Listener {
 	public void unload() {
 		HandlerList.unregisterAll(this);
 		this.plugin.getCommand("maucommandspy").setExecutor(plugin);
+		plugin = null;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

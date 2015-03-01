@@ -46,6 +46,7 @@ public class WelcomeMessage extends CommandModule implements Listener {
 		welcome = null;
 		HandlerList.unregisterAll(this);
 		plugin.getCommand("mauwelcomemessage").setExecutor(plugin);
+		plugin = null;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

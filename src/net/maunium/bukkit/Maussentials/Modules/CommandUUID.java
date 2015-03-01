@@ -137,6 +137,7 @@ public class CommandUUID extends CommandModule {
 	@Override
 	public void unload() {
 		plugin.getCommand("mauuuid").setExecutor(plugin);
+		plugin = null;
 	}
 	
 	@Override

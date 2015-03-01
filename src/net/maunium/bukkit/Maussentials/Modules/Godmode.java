@@ -34,6 +34,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 	public void unload() {
 		this.plugin.getCommand("maugod").setExecutor(plugin);
 		HandlerList.unregisterAll(this);
+		plugin = null;
 	}
 	
 	public void onPlayerDamage(EntityDamageEvent evt) {

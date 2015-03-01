@@ -61,6 +61,7 @@ public class PlayerData implements Listener, MauModule {
 	@Override
 	public void unload() {
 		HandlerList.unregisterAll(this);
+		plugin = null;
 	}
 	
 	// °FormatOff°

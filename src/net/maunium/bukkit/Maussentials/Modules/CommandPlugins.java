@@ -93,5 +93,6 @@ public class CommandPlugins implements MauModule, Listener {
 	@Override
 	public void unload() {
 		HandlerList.unregisterAll(this);
+		plugin = null;
 	}
 }

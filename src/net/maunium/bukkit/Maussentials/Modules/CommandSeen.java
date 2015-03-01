@@ -19,6 +19,7 @@ public class CommandSeen extends CommandModule {
 	@Override
 	public void unload() {
 		plugin.getCommand("mauseen").setExecutor(plugin);
+		plugin = null;
 	}
 	
 	@Override

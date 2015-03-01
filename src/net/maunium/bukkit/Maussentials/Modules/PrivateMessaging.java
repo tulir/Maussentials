@@ -33,6 +33,7 @@ public class PrivateMessaging extends CommandModule {
 		this.plugin.getCommand("maumessage").setExecutor(plugin);
 		this.plugin.getCommand("maureply").setExecutor(plugin);
 		this.plugin.getCommand("mausocialspy").setExecutor(plugin);
+		plugin = null;
 	}
 	
 	@Override
