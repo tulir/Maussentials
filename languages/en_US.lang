@@ -3,25 +3,26 @@ stag=&2[&aMaussentials&2] &7
 errtag=&4[&cMaussentials&4] &c
 
 # 0: Permission node
-permission-error=You do not have access to {0}.
+permission-error=You do not have access to &6{0}&c.
+must-be-ingame=You must be in-game to use that command!
 
 # 0: throwable.getMessage()
-uuid.error=Failed to fetch data: {0} (See console)
+uuid.error=Failed to fetch data: &6{0}&c (See console)
 # 0: Username
-uuid.get.invalid=Failed to get profile of {0}.
+uuid.get.invalid=Failed to get profile of &6{0}&c.
 # 0: Username
 # 1: error field from returned JSON
 # 2: errorMessage field from returned JSON
-uuid.get.error=Failed to get profile of {0}: {1}
+uuid.get.error=Failed to get profile of &6{0}&c: &6{1}
 # 0: Username
-uuid.get.name=Current Name: {0} 
+uuid.get.name=Current Name: &6{0}&7.
 # 0: UUID
-uuid.get.uuid=UUID: {0}
-uuid.history.invalid=Failed to get history of {0}.
-uuid.history=Name History of UUID {0}:
+uuid.get.uuid=UUID: &6{0}&7.
+uuid.history.invalid=Failed to get history of &6{0}&c.
+uuid.history=Name History of UUID &6{0}&f:
 # 0: Username
-uuid.history.original=&7 - {0} (Original Name)
-uuid.history.new=&7 - {0} (Changed to at {1}).
+uuid.history.original=&7 - &6{0}&7 (Original Name)
+uuid.history.new=&7 - &6{0}&7 (Changed to at &6{1}&7).
 # 0: Label
 uuid.help.get=Usage: /{0} get <username> [timestamp]
 uuid.help.history=Usage: /{0} history <uuid>
@@ -35,8 +36,9 @@ god.off=God mode disabled.
 god.on.def=Default god mode enabled.
 god.on.dmg=Damage god mode enabled.
 # 0: Username
-god.on.def.for=Default god mode enabled for &6{0}&7.
-god.on.dmg.for=Damage god mode enabled for &6{0}&7.
+god.for.on.def=Default god mode enabled for &6{0}&7.
+god.for.on.dmg=Damage god mode enabled for &6{0}&7.
+god.for.off=God mode disabled for &6{0}&7.
 god.notfound=Couldn't find the player &6{0}&c!
 # 0: Label
 god.help=Usage: /{0} [user/default/damage] [default/damage]
