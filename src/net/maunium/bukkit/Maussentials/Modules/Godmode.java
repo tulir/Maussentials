@@ -2,6 +2,7 @@ package net.maunium.bukkit.Maussentials.Modules;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -53,25 +54,28 @@ public class Godmode extends PlayerCommandModule implements Listener {
 			boolean removed = toggle_def(sender);
 			if (removed) sender.removeMetadata(PRIVATE_GOD, plugin);
 			sender.sendMessage(plugin.stag + plugin.translate("god." + (removed ? "off" : "on.def")));
-		} else if (args.length > 1) {
+		} else if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("default")) {
 				if (args.length > 1 && args[1].equalsIgnoreCase("private")) MetadataUtils.setFixedMetadata(sender, PRIVATE_GOD, true, plugin);
 				sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DEFAULT_GOD, sender) ? "on.def" : "off")));
-			} else if (args[0].equalsIgnoreCase("damage")) {
+			} else if (args[0].equalsIgnoreCase("damage") || args[0].equalsIgnoreCase("dmg")) {
 				if (args.length > 1 && args[1].equalsIgnoreCase("private")) MetadataUtils.setFixedMetadata(sender, PRIVATE_GOD, true, plugin);
 				sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DAMAGE_GOD, sender) ? "on.dmg" : "off")));
 			} else if (checkPerms(sender, "maussentials.god.others")) {
 				Player p = plugin.getServer().getPlayer(args[0]);
 				if (p != null) {
 					if (args.length == 1) {
-						if (p.hasMetadata(PRIVATE_GOD)) sender.sendMessage(plugin.errtag + plugin.translate("god.private", p.getName()));
+						if (p.hasMetadata(PRIVATE_GOD) && !(sender instanceof ConsoleCommandSender))
+							sender.sendMessage(plugin.errtag + plugin.translate("god.private", p.getName()));
 						sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle_def(p) ? "off" : "on.def") + ".for", p.getName()));
 					} else {
 						if (args[1].equalsIgnoreCase("default")) {
-							if (p.hasMetadata(PRIVATE_GOD)) sender.sendMessage(plugin.errtag + plugin.translate("god.private", p.getName()));
+							if (p.hasMetadata(PRIVATE_GOD) && !(sender instanceof ConsoleCommandSender)) sender.sendMessage(plugin.errtag
+									+ plugin.translate("god.private", p.getName()));
 							else sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DEFAULT_GOD, p) ? "on.def" : "off") + ".for", p.getName()));
 						} else if (args[1].equalsIgnoreCase("damage")) {
-							if (p.hasMetadata(PRIVATE_GOD)) sender.sendMessage(plugin.errtag + plugin.translate("god.private", p.getName()));
+							if (p.hasMetadata(PRIVATE_GOD) && !(sender instanceof ConsoleCommandSender)) sender.sendMessage(plugin.errtag
+									+ plugin.translate("god.private", p.getName()));
 							else sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle(DAMAGE_GOD, p) ? "on.dmg" : "off") + ".for", p.getName()));
 						}
 					}
