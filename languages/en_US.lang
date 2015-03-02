@@ -40,6 +40,7 @@ god.on.dmg.for=Damage god mode enabled for &6{0}&7.
 god.notfound=Couldn't find the player &6{0}&c!
 # 0: Label
 god.help=Usage: /{0} [user/default/damage] [default/damage]
+god.private=&6{0}&c is using private god mode. You may not change it.
 
 # 0: From
 # 1: To
