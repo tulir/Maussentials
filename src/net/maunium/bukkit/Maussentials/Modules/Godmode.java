@@ -51,9 +51,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 	@Override
 	public boolean execute(Player sender, Command cmd, String label, String[] args) {
 		if (args.length == 0) {
-			boolean removed = toggle_def(sender);
-			if (removed) sender.removeMetadata(PRIVATE_GOD, plugin);
-			sender.sendMessage(plugin.stag + plugin.translate("god." + (removed ? "off" : "on.def")));
+			sender.sendMessage(plugin.stag + plugin.translate("god." + (toggle_def(sender) ? "off" : "on.def")));
 		} else if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("default")) {
 				if (args.length > 1 && args[1].equalsIgnoreCase("private")) MetadataUtils.setFixedMetadata(sender, PRIVATE_GOD, true, plugin);
@@ -89,6 +87,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 		if (p.hasMetadata(DAMAGE_GOD) || p.hasMetadata(DEFAULT_GOD)) {
 			MetadataUtils.removeMetadata(p, DEFAULT_GOD, plugin);
 			MetadataUtils.removeMetadata(p, DAMAGE_GOD, plugin);
+			MetadataUtils.removeMetadata(p, PRIVATE_GOD, plugin);
 			return false;
 		} else {
 			MetadataUtils.setFixedMetadata(p, type, true, plugin);
@@ -103,6 +102,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 			MetadataUtils.setFixedMetadata(p, DEFAULT_GOD, true, plugin);
 			return false;
 		}
+		MetadataUtils.removeMetadata(p, PRIVATE_GOD, plugin);
 		return true;
 	}
 	
