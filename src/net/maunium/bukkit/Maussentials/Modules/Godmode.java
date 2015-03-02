@@ -82,8 +82,9 @@ public class Godmode extends PlayerCommandModule implements Listener {
 	}
 	
 	public boolean toggle(String type, Player p) {
-		if (p.hasMetadata(type)) {
-			MetadataUtils.removeMetadata(p, type, plugin);
+		if (p.hasMetadata(DAMAGE_GOD) || p.hasMetadata(DEFAULT_GOD)) {
+			MetadataUtils.removeMetadata(p, DEFAULT_GOD, plugin);
+			MetadataUtils.removeMetadata(p, DAMAGE_GOD, plugin);
 			return false;
 		} else {
 			MetadataUtils.setFixedMetadata(p, type, true, plugin);
