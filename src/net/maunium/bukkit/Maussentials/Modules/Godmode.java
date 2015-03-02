@@ -2,8 +2,8 @@ package net.maunium.bukkit.Maussentials.Modules;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -37,8 +37,9 @@ public class Godmode extends PlayerCommandModule implements Listener {
 		plugin = null;
 	}
 	
+	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent evt) {
-		if (evt.getEntity().getType().equals(EntityType.PLAYER)) {
+		if (evt.getEntity() instanceof Player) {
 			Player p = (Player) evt.getEntity();
 			
 			if (p.hasMetadata(DEFAULT_GOD)) evt.setCancelled(true);
