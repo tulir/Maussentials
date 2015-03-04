@@ -30,7 +30,7 @@ public class CommandPlugins implements MauModule, Listener {
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPreCommandLate(PlayerCommandPreprocessEvent evt) {
 		String msg = evt.getMessage().toLowerCase(Locale.ENGLISH).substring(1);
-		if (msg.startsWith("plugins") || msg.equals("pl") || msg.equals("plug") || msg.equals("plugs") || msg.equals("plugin")) {
+		if (msg.startsWith("plugins") || msg.equals("pl") || msg.equals("pls") || msg.equals("plugs")) {
 			evt.setCancelled(true);
 			Player p = evt.getPlayer();
 			if (!p.hasPermission("maussentials.plugins")) {
