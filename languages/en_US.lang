@@ -67,3 +67,5 @@ cmdspy.onlyplayer=Command spying from console is always on.
 cmdspy.cmd=&6{0}&7 executed command &3{1}&7.
 cmdspy.on=Command spy enabled.
 cmdspy.off=Command spy disabled.
+
+plugin.help=Usage: /{0} <plugin/module> <load/unload/reload/enable/disable/restart> <name>
