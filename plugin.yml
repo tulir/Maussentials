@@ -35,9 +35,6 @@ commands:
   mauplugin:
     description: Reload a plugin.
     aliases: [plugin, maureloader, reloader, mauplugman, plugman, mauplug, plug]
-  maumodule:
-    description: Reload a module.
-    aliases: [module, maumodman, modman, maumod, mod]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message
@@ -87,7 +84,4 @@ permissions:
     default: true
   maussentials.plugin:
     description: Allow reloading plugins
-    default: OP
-  maussentials.module:
-    description: Allow reloading modules
     default: OP
