@@ -10,7 +10,15 @@ import org.bukkit.entity.Player;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 
+/**
+ * A simple system for delayed teleports. Also has option to allow faster (or slower) teleportation if nobody is within
+ * a given range and you can even add a list of exceptions to who can be in that range.
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class DelayedTeleport {
+	private static Maussentials plugin;
 	public static final String DELAYED_TP_META = "MaussentialsDelayedTeleportInfo";
 	private final Player p;
 	private final Location target;
@@ -160,7 +168,7 @@ public class DelayedTeleport {
 	
 	public void failed() {
 		if (fail != null) p.sendMessage(fail);
-		MetadataUtils.removeMetadata(p, DELAYED_TP_META, Maussentials.getInstance());
+		MetadataUtils.removeMetadata(p, DELAYED_TP_META, plugin);
 	}
 	
 	/**
@@ -168,19 +176,19 @@ public class DelayedTeleport {
 	 * only moving, hitting or taking damage can cancel the teleportation during the wait period
 	 */
 	public void start() {
-		MetadataUtils.setFixedMetadata(p, DELAYED_TP_META, this, Maussentials.getInstance());
+		MetadataUtils.setFixedMetadata(p, DELAYED_TP_META, this, plugin);
 		
 		for (Entity e : p.getNearbyEntities(safeRange, safeRange, safeRange)) {
 			if (e instanceof Player) {
 				Player x = (Player) e;
 				if (x.getUniqueId().equals(p.getUniqueId())) continue;
 				if (noCancel != null && noCancel.contains(x)) continue;
-				Bukkit.getServer().getScheduler().runTaskLater(Maussentials.getInstance(), delayer, delay);
+				Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, delay);
 				return;
 			}
 		}
 		
-		Bukkit.getServer().getScheduler().runTaskLater(Maussentials.getInstance(), delayer, safeDelay);
+		Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, safeDelay);
 	}
 	
 	private Runnable delayer = new Runnable() {
@@ -189,8 +197,12 @@ public class DelayedTeleport {
 			if (p.hasMetadata(DELAYED_TP_META)) {
 				p.teleport(target);
 				if (success != null) p.sendMessage(success);
-				MetadataUtils.removeMetadata(p, DELAYED_TP_META, Maussentials.getInstance());
+				MetadataUtils.removeMetadata(p, DELAYED_TP_META, plugin);
 			}
 		}
 	};
+	
+	public static void setPlugin(Maussentials _plugin) {
+		if (_plugin.equals(Maussentials.getInstance())) plugin = _plugin;
+	}
 }
