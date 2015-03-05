@@ -2,7 +2,7 @@ package net.maunium.bukkit.Maussentials.Modules;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
@@ -18,15 +18,24 @@ public class CommandPlugin extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-		if (args.length > 0) {
-			Player p = plugin.getServer().getPlayer(args[0]);
-			if (p != null) {
-				p.setHealth(0);
-				sender.sendMessage(plugin.stag + plugin.translate("kill.ed", p.getName()));
-			} else sender.sendMessage(plugin.errtag + plugin.translate("kill.notfound", args[0]));
+		if (args.length > 1) {
+			Plugin p = getLoadedPlugin(args[1]);
+			
+			if (p == null) {
+				sender.sendMessage(plugin.errtag + plugin);
+			}
 			return true;
 		}
 		return false;
+	}
+	
+	private Plugin getLoadedPlugin(String name) {
+		for (Plugin pp : plugin.getServer().getPluginManager().getPlugins()) {
+			if (pp.getName().equalsIgnoreCase(name)) {
+				return pp;
+			}
+		}
+		return null;
 	}
 	
 	@Override
