@@ -18,23 +18,25 @@ public class CommandPlugin extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-		if (args.length > 1) {
-			Plugin p = getLoadedPlugin(args[1]);
-			
-			if (p == null) {
-				sender.sendMessage(plugin.errtag + plugin);
-			}
-			return true;
-		}
-		return false;
+		if (args.length > 2) {
+			if (args[0].equalsIgnoreCase("module")) {
+				// TODO: Loading, reloading and unloading modules.
+				return true;
+			} else if (args[0].equalsIgnoreCase("plugin")) {
+				Plugin p = getLoadedPlugin(args[1]);
+				
+				// TODO: Loading, reloading, unloading, restarting, enabling and disabling plugins and modules.
+				// TODO: Check for non-loaded plugins.
+				
+				if (p == null) sender.sendMessage(plugin.errtag + plugin.translate("plugin.notfound", args[1]));
+				return true;
+			} else return false;
+		} else return false;
 	}
 	
 	private Plugin getLoadedPlugin(String name) {
-		for (Plugin pp : plugin.getServer().getPluginManager().getPlugins()) {
-			if (pp.getName().equalsIgnoreCase(name)) {
-				return pp;
-			}
-		}
+		for (Plugin pp : plugin.getServer().getPluginManager().getPlugins())
+			if (pp.getName().equalsIgnoreCase(name)) return pp;
 		return null;
 	}
 	
