@@ -43,12 +43,11 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 	public boolean execute(Player p, Command cmd, String label, String[] args) {
 		if (p.hasMetadata(CMDSPY_META)) {
 			MetadataUtils.removeMetadata(p, CMDSPY_META, plugin);
-			p.sendMessage(plugin.stag + plugin.translate("cmdspy.on"));
+			p.sendMessage(plugin.stag + plugin.translate("cmdspy.off"));
 		} else {
 			MetadataUtils.setFixedMetadata(p, CMDSPY_META, true, plugin);
-			p.sendMessage(plugin.stag + plugin.translate("cmdspy.off"));
+			p.sendMessage(plugin.stag + plugin.translate("cmdspy.on"));
 		}
-		
 		return true;
 	}
 	
