@@ -28,7 +28,7 @@ commands:
     aliases: [socialspy, mauss, ss, maumsgspy, msgspy, maupmspy, pmspy]
   maucommandspy:
     description: Spy on private messages
-    aliases: [socialspy, mauss, ss, maumsgspy, msgspy, maupmspy, pmspy]
+    aliases: [commandspy, maucs, cs, maucmdspy, cmdspy]
   mauseen:
     description: See info about a player
     aliases: [seen, maulastseen, lastseen, mauplayerinfo, playerinfo]
