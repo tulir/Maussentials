@@ -47,10 +47,10 @@ public class CommandPlugins implements MauModule, Listener {
 			for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
 				if (isMauPlugin(pl)) {
 					if (pl.isEnabled()) {
-						plugins.add(ChatColor.AQUA + pl.getName() + ChatColor.WHITE);
+						plugins.add(ChatColor.GREEN + pl.getName() + ChatColor.WHITE);
 						emp++;
 					} else {
-						plugins.add(ChatColor.RED + pl.getName() + ChatColor.WHITE);
+						plugins.add(ChatColor.DARK_GREEN + pl.getName() + ChatColor.WHITE);
 						dmp++;
 					}
 				} else {
@@ -63,6 +63,7 @@ public class CommandPlugins implements MauModule, Listener {
 					}
 				}
 			}
+			
 			Collections.sort(plugins, String.CASE_INSENSITIVE_ORDER);
 			StringBuffer sb = new StringBuffer();
 			for (String s : plugins) {
