@@ -10,10 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
-import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
+import net.maunium.bukkit.Maussentials.Modules.Util.PlayerCommandModule;
 import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
-public class CommandSpy extends CommandModule implements Listener {
+public class CommandSpy extends PlayerCommandModule implements Listener {
 	private Maussentials plugin;
 	private static final String CMDSPY_META = "MaussentialsCommandSpy";
 	
@@ -40,13 +40,7 @@ public class CommandSpy extends CommandModule implements Listener {
 	}
 	
 	@Override
-	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player)) {
-			sender.sendMessage(Maussentials.getInstance().translate("cmdspy.onlyplayer"));
-			return true;
-		}
-		Player p = (Player) sender;
-		
+	public boolean execute(Player p, Command cmd, String label, String[] args) {
 		if (p.hasMetadata(CMDSPY_META)) {
 			MetadataUtils.removeMetadata(p, CMDSPY_META, plugin);
 			p.sendMessage(plugin.stag + plugin.translate("cmdspy.on"));
