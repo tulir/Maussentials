@@ -12,23 +12,26 @@ import org.bukkit.ChatColor;
  */
 public class ChatFormatter {
 	/**
-	 * Format codes that start with alt and are immediately followed by a char in colorChars.
+	 * Replace all instances of char {@code from} with {@code to} in {@code change} if {@code from} is followed with a
+	 * char in the {@code suffixes} string. Also replaces all occurences where {@code from} is followed by itself with a
+	 * single {@code from}.
 	 * 
-	 * @param alt The alternate color code to format to the actual code.
-	 * @param toFormat The string to format.
-	 * @param colorChars All the color values.
-	 * @return The formatted string.
+	 * @param from The char to replace with {@code to} if specific rules apply.
+	 * @param to The char to replace {@code from} with if specific rules apply.
+	 * @param change The string to change.
+	 * @param suffixes All the allowed prefixes for {@code from}.
+	 * @return The changed string.
 	 */
-	public static String format(char alt, String toFormat, String colorChars) {
-		char[] b = toFormat.toCharArray();
+	public static String change(char from, char to, String change, String suffixes) {
+		char[] b = change.toCharArray();
 		for (int i = 0; i < b.length - 1; i++) {
-			if (b[i] == alt && (i - 1 < 0 || b[i - 1] != alt) && colorChars.indexOf(b[i + 1]) > -1) {
-				b[i] = ChatColor.COLOR_CHAR;
+			if (b[i] == from && (i - 1 < 0 || b[i - 1] != from) && suffixes.indexOf(b[i + 1]) > -1) {
+				b[i] = to;
 				b[i + 1] = Character.toLowerCase(b[i + 1]);
 			}
 		}
 		
-		return new String(b).replace("&&", "&");
+		return new String(b).replace(from + "" + from, from + "");
 	}
 	
 	/**
@@ -39,16 +42,20 @@ public class ChatFormatter {
 	 * @param colorChars All the color values.
 	 * @return The formatted string.
 	 */
-	public static String deformat(char alt, String toDeFormat, String colorChars) {
-		char[] b = toDeFormat.toCharArray();
-		for (int i = 0; i < b.length - 1; i++) {
-			if (b[i] == ChatColor.COLOR_CHAR && (i - 1 < 0 || b[i - 1] != alt) && colorChars.indexOf(b[i + 1]) > -1) {
-				b[i] = alt;
-				b[i + 1] = Character.toLowerCase(b[i + 1]);
-			}
-		}
-		
-		return new String(b).replace(ChatColor.COLOR_CHAR + "" + ChatColor.COLOR_CHAR, ChatColor.COLOR_CHAR + "");
+	public static String format(char alt, String toFormat, String colorChars) {
+		return change(alt, ChatColor.COLOR_CHAR, toFormat, colorChars);
+	}
+	
+	/**
+	 * Deformat codes that start with the format char and are immediately followed by a char in colorChars.
+	 * 
+	 * @param alt The alternate color code to format to the actual code.
+	 * @param toFormat The string to format.
+	 * @param colorChars All the color values.
+	 * @return The formatted string.
+	 */
+	public static String deformat(char alt, String toDeformat, String colorChars) {
+		return change(ChatColor.COLOR_CHAR, alt, toDeformat, colorChars);
 	}
 	
 	/**
