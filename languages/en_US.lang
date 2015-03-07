@@ -1,6 +1,7 @@
 # No arguments
 stag=&2[&aMaussentials&2] &7
 errtag=&4[&cMaussentials&4] &c
+nyi=That feature is not yet in 3:
 
 # 0: Permission node
 permission-error=You do not have access to &6{0}&c.
@@ -78,7 +79,12 @@ signedit.edited=Edited sign successfully.
 # 0: Label
 plugin.help=Usage: /{0} plugin <load/unload/reload/enable/disable/restart> <name>
 # 0: Plugin name
-# TODO: plugin._____ translations.
+plugin.enabled=Enabled plugin &6{0}&7 successfully.
+plugin.disabled=Disabled plugin &6{0}&7 successfully.
+plugin.restarted=Restarted plugin &6{0}&7 successfully.
+plugin.notfound=Could not find plugin &6{0}&c!
+plugin.alreadyenabled=The plugin &6{0}&c is already enabled!
+plugin.alreadydisabled=The plugin &6{0}&c is already disabled!
 
 # 0: Label
 module.help=Usage: /{0} module <load/unload/reload> <name>
