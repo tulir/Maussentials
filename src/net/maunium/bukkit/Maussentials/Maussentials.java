@@ -99,16 +99,23 @@ public class Maussentials extends JavaPlugin implements I15r {
 	}
 	
 	public void reloadModule(String name) {
-		unloadModule(name);
-		loadModule(name);
+		MauModule m = getModule(name);
+		if (m.isLoaded()) m.unload();
+		m.load(this);
 	}
 	
-	public void unloadModule(String name) {
-		getModule(name).unload();
+	public boolean unloadModule(String name) {
+		MauModule m = getModule(name);
+		if (m.isLoaded()) m.unload();
+		else return false;
+		return true;
 	}
 	
-	public void loadModule(String name) {
-		getModule(name).load(this);
+	public boolean loadModule(String name) {
+		MauModule m = getModule(name);
+		if (!m.isLoaded()) m.load(this);
+		else return false;
+		return true;
 	}
 	
 	public void addModule(String name, MauModule m, boolean load) {
