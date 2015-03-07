@@ -6,6 +6,12 @@ import org.bukkit.command.CommandSender;
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 
+/**
+ * The /mauseen command
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class CommandSeen extends CommandModule {
 	private Maussentials plugin;
 	

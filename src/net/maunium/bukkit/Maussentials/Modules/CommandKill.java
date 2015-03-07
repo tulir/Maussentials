@@ -8,7 +8,7 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 
 /**
- * The /kill command
+ * The /maukill command
  * 
  * @author Tulir293
  * @since 0.1

@@ -25,6 +25,8 @@ import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.SerializableLocation;
 
 /**
+ * Player data database systems.
+ * 
  * @author Tulir293
  * @since 0.1
  */

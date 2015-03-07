@@ -19,7 +19,7 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 
 /**
- * UUID tools (/uuid command)
+ * UUID tools (/mauuuid command)
  * 
  * @author Tulir293
  * @since 0.1

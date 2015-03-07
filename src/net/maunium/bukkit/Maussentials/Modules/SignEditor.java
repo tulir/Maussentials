@@ -17,6 +17,11 @@ import net.maunium.bukkit.Maussentials.Modules.Util.PlayerCommandModule;
 import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
+/**
+ * Sign editing system
+ * @author Tulir293
+ * @since 0.1
+ */
 public class SignEditor extends PlayerCommandModule implements Listener {
 	private static final String EDIT_META = "MaussentialsSignEditPreparedLines";
 	private Maussentials plugin;

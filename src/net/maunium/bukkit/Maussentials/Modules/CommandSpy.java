@@ -14,6 +14,12 @@ import net.maunium.bukkit.Maussentials.Modules.Util.PlayerCommandModule;
 import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
+/**
+ * The /maucommandspy command
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class CommandSpy extends PlayerCommandModule implements Listener {
 	private Maussentials plugin;
 	private static final String CMDSPY_META = "MaussentialsCommandSpy";

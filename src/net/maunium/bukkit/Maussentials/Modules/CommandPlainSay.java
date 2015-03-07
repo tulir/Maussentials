@@ -8,6 +8,12 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 
+/**
+ * The /mauplainsay command
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class CommandPlainSay extends CommandModule {
 	private Maussentials plugin;
 	

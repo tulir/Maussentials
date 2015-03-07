@@ -11,6 +11,12 @@ import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.DelayedTeleport;
 import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
+/**
+ * The listeners for Delayed Teleports.
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class DelayedTeleportListeners implements MauModule, Listener {
 	private Maussentials plugin;
 	

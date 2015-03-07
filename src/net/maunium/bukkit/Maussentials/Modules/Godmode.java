@@ -13,7 +13,7 @@ import net.maunium.bukkit.Maussentials.Modules.Util.PlayerCommandModule;
 import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
 /**
- * God mode command
+ * The /maugod command
  * 
  * @author Tulir293
  * @since 0.1
