@@ -72,16 +72,28 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent evt) {
-		if ((evt.getAction().equals(Action.RIGHT_CLICK_BLOCK) || evt.getAction().equals(Action.LEFT_CLICK_BLOCK))
-				&& (evt.getClickedBlock().getType().equals(Material.SIGN_POST) || evt.getClickedBlock().getType().equals(Material.WALL_SIGN))
-				&& evt.getPlayer().hasMetadata(EDIT_META)) {
+		if (evt.getAction().equals(Action.RIGHT_CLICK_BLOCK) && evt.getPlayer().hasMetadata(EDIT_META)
+				&& (evt.getClickedBlock().getType().equals(Material.SIGN_POST) || evt.getClickedBlock().getType().equals(Material.WALL_SIGN))) {
 			String s = MetadataUtils.getMetadata(evt.getPlayer(), EDIT_META, plugin).asString();
 			String[] ss = s.split(">§>", 2);
 			int line = Integer.parseInt(ss[0]);
 			s = ss[1];
 			Sign x = (Sign) evt.getClickedBlock().getState();
-			x.setLine(line, s);
+			
+			boolean color = evt.getPlayer().hasPermission("maussentials.sign.format.color");
+			boolean style = evt.getPlayer().hasPermission("maussentials.sign.format.style");
+			boolean magic = evt.getPlayer().hasPermission("maussentials.sign.format.magic");
+			
+			if (!color && !style && !magic) x.setLine(line, s);
+			else if (color && style && magic) x.setLine(line, ChatFormatter.formatAll(s));
+			else {
+				if (color) s = ChatFormatter.formatColors(s);
+				if (style) s = ChatFormatter.formatStyles(s);
+				if (magic) s = ChatFormatter.formatMagic(s);
+				x.setLine(line, s);
+			}
 			x.update();
+			
 			evt.getPlayer().sendMessage(plugin.stag + plugin.translate("signedit.edited"));
 			MetadataUtils.removeMetadata(evt.getPlayer(), EDIT_META, plugin);
 		}
