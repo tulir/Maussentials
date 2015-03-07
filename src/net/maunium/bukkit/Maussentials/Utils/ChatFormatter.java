@@ -3,7 +3,7 @@ package net.maunium.bukkit.Maussentials.Utils;
 import org.bukkit.ChatColor;
 
 /**
- * Can translate a message with alternate format codes to a string with real format codes.<br>
+ * Can format a message with alternate format codes to a string with real format codes.<br>
  * Contains preconfigured translators that have '&' as the alternate prefix and All, Colors, Style or Magic as the format value options.
  * 
  * @author Tulir293
@@ -13,12 +13,12 @@ public class ChatFormatter {
 	/**
 	 * Translate codes that start with alt and are immediately followed by a char in colorChars.
 	 * 
-	 * @param alt The alternate color code to translate to the actual code.
+	 * @param alt The alternate color code to format to the actual code.
 	 * @param toFormat The string to format.
 	 * @param colorChars All the color values.
 	 * @return The formatted string.
 	 */
-	public static String translate(char alt, String toFormat, String colorChars) {
+	public static String format(char alt, String toFormat, String colorChars) {
 		char[] b = toFormat.toCharArray();
 		for (int i = 0; i < b.length - 1; i++) {
 			if (b[i] == alt && (i - 1 < 0 || b[i - 1] != alt) && colorChars.indexOf(b[i + 1]) > -1) {
@@ -36,37 +36,37 @@ public class ChatFormatter {
 	 * @param s The string to format.
 	 * @return The formatted string.
 	 */
-	public static String translateAll(String s) {
-		return translate('&', s, "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
+	public static String formatAll(String s) {
+		return format('&', s, "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
 	}
 	
 	/**
 	 * Translate the color formatting codes with '&' as the alternate prefix.
 	 * 
-	 * @param s The string to translate.
-	 * @return The translated string.
+	 * @param s The string to format.
+	 * @return The formatted string.
 	 */
-	public static String translateColors(String s) {
-		return translate('&', s, "0123456789AaBbCcDdEeFfRr");
+	public static String formatColors(String s) {
+		return format('&', s, "0123456789AaBbCcDdEeFfRr");
 	}
 	
 	/**
 	 * Translate the style formatting codes with '&' as the alternate prefix.
 	 * 
-	 * @param s The string to translate.
-	 * @return The translated string.
+	 * @param s The string to format.
+	 * @return The formatted string.
 	 */
-	public static String translateStyles(String s) {
-		return translate('&', s, "LlMmNnOoRr");
+	public static String formatStyles(String s) {
+		return format('&', s, "LlMmNnOoRr");
 	}
 	
 	/**
 	 * Translate the magic formatting code with '&' as the alternate prefix.
 	 * 
-	 * @param s The string to translate.
-	 * @return The translated string.
+	 * @param s The string to format.
+	 * @return The formatted string.
 	 */
-	public static String translateMagic(String s) {
-		return translate('&', s, "KkRr");
+	public static String formatMagic(String s) {
+		return format('&', s, "KkRr");
 	}
 }
