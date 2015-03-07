@@ -21,6 +21,7 @@ import net.maunium.bukkit.Maussentials.Modules.DelayedTeleportListeners;
 import net.maunium.bukkit.Maussentials.Modules.Godmode;
 import net.maunium.bukkit.Maussentials.Modules.PlayerData;
 import net.maunium.bukkit.Maussentials.Modules.PrivateMessaging;
+import net.maunium.bukkit.Maussentials.Modules.SignEditor;
 import net.maunium.bukkit.Maussentials.Modules.WelcomeMessage;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.I18n;
@@ -65,6 +66,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 		addModule("command-plugin", new CommandPlugin(), true);
 		addModule("command-psay", new CommandPlainSay(), true);
 		addModule("godmode", new Godmode(), true);
+		addModule("signeditor", new SignEditor(), true);
 		addModule("privatemessaging", new PrivateMessaging(), true);
 		addModule("commandspy", new CommandSpy(), true);
 		addModule("delayed-teleports", new DelayedTeleportListeners(), true);
