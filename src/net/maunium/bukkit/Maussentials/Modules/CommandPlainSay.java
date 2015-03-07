@@ -32,7 +32,7 @@ public class CommandPlainSay extends CommandModule {
 				sb.append(s + " ");
 			sb.deleteCharAt(sb.length() - 1);
 			
-			String s = ChatFormatter.translateAll(sb.toString());
+			String s = ChatFormatter.formatAll(sb.toString());
 			for (Player p : plugin.getServer().getOnlinePlayers()) {
 				if (p.hasPermission("maussentials.plainsay.see")) p.sendMessage(plugin.translate("plainsay.spy", s));
 				else p.sendMessage(s);

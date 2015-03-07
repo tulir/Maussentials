@@ -62,13 +62,13 @@ public class I18n {
 	public String translate(String node, Object... arguments) {
 		if (lang.containsKey(node)) {
 			String rtrn = lang.getProperty(node);
-			rtrn = ChatFormatter.translateAll(rtrn);
+			rtrn = ChatFormatter.formatAll(rtrn);
 			int i = 0;
 			for (Object o : arguments) {
 				rtrn = rtrn.replace("{" + i + "}", o.toString());
 				i++;
 			}
-			return ChatFormatter.translateAll(rtrn).replace("<br>", "\n");
+			return ChatFormatter.formatAll(rtrn).replace("<br>", "\n");
 		} else return node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
 	}
 	

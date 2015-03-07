@@ -38,7 +38,7 @@ public class WelcomeMessage extends CommandModule implements Listener {
 		// Loop through the lines
 		for (int i = 0; i < s.size(); i++)
 			// Translate the alt format codes to real format codes and add the string to the array.
-			welcome[i] = ChatFormatter.translateAll(s.get(i));
+			welcome[i] = ChatFormatter.formatAll(s.get(i));
 	}
 	
 	@Override
