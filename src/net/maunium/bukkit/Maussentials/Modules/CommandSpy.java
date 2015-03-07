@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.PlayerCommandModule;
+import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
 public class CommandSpy extends PlayerCommandModule implements Listener {
@@ -34,7 +35,10 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPreCommand(PlayerCommandPreprocessEvent evt) {
-		String spy = plugin.translate("cmdspy.cmd", evt.getPlayer().getName(), evt.getMessage());
+		String msg = ChatFormatter.change('&', '^', evt.getMessage(), "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
+		String spy = plugin.translate("cmdspy.cmd", evt.getPlayer().getName(), msg);
+		spy = ChatFormatter.change('^', '&', spy, "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
+		
 		for (Player p : plugin.getServer().getOnlinePlayers())
 			if (p.hasMetadata(CMDSPY_META) && p.hasPermission("maussentials.commandspy")) p.sendMessage(spy);
 	}
