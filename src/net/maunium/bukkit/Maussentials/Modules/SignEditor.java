@@ -54,9 +54,8 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 			
 			String s = sb.toString();
 			
-			if (s.length() > 16) {
-				sender.sendMessage(plugin.errtag + plugin.translate("signedit.toolong"));
-			} else {
+			if (s.length() > 16) sender.sendMessage(plugin.errtag + plugin.translate("signedit.toolong"));
+			else {
 				MetadataUtils.setFixedMetadata(sender, EDIT_META, line + ">§>" + s, plugin);
 				sender.sendMessage(plugin.stag + plugin.translate("signedit.click"));
 			}
@@ -72,7 +71,8 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent evt) {
 		if ((evt.getAction().equals(Action.RIGHT_CLICK_BLOCK) || evt.getAction().equals(Action.LEFT_CLICK_BLOCK))
-				&& evt.getClickedBlock().getType().equals(Material.SIGN) && evt.getPlayer().hasMetadata(EDIT_META)) {
+				&& (evt.getClickedBlock().getType().equals(Material.SIGN_POST) || evt.getClickedBlock().getType().equals(Material.WALL_SIGN))
+				&& evt.getPlayer().hasMetadata(EDIT_META)) {
 			String s = MetadataUtils.getMetadata(evt.getPlayer(), EDIT_META, plugin).asString();
 			String[] ss = s.split(">§>", 2);
 			int line = Integer.parseInt(ss[0]);
@@ -80,6 +80,7 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 			Sign x = (Sign) evt.getClickedBlock().getState();
 			x.setLine(line, s);
 			evt.getPlayer().sendMessage(plugin.stag + plugin.translate("signedit.edited"));
+			MetadataUtils.removeMetadata(evt.getPlayer(), EDIT_META, plugin);
 		}
 	}
 	
