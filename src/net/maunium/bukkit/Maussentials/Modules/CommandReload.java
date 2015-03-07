@@ -3,6 +3,7 @@ package net.maunium.bukkit.Maussentials.Modules;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
@@ -15,6 +16,7 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
  */
 public class CommandReload extends CommandModule {
 	private Maussentials plugin;
+	private PluginManager pm;
 	private boolean loaded = false;
 	
 	@Override
@@ -37,11 +39,33 @@ public class CommandReload extends CommandModule {
 				} else return false;
 				return true;
 			} else if (args[0].equalsIgnoreCase("plugin")) {
-				Plugin p = getLoadedPlugin(args[1]);
-				// TODO: Loading, reloading, unloading, restarting, enabling and disabling plugins and modules.
-				// TODO: Check for non-loaded plugins.
-				
-				if (p == null) sender.sendMessage(plugin.errtag + plugin.translate("plugin.notfound", args[1]));
+				if (args[1].equalsIgnoreCase("load")) {
+					sender.sendMessage(plugin.errtag + plugin.translate("nyi"));
+				} else if (args[1].equalsIgnoreCase("unload")) {
+					sender.sendMessage(plugin.errtag + plugin.translate("nyi"));
+				} else if (args[1].equalsIgnoreCase("reload")) {
+					sender.sendMessage(plugin.errtag + plugin.translate("nyi"));
+				} else if (args[1].equalsIgnoreCase("enable")) {
+					Plugin p = getLoadedPlugin(args[1]);
+					if (p == null) sender.sendMessage(plugin.errtag + plugin.translate("plugin.notfound", args[1]));
+					if (!p.isEnabled()) {
+						pm.enablePlugin(p);
+						sender.sendMessage(plugin.stag + plugin.translate("plugin.enabled", p.getName()));
+					} else sender.sendMessage(plugin.errtag + plugin.translate("plugin.alreadyenabled"));
+				} else if (args[1].equalsIgnoreCase("disable")) {
+					Plugin p = getLoadedPlugin(args[1]);
+					if (p == null) sender.sendMessage(plugin.errtag + plugin.translate("plugin.notfound", args[1]));
+					if (p.isEnabled()) {
+						pm.disablePlugin(p);
+						sender.sendMessage(plugin.stag + plugin.translate("plugin.disabled", p.getName()));
+					} else sender.sendMessage(plugin.errtag + plugin.translate("plugin.alreadydisabled"));
+				} else if (args[1].equalsIgnoreCase("restart")) {
+					Plugin p = getLoadedPlugin(args[1]);
+					if (p == null) sender.sendMessage(plugin.errtag + plugin.translate("plugin.notfound", args[1]));
+					if (p.isEnabled()) pm.disablePlugin(p);
+					pm.enablePlugin(p);
+					sender.sendMessage(plugin.stag + plugin.translate("plugin.restarted", p.getName()));
+				} else return false;
 				return true;
 			} else return false;
 		} else return false;
@@ -58,6 +82,7 @@ public class CommandReload extends CommandModule {
 		this.plugin = plugin;
 		this.permission = "maussentials.reload";
 		plugin.getCommand("maureload").setExecutor(this);
+		pm = plugin.getServer().getPluginManager();
 		loaded = true;
 	}
 	
@@ -65,6 +90,7 @@ public class CommandReload extends CommandModule {
 	public void unload() {
 		plugin.getCommand("maureload").setExecutor(plugin);
 		plugin = null;
+		pm = null;
 		loaded = false;
 	}
 	
