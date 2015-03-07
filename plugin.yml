@@ -35,6 +35,9 @@ commands:
   mauplugin:
     description: Reload a plugin.
     aliases: [plugin, maureloader, reloader, mauplugman, plugman, mauplug, plug]
+  mauplainsay:
+    description: Plain broadcast (no prefixes).
+    aliases: [plainsay, maupsay, psay, maups, ps, mauplainbroadcast, plainbroadcast, maupb, pb]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message
@@ -84,4 +87,10 @@ permissions:
     default: true
   maussentials.plugin:
     description: Allow reloading plugins
+    default: OP
+  maussentials.plainsay:
+    description: Allow use of /mauplainsay
+    default: OP
+  maussentials.plainsay.see:
+    description: See when a plain say message is broadcasted.
     default: OP
