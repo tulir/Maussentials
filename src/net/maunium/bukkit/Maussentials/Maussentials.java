@@ -80,6 +80,8 @@ public class Maussentials extends JavaPlugin implements I15r {
 		long st = System.currentTimeMillis();
 		
 		if (instance == this) instance = null;
+		for (MauModule m : modules.values())
+			m.unload();
 		
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info(name + " v" + version + " by " + author + " disabled in " + et + "ms.");
