@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -12,11 +13,11 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
-import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
+import net.maunium.bukkit.Maussentials.Modules.Util.PlayerCommandModule;
 import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
-public class SignEditor extends CommandModule implements Listener {
+public class SignEditor extends PlayerCommandModule implements Listener {
 	private static final String EDIT_META = "MaussentialsSignEditPreparedLines";
 	private Maussentials plugin;
 	
@@ -36,9 +37,24 @@ public class SignEditor extends CommandModule implements Listener {
 	}
 	
 	@Override
-	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		// TODO: /mausignedit executor
-		return false;
+	public boolean execute(Player sender, Command cmd, String label, String[] args) {
+		if (args.length > 1) {
+			int line;
+			try {
+				line = Integer.parseInt(args[0]);
+			} catch (NumberFormatException e) {
+				return false;
+			}
+			
+			StringBuilder sb = new StringBuilder();
+			for (int i = 1; i < args.length; i++)
+				sb.append(args[i] + " ");
+			
+			sb.deleteCharAt(sb.length() - 1);
+			
+			MetadataUtils.setFixedMetadata(sender, EDIT_META, line + ">§>" + sb.toString(), plugin);
+			return true;
+		} else return false;
 	}
 	
 	@Override
