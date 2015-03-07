@@ -54,9 +54,9 @@ public class SignEditor extends CommandModule implements Listener {
 				&& evt.getClickedBlock().getType().equals(Material.SIGN) && evt.getPlayer().hasMetadata(EDIT_META)) {
 			MetadataValue mv = MetadataUtils.getMetadata(evt.getPlayer(), EDIT_META, plugin);
 			String[] lines = new String[4];
-			boolean color = evt.getPlayer().hasPermission("maussentials.sign.color");
-			boolean style = evt.getPlayer().hasPermission("maussentials.sign.style");
-			boolean magic = evt.getPlayer().hasPermission("maussentials.sign.magic");
+			boolean color = evt.getPlayer().hasPermission("maussentials.sign.format.color");
+			boolean style = evt.getPlayer().hasPermission("maussentials.sign.format.style");
+			boolean magic = evt.getPlayer().hasPermission("maussentials.sign.format.magic");
 			int i = 0;
 			Sign x = (Sign) evt.getClickedBlock().getState();
 			for (Object s : (List<?>) mv.value()) {
