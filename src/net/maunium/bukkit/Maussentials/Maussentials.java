@@ -102,11 +102,14 @@ public class Maussentials extends JavaPlugin implements I15r {
 	 * Reload the module with the given name.
 	 * 
 	 * @param name The name of the module to reload.
+	 * @return True if the module was reloaded. False if the module was not found.
 	 */
-	public void reloadModule(String name) {
+	public boolean reloadModule(String name) {
 		MauModule m = getModule(name);
+		if (m == null) return false;
 		if (m.isLoaded()) m.unload();
 		m.load(this);
+		return true;
 	}
 	
 	/**
