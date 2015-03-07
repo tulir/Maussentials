@@ -15,16 +15,22 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
  */
 public class CommandPlugin extends CommandModule {
 	private Maussentials plugin;
+	private boolean loaded = false;
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length > 2) {
 			if (args[0].equalsIgnoreCase("module")) {
-				// TODO: Loading, reloading and unloading modules.
+				if (args[1].equalsIgnoreCase("load")) {
+					plugin.loadModule(args[2]);
+				} else if (args[1].equalsIgnoreCase("unload")) {
+					
+				} else if (args[1].equalsIgnoreCase("reload")) {
+					
+				} else return false;
 				return true;
 			} else if (args[0].equalsIgnoreCase("plugin")) {
 				Plugin p = getLoadedPlugin(args[1]);
-				
 				// TODO: Loading, reloading, unloading, restarting, enabling and disabling plugins and modules.
 				// TODO: Check for non-loaded plugins.
 				
@@ -45,16 +51,23 @@ public class CommandPlugin extends CommandModule {
 		this.plugin = plugin;
 		this.permission = "maussentials.plugin";
 		plugin.getCommand("mauplugin").setExecutor(this);
+		loaded = true;
 	}
 	
 	@Override
 	public void unload() {
 		plugin.getCommand("mauplugin").setExecutor(plugin);
 		plugin = null;
+		loaded = false;
 	}
 	
 	@Override
 	public void help(CommandSender sender, Command command, String label, String[] args) {
 		sender.sendMessage(plugin.stag + plugin.translate("plugin.help", label));
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }
