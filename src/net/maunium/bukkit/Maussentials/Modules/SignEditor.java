@@ -41,10 +41,12 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 		if (args.length > 1) {
 			int line;
 			try {
-				line = Integer.parseInt(args[0]);
+				line = Integer.parseInt(args[0]) - 1;
 			} catch (NumberFormatException e) {
 				return false;
 			}
+			
+			if (line < 0 || line > 3) return false;
 			
 			StringBuilder sb = new StringBuilder();
 			for (int i = 1; i < args.length; i++)
