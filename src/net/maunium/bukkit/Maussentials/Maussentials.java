@@ -98,24 +98,45 @@ public class Maussentials extends JavaPlugin implements I15r {
 		return dbh.getDB();
 	}
 	
+	/**
+	 * Reload the module with the given name.
+	 * 
+	 * @param name The name of the module to reload.
+	 */
 	public void reloadModule(String name) {
 		MauModule m = getModule(name);
 		if (m.isLoaded()) m.unload();
 		m.load(this);
 	}
 	
-	public boolean unloadModule(String name) {
+	/**
+	 * Unload the module with the given name.
+	 * 
+	 * @param name The name of the module to unload.
+	 * @return -1 if the module could not be found. 0 if the module was already unloaded. 1 if the module got
+	 *         successfully unloaded.
+	 */
+	public byte unloadModule(String name) {
 		MauModule m = getModule(name);
+		if (m == null) return -1;
 		if (m.isLoaded()) m.unload();
-		else return false;
-		return true;
+		else return 0;
+		return 1;
 	}
 	
-	public boolean loadModule(String name) {
+	/**
+	 * Unload the module with the given name.
+	 * 
+	 * @param name The name of the module to unload.
+	 * @return -1 if the module could not be found. 0 if the module was already loaded. 1 if the module got successfully
+	 *         loaded.
+	 */
+	public byte loadModule(String name) {
 		MauModule m = getModule(name);
+		if (m == null) return -1;
 		if (!m.isLoaded()) m.load(this);
-		else return false;
-		return true;
+		else return 0;
+		return 1;
 	}
 	
 	public void addModule(String name, MauModule m, boolean load) {
