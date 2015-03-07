@@ -81,6 +81,7 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 			s = ss[1];
 			Sign x = (Sign) evt.getClickedBlock().getState();
 			x.setLine(line, s);
+			x.update();
 			evt.getPlayer().sendMessage(plugin.stag + plugin.translate("signedit.edited"));
 			MetadataUtils.removeMetadata(evt.getPlayer(), EDIT_META, plugin);
 		}
