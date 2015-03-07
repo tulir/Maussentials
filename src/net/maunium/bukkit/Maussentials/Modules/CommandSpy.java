@@ -1,7 +1,6 @@
 package net.maunium.bukkit.Maussentials.Modules;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -62,7 +61,7 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 	}
 	
 	@Override
-	public void help(CommandSender sender, Command cmd, String label, String[] args) {
+	public void help(Player sender, Command cmd, String label, String[] args) {
 		// Not needed, execute always returns true.
 	}
 }
