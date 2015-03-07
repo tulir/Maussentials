@@ -52,14 +52,21 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 			
 			sb.deleteCharAt(sb.length() - 1);
 			
-			MetadataUtils.setFixedMetadata(sender, EDIT_META, line + ">§>" + sb.toString(), plugin);
+			String s = sb.toString();
+			
+			if (s.length() > 16) {
+				sender.sendMessage(plugin.errtag + plugin.translate("signedit.toolong"));
+			} else {
+				MetadataUtils.setFixedMetadata(sender, EDIT_META, line + ">§>" + s, plugin);
+				sender.sendMessage(plugin.stag + plugin.translate("signedit.click"));
+			}
 			return true;
 		} else return false;
 	}
 	
 	@Override
 	public void help(CommandSender sender, Command cmd, String label, String[] args) {
-		sender.sendMessage(plugin.errtag + plugin.translate("signedit.help"));
+		sender.sendMessage(plugin.errtag + plugin.translate("signedit.help", label));
 	}
 	
 	@EventHandler
@@ -72,6 +79,7 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 			s = ss[1];
 			Sign x = (Sign) evt.getClickedBlock().getState();
 			x.setLine(line, s);
+			evt.getPlayer().sendMessage(plugin.stag + plugin.translate("signedit.edited"));
 		}
 	}
 	
