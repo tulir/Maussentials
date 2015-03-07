@@ -75,4 +75,17 @@ signedit.toolong=The maximum length of a sign line is 16 characters!
 signedit.click=Click a sign to edit it.
 signedit.edited=Edited sign successfully.
 
-plugin.help=Usage: /{0} <plugin/module> <load/unload/reload/enable/disable/restart> <name>
+# 0: Label
+plugin.help=Usage: /{0} plugin <load/unload/reload/enable/disable/restart> <name>
+# 0: Plugin name
+# TODO: plugin._____ translations.
+
+# 0: Label
+module.help=Usage: /{0} module <load/unload/reload> <name>
+# 0: Module name
+module.loaded=Loaded module &6{0}&7 successfully.
+module.unloaded=Unloaded module &6{0}&7 successfully.
+module.reloaded=Reloaded module &6{0}&7 successfully.
+module.notfound=Could not find module &6{0}&c!
+module.alreadyloaded=The module &6{0}&c is already loaded!
+module.alreadyunloaded=The module &6{0}&c is already unloaded!
