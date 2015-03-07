@@ -38,7 +38,7 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 	
 	@Override
 	public boolean execute(Player sender, Command cmd, String label, String[] args) {
-		if (args.length > 1) {
+		if (args.length > 0) {
 			int line;
 			try {
 				line = Integer.parseInt(args[0]) - 1;
@@ -48,13 +48,15 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 			
 			if (line < 0 || line > 3) return false;
 			
-			StringBuilder sb = new StringBuilder();
-			for (int i = 1; i < args.length; i++)
-				sb.append(args[i] + " ");
-			
-			sb.deleteCharAt(sb.length() - 1);
-			
-			String s = sb.toString();
+			String s;
+			if (args.length > 1) {
+				StringBuilder sb = new StringBuilder();
+				for (int i = 1; i < args.length; i++)
+					sb.append(args[i] + " ");
+				
+				sb.deleteCharAt(sb.length() - 1);
+				s = sb.toString();
+			} else s = " ";
 			
 			if (s.length() > 15) sender.sendMessage(plugin.errtag + plugin.translate("signedit.toolong"));
 			else {

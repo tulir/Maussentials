@@ -69,7 +69,7 @@ cmdspy.on=Command spy enabled.
 cmdspy.off=Command spy disabled.
 
 # 0: Label
-signedit.help=Usage: /{0} <line 1-4> <text>
+signedit.help=Usage: /{0} <line 1-4> [text]
 # No arguments
 signedit.toolong=The maximum length of a sign line is 16 characters!
 signedit.click=Click a sign to edit it.
