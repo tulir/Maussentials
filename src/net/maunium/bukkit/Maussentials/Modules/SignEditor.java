@@ -56,7 +56,7 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 			
 			String s = sb.toString();
 			
-			if (s.length() > 16) sender.sendMessage(plugin.errtag + plugin.translate("signedit.toolong"));
+			if (s.length() > 15) sender.sendMessage(plugin.errtag + plugin.translate("signedit.toolong"));
 			else {
 				MetadataUtils.setFixedMetadata(sender, EDIT_META, line + ">§>" + s, plugin);
 				sender.sendMessage(plugin.stag + plugin.translate("signedit.click"));
