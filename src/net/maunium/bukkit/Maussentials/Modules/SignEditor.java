@@ -1,7 +1,5 @@
 package net.maunium.bukkit.Maussentials.Modules;
 
-import java.util.List;
-
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
@@ -12,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.metadata.MetadataValue;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
@@ -53,14 +50,12 @@ public class SignEditor extends CommandModule implements Listener {
 	public void onInteract(PlayerInteractEvent evt) {
 		if ((evt.getAction().equals(Action.RIGHT_CLICK_BLOCK) || evt.getAction().equals(Action.LEFT_CLICK_BLOCK))
 				&& evt.getClickedBlock().getType().equals(Material.SIGN) && evt.getPlayer().hasMetadata(EDIT_META)) {
-			MetadataValue mv = MetadataUtils.getMetadata(evt.getPlayer(), EDIT_META, plugin);
-			int i = 0;
+			String s = MetadataUtils.getMetadata(evt.getPlayer(), EDIT_META, plugin).asString();
+			String[] ss = s.split(">§>", 2);
+			int line = Integer.parseInt(ss[0]);
+			s = ss[1];
 			Sign x = (Sign) evt.getClickedBlock().getState();
-			for (Object s : (List<?>) mv.value()) {
-				if (i > 3) break;
-				x.setLine(i, s.toString());
-				i++;
-			}
+			x.setLine(line, s);
 		}
 	}
 	
