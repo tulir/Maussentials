@@ -35,9 +35,9 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPreCommand(PlayerCommandPreprocessEvent evt) {
-		String msg = ChatFormatter.change('&', '^', evt.getMessage(), "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
+		String msg = ChatFormatter.change('&', '`', evt.getMessage(), "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
 		String spy = plugin.translate("cmdspy.cmd", evt.getPlayer().getName(), msg);
-		spy = ChatFormatter.change('^', '&', spy, "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
+		spy = ChatFormatter.change('`', '&', spy, "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
 		
 		for (Player p : plugin.getServer().getOnlinePlayers())
 			if (p.hasMetadata(CMDSPY_META) && p.hasPermission("maussentials.commandspy")) p.sendMessage(spy);
