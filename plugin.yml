@@ -38,6 +38,9 @@ commands:
   mauplainsay:
     description: Plain broadcast (no prefixes).
     aliases: [plainsay, maupsay, psay, maups, ps, mauplainbroadcast, plainbroadcast, maupb, pb]
+  mausignedit:
+    description: Edit signs
+    aliases: [signedit, mause, se]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message
@@ -78,3 +81,22 @@ permissions:
   maussentials.plainsay.see:
     description: See when a plain say message is broadcasted.
     default: OP
+  maussentials.sign.edit:
+    description: Edit signs
+    default: OP
+  maussentials.sign.format.color:
+    description: Color in signs
+    default: OP
+  maussentials.sign.format.style:
+    description: Color in signs
+    default: OP
+  maussentials.sign.format.magic:
+    description: Color in signs
+    default: OP
+  maussentials.sign.format:
+    description: Format signs in any way
+    default: OP
+    children:
+      maussentials.sign.format.color: true
+      maussentials.sign.format.style: true
+      maussentials.sign.format.magic: true
