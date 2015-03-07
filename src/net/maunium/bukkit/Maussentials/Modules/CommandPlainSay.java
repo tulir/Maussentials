@@ -16,18 +16,21 @@ import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
  */
 public class CommandPlainSay extends CommandModule {
 	private Maussentials plugin;
+	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		this.plugin.getCommand("mauplainsay").setExecutor(this);
 		this.permission = "maussentials.plainsay";
+		loaded = true;
 	}
 	
 	@Override
 	public void unload() {
 		this.plugin.getCommand("mauplainsay").setExecutor(plugin);
 		this.plugin = null;
+		loaded = false;
 	}
 	
 	@Override
@@ -52,4 +55,8 @@ public class CommandPlainSay extends CommandModule {
 		sender.sendMessage(plugin.errtag + plugin.translate("plainsay.help", label));
 	}
 	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
+	}
 }

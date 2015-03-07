@@ -26,6 +26,7 @@ import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
  */
 public class CommandPlugins implements MauModule, Listener {
 	private Maussentials plugin;
+	private boolean loaded = false;
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPreCommandLate(PlayerCommandPreprocessEvent evt) {
@@ -89,11 +90,18 @@ public class CommandPlugins implements MauModule, Listener {
 	public void load(Maussentials plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		this.plugin = plugin;
+		loaded = true;
 	}
 	
 	@Override
 	public void unload() {
 		HandlerList.unregisterAll(this);
 		plugin = null;
+		loaded = false;
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }

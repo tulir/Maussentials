@@ -14,18 +14,21 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
  */
 public class CommandSeen extends CommandModule {
 	private Maussentials plugin;
+	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("mauseen").setExecutor(this);
 		this.permission = "maussentials.seen";
+		loaded = true;
 	}
 	
 	@Override
 	public void unload() {
 		plugin.getCommand("mauseen").setExecutor(plugin);
 		plugin = null;
+		loaded = false;
 	}
 	
 	@Override
@@ -39,4 +42,8 @@ public class CommandSeen extends CommandModule {
 		sender.sendMessage(plugin.stag + plugin.translate("seen.help"));
 	}
 	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
+	}
 }

@@ -18,7 +18,7 @@ public class PrivateMessaging extends CommandModule {
 	private Maussentials plugin;
 	private static final String REPLY_META = "MaussentialsPMReplyTarget", MSGSPY_META = "MaussentialsPMSpy";
 	private String CONSOLE_REPLY = "";
-	private boolean CONSOLE_SPY = true;
+	private boolean CONSOLE_SPY = true, loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
@@ -26,6 +26,7 @@ public class PrivateMessaging extends CommandModule {
 		this.plugin.getCommand("maumessage").setExecutor(this);
 		this.plugin.getCommand("maureply").setExecutor(this);
 		this.plugin.getCommand("mausocialspy").setExecutor(this);
+		loaded = true;
 	}
 	
 	@Override
@@ -34,6 +35,7 @@ public class PrivateMessaging extends CommandModule {
 		this.plugin.getCommand("maureply").setExecutor(plugin);
 		this.plugin.getCommand("mausocialspy").setExecutor(plugin);
 		plugin = null;
+		loaded = false;
 	}
 	
 	@Override
@@ -139,4 +141,8 @@ public class PrivateMessaging extends CommandModule {
 		else if (cmd.getName().equals("mausocialspy")) sender.sendMessage(plugin.stag + plugin.translate("pm.help.socialspy", label));
 	}
 	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
+	}
 }

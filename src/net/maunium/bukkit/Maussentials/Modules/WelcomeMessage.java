@@ -24,6 +24,7 @@ import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 public class WelcomeMessage extends CommandModule implements Listener {
 	private Maussentials plugin;
 	private String[] welcome;
+	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
@@ -39,6 +40,7 @@ public class WelcomeMessage extends CommandModule implements Listener {
 		for (int i = 0; i < s.size(); i++)
 			// Translate the alt format codes to real format codes and add the string to the array.
 			welcome[i] = ChatFormatter.formatAll(s.get(i));
+		loaded = true;
 	}
 	
 	@Override
@@ -47,6 +49,7 @@ public class WelcomeMessage extends CommandModule implements Listener {
 		HandlerList.unregisterAll(this);
 		plugin.getCommand("mauwelcomemessage").setExecutor(plugin);
 		plugin = null;
+		loaded = false;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -78,5 +81,10 @@ public class WelcomeMessage extends CommandModule implements Listener {
 	@Override
 	public void help(CommandSender sender, Command cmd, String label, String[] args) {
 		// This can be empty, since the execute always returns true and thus this method will never be called
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }

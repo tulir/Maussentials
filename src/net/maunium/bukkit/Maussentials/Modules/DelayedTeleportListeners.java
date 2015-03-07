@@ -2,6 +2,7 @@ package net.maunium.bukkit.Maussentials.Modules;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -19,16 +20,21 @@ import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
  */
 public class DelayedTeleportListeners implements MauModule, Listener {
 	private Maussentials plugin;
+	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		DelayedTeleport.setPlugin(plugin);
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		loaded = true;
 	}
 	
 	@Override
-	public void unload() {}
+	public void unload() {
+		HandlerList.unregisterAll(this);
+		loaded = false;
+	}
 	
 	@EventHandler
 	public void onDamage(EntityDamageByEntityEvent evt) {
@@ -58,5 +64,10 @@ public class DelayedTeleportListeners implements MauModule, Listener {
 			DelayedTeleport dt = (DelayedTeleport) MetadataUtils.getMetadata(p, DelayedTeleport.DELAYED_TP_META, plugin).value();
 			dt.failed();
 		}
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }

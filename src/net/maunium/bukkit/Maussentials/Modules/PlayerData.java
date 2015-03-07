@@ -35,6 +35,7 @@ public class PlayerData implements Listener, MauModule {
 	public static final String TABLE_PLAYERS = "Players", TABLE_HISTORY = "OldNames";
 	public static final String COLUMN_UUID = "UUID", COLUMN_USERNAME = "Username", COLUMN_IP = "IP", COLUMN_LASTLOGIN = "LastLogin",
 			COLUMN_LOCATION = "Location", COLUMN_CHANGEDFROM = "ChangedFrom", COLUMN_CHANGEDTO = "ChangedTo";
+	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
@@ -58,12 +59,14 @@ public class PlayerData implements Listener, MauModule {
 					+ "PRIMARY KEY (" + COLUMN_UUID + ", " + COLUMN_USERNAME + "));");
 			// °FormatOn°
 		} catch (SQLException e) {}
+		loaded = true;
 	}
 	
 	@Override
 	public void unload() {
 		HandlerList.unregisterAll(this);
 		plugin = null;
+		loaded = false;
 	}
 	
 	// °FormatOff°
@@ -193,5 +196,10 @@ public class PlayerData implements Listener, MauModule {
 		} catch (IOException e1) {
 			throw new RuntimeException("Failed to fetch name history from Mojang API", e1);
 		}
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }

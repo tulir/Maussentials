@@ -17,6 +17,7 @@ import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
  */
 public class DatabaseHandler implements MauModule {
 	private Database db;
+	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
@@ -89,6 +90,7 @@ public class DatabaseHandler implements MauModule {
 				break;
 		}
 		db.open();
+		loaded = true;
 	}
 	
 	public Database getDB() {
@@ -98,5 +100,11 @@ public class DatabaseHandler implements MauModule {
 	@Override
 	public void unload() {
 		db.close();
+		loaded = false;
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }

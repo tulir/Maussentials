@@ -18,12 +18,14 @@ import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
 /**
  * Sign editing system
+ * 
  * @author Tulir293
  * @since 0.1
  */
 public class SignEditor extends PlayerCommandModule implements Listener {
 	private static final String EDIT_META = "MaussentialsSignEditPreparedLines";
 	private Maussentials plugin;
+	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
@@ -31,6 +33,7 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 		this.plugin.getCommand("mausignedit").setExecutor(this);
 		this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		this.permission = "maussentials.sign.edit";
+		loaded = true;
 	}
 	
 	@Override
@@ -38,6 +41,7 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 		this.plugin.getCommand("mausignedit").setExecutor(plugin);
 		HandlerList.unregisterAll(this);
 		this.plugin = null;
+		loaded = false;
 	}
 	
 	@Override
@@ -124,5 +128,10 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 			}
 			i++;
 		}
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }

@@ -22,6 +22,7 @@ import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 public class CommandSpy extends PlayerCommandModule implements Listener {
 	private Maussentials plugin;
 	private static final String CMDSPY_META = "MaussentialsCommandSpy";
+	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
@@ -29,6 +30,7 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 		this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		this.plugin.getCommand("maucommandspy").setExecutor(this);
 		this.permission = "maussentials.commandspy";
+		loaded = true;
 	}
 	
 	@Override
@@ -36,6 +38,7 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 		HandlerList.unregisterAll(this);
 		this.plugin.getCommand("maucommandspy").setExecutor(plugin);
 		plugin = null;
+		loaded = false;
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -63,5 +66,10 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 	@Override
 	public void help(Player sender, Command cmd, String label, String[] args) {
 		// Not needed, execute always returns true.
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }

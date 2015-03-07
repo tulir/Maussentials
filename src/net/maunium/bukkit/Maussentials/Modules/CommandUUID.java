@@ -27,6 +27,7 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 public class CommandUUID extends CommandModule {
 	private Maussentials plugin;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy ss:mm:HH");
+	private boolean loaded = false;
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
@@ -138,6 +139,7 @@ public class CommandUUID extends CommandModule {
 	public void unload() {
 		plugin.getCommand("mauuuid").setExecutor(plugin);
 		plugin = null;
+		loaded = false;
 	}
 	
 	@Override
@@ -145,11 +147,17 @@ public class CommandUUID extends CommandModule {
 		this.plugin = plugin;
 		this.permission = "maussentials.uuid";
 		plugin.getCommand("mauuuid").setExecutor(this);
+		loaded = true;
 	}
 	
 	@Override
 	public void help(CommandSender sender, Command command, String label, String[] args) {
 		sender.sendMessage(plugin.translate("uuid.help.get", label));
 		sender.sendMessage(plugin.translate("uuid.help.history", label));
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }

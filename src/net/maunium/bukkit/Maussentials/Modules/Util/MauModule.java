@@ -20,4 +20,9 @@ public interface MauModule {
 	 * Unload the MauModule.
 	 */
 	public void unload();
+	
+	/**
+	 * @return True, if the module is loaded. False otherwise.
+	 */
+	public boolean isLoaded();
 }

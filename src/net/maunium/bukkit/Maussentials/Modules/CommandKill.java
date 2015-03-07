@@ -15,6 +15,7 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
  */
 public class CommandKill extends CommandModule {
 	private Maussentials plugin;
+	private boolean loaded = false;
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
@@ -34,16 +35,23 @@ public class CommandKill extends CommandModule {
 		this.plugin = plugin;
 		this.permission = "maussentials.kill";
 		plugin.getCommand("maukill").setExecutor(this);
+		loaded = true;
 	}
 	
 	@Override
 	public void unload() {
 		plugin.getCommand("maukill").setExecutor(plugin);
 		plugin = null;
+		loaded = false;
 	}
 	
 	@Override
 	public void help(CommandSender sender, Command command, String label, String[] args) {
 		sender.sendMessage(plugin.stag + plugin.translate("kill.help", label));
+	}
+	
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 }
