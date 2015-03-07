@@ -57,22 +57,6 @@ permissions:
   maussentials.message:
     description: Use the private messaging system
     default: true
-  maussentials.message.color:
-    description: Use colors (format codes 0-9a-f) in private messages
-    default: OP
-  maussentials.message.style:
-    description: Use styles (format codes l-o) in private messages
-    default: OP
-  maussentials.message.magic:
-    description: Use magic (format code k) in private messages
-    default: OP
-  maussentials.message.format:
-    description: Use all formatting codes in private messages
-    default: OP
-    children: 
-      maussentials.message.color: true
-      maussentials.message.style: true
-      maussentials.message.magic: true
   maussentials.message.spy:
     description: Spy on private messages
     default: OP
