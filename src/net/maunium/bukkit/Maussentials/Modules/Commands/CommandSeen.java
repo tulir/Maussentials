@@ -58,11 +58,12 @@ public class CommandSeen extends CommandModule {
 						sb.append(", ");
 					}
 					if (sb.length() != 0) {
-						sb.deleteCharAt(sb.length() - 1);
-						sender.sendMessage(plugin.translateStd("seen.ipsearch.done", args[0], sb.toString()));
-					} else sender.sendMessage(plugin.translateStd("seen.ipsearch.empty", args[0]));
+						sb.delete(sb.length() - 2, sb.length());
+						sender.sendMessage(plugin.translateStd("seen.ip.done", args[0], sb.toString()));
+					} else sender.sendMessage(plugin.translateErr("seen.ip.empty", args[0]));
 				} catch (Exception e) {
 					sender.sendMessage(plugin.translateErr("seen.ip.queryfail", e.getMessage()));
+					plugin.getLogger().severe("Failed to get UUIDs/Usernames from IP " + args[0] + ":");
 					e.printStackTrace();
 					return true;
 				}
@@ -80,7 +81,7 @@ public class CommandSeen extends CommandModule {
 						}
 						
 						if (expireExact > 0) {
-							String expire = DateUtils.getDurationBreakdown(expireExact - System.currentTimeMillis(), DateUtils.MODE_IN);
+							String expire = DateUtils.getDurationBreakdown(expireExact - System.currentTimeMillis(), DateUtils.MODE_FOR);
 							sender.sendMessage(plugin.translatePlain("seen.ip.banned.temporary", reason, bannedBy, expire, args[0]));
 						} else sender.sendMessage(plugin.translatePlain("seen.ip.banned.permanent", reason, bannedBy, args[0]));
 					}
