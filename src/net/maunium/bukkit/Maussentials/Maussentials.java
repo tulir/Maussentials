@@ -33,7 +33,6 @@ public class Maussentials extends JavaPlugin implements I15r {
 	public final String name = "Maussentials", author = "Tulir293";
 	private Map<String, MauModule> modules = new HashMap<String, MauModule>();
 	private DatabaseHandler dbh;
-//	private PlayerData pd;
 	private I18n i18n;
 	private static Maussentials instance;
 	
@@ -55,7 +54,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 		
 		addModule("database", dbh = new DatabaseHandler(), true);
 		addModule("welcome-message", new WelcomeMessage(), true);
-		addModule("playerdata", /* pd = */new PlayerData(), true);
+		addModule("playerdata", new PlayerData(), true);
 		addModule("command-uuid", new CommandUUID(), true);
 		addModule("command-kill", new CommandKill(), true);
 		addModule("command-seen", new CommandSeen(), true);
