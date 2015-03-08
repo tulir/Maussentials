@@ -29,6 +29,8 @@ public class Maussentials extends JavaPlugin {
 	private Map<String, MauModule> modules = new HashMap<String, MauModule>();
 	private DatabaseHandler dbh;
 	private Language lang;
+	private MauBans bans;
+	private PlayerData pd;
 	private static Maussentials instance;
 	
 	@Override
@@ -40,7 +42,7 @@ public class Maussentials extends JavaPlugin {
 		
 		addModule("database", dbh = new DatabaseHandler(), true);
 		addModule("welcome-message", new WelcomeMessage(), true);
-		addModule("playerdata", new PlayerData(), true);
+		addModule("playerdata", pd = new PlayerData(), true);
 		addModule("command-uuid", new CommandUUID(), true);
 		addModule("command-kill", new CommandKill(), true);
 		addModule("command-seen", new CommandSeen(), true);
@@ -48,7 +50,7 @@ public class Maussentials extends JavaPlugin {
 		addModule("command-plugin", new CommandReload(), true);
 		addModule("command-psay", new CommandPlainSay(), true);
 		addModule("godmode", new Godmode(), true);
-		addModule("bans", new MauBans(), true);
+		addModule("bans", this.bans = new MauBans(), true);
 		addModule("language", lang = new Language(), true);
 		addModule("signeditor", new SignEditor(), true);
 		addModule("privatemessaging", new PrivateMessaging(), true);
@@ -144,6 +146,10 @@ public class Maussentials extends JavaPlugin {
 	 */
 	public static Maussentials getInstance() {
 		return instance;
+	}
+	
+	public MauBans getBans() {
+		return bans;
 	}
 	
 	public String translateStd(String node, Object... replace) {
