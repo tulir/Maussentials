@@ -1,4 +1,4 @@
-package net.maunium.bukkit.Maussentials.Modules;
+package net.maunium.bukkit.Maussentials.Modules.Commands;
 
 import java.io.BufferedReader;
 import java.io.IOException;

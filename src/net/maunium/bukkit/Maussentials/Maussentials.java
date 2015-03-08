@@ -9,13 +9,6 @@ import lib.PatPeter.SQLibrary.Database;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.maunium.bukkit.Maussentials.Modules.CommandKill;
-import net.maunium.bukkit.Maussentials.Modules.CommandPlainSay;
-import net.maunium.bukkit.Maussentials.Modules.CommandReload;
-import net.maunium.bukkit.Maussentials.Modules.CommandPlugins;
-import net.maunium.bukkit.Maussentials.Modules.CommandSeen;
-import net.maunium.bukkit.Maussentials.Modules.CommandSpy;
-import net.maunium.bukkit.Maussentials.Modules.CommandUUID;
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
 import net.maunium.bukkit.Maussentials.Modules.DelayedTeleportListeners;
 import net.maunium.bukkit.Maussentials.Modules.Godmode;
@@ -23,6 +16,13 @@ import net.maunium.bukkit.Maussentials.Modules.PlayerData;
 import net.maunium.bukkit.Maussentials.Modules.PrivateMessaging;
 import net.maunium.bukkit.Maussentials.Modules.SignEditor;
 import net.maunium.bukkit.Maussentials.Modules.WelcomeMessage;
+import net.maunium.bukkit.Maussentials.Modules.Commands.CommandKill;
+import net.maunium.bukkit.Maussentials.Modules.Commands.CommandPlainSay;
+import net.maunium.bukkit.Maussentials.Modules.Commands.CommandPlugins;
+import net.maunium.bukkit.Maussentials.Modules.Commands.CommandReload;
+import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSeen;
+import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSpy;
+import net.maunium.bukkit.Maussentials.Modules.Commands.CommandUUID;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.I18n;
 import net.maunium.bukkit.Maussentials.Utils.I18n.I15r;

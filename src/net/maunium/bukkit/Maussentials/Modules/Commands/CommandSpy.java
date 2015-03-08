@@ -1,4 +1,4 @@
-package net.maunium.bukkit.Maussentials.Modules;
+package net.maunium.bukkit.Maussentials.Modules.Commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
