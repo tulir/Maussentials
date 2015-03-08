@@ -1,7 +1,7 @@
 # No arguments
 stag=&2[&aMaussentials&2] &7
 errtag=&4[&cMaussentials&4] &c
-nyi=That feature is not yet in 3:
+nyi=That feature has not yet been implemented 3:
 
 # 0: Permission node
 permission-error=You do not have access to &6{0}&c.
