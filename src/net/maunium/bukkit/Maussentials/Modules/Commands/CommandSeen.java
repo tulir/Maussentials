@@ -1,5 +1,6 @@
 package net.maunium.bukkit.Maussentials.Modules.Commands;
 
+import java.sql.ResultSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -9,7 +10,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
+import net.maunium.bukkit.Maussentials.Modules.Bans.MauBans;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
+import net.maunium.bukkit.Maussentials.Utils.DateUtils;
 
 /**
  * The /mauseen command
@@ -58,12 +61,34 @@ public class CommandSeen extends CommandModule {
 						sb.deleteCharAt(sb.length() - 1);
 						sender.sendMessage(plugin.translateStd("seen.ipsearch.done", args[0], sb.toString()));
 					} else sender.sendMessage(plugin.translateStd("seen.ipsearch.empty", args[0]));
-					
 					// TODO: Ban checking for IPs
 				} catch (Exception e) {
 					sender.sendMessage(plugin.translateErr("seen.ip.queryfail", e.getMessage()));
 					e.printStackTrace();
 					return true;
+				}
+				
+				try {
+					ResultSet rs = plugin.getBans().getBanData(args[0], MauBans.TYPE_IP);
+					if (rs != null) {
+						String reason = rs.getString(MauBans.COLUMN_REASON);
+						String bannedBy = rs.getString(MauBans.COLUMN_BANNEDBY);
+						long expireExact = rs.getLong(MauBans.COLUMN_EXPIRE);
+						
+						if (!bannedBy.equals("CONSOLE")) {
+							UUID u = UUID.fromString(bannedBy);
+							bannedBy = plugin.getServer().getOfflinePlayer(u).getName();
+						}
+						
+						if (expireExact > 0) {
+							String expire = DateUtils.getDurationBreakdown(expireExact - System.currentTimeMillis(), DateUtils.MODE_IN);
+							sender.sendMessage(plugin.translatePlain("seen.ip.banned.temporary", reason, bannedBy, expire, args[0]));
+						} else sender.sendMessage(plugin.translatePlain("seen.ip.banned.permanent", reason, bannedBy, args[0]));
+					}
+				} catch (Exception e) {
+					sender.sendMessage(plugin.translateErr("seen.ip.bancheckfail", args[0], e.getMessage()));
+					plugin.getLogger().severe("Failed to check if " + args[0] + " is banned: ");
+					e.printStackTrace();
 				}
 			} else {
 //				OfflinePlayer op = null;
