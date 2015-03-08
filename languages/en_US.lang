@@ -115,7 +115,6 @@ bans.ipban.permanent=Your IP has been banned by &6{1}&c!<br>&c{0}
 # 2: Expire
 # 3: IP
 bans.ipban.temporary=Your IP has been temporarily banned by &6{1}&c!<br>&c{0}<br>&cThe ban will expire in {2}.
-
 # 0: Reason
 # 1: Banned by
 #
@@ -124,3 +123,20 @@ bans.ban.permanent=You have been banned by &6{1}&c!<br>&c{0}
 # 2: Expire
 # 3: UUID
 bans.ban.temporary=You have been temporarily banned by &6{1}&c!<br>&c{0}<br>&cThe ban will expire in {2}.
+
+# 0: IP
+#
+seen.ip.done=The following players have logged in from &6{0}&7:<br>{1}.
+# 1: List of players (colors hardcoded)
+seen.ip.empty=There are no logged logins from &6{0}&c!
+seen.ip.queryfail=Failed to execute IP-based UUID search query: &6{0}&c
+# 0: Reason
+# 1: Banned by
+#
+# 2: Expire
+# 3: IP
+seen.ip.banned.temporary=The IP &6{3}&7 has been temporarily banned by &6{1}&7 for &6{2}&7:<br>{0}
+# 2: IP
+seen.ip.banned.permanent=The IP &6{2}&7 has been permanently banned by &6{1}&7:<br>{0}
+# 0: IP
+seen.ip.bancheckfail=Failed to execute IP ban check: &6{0}&c
