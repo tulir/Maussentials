@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.bukkit.command.Command;
@@ -17,6 +15,7 @@ import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
+import net.maunium.bukkit.Maussentials.Utils.DateUtils;
 
 /**
  * UUID tools (/mauuuid command)
@@ -26,7 +25,6 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
  */
 public class CommandUUID extends CommandModule {
 	private Maussentials plugin;
-	private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy ss:mm:HH");
 	private boolean loaded = false;
 	
 	@Override
@@ -107,7 +105,7 @@ public class CommandUUID extends CommandModule {
 						// Check if the name is the new name or the original one
 						if (jo.has("changedToAt")) {
 							// The name is a new one. Get the time it was changed to at.
-							String timeReadable = sdf.format(new Date(jo.get("changedToAt").getAsLong()));
+							String timeReadable = DateUtils.format(jo.get("changedToAt").getAsLong());
 							long time = jo.get("changedToAt").getAsLong();
 							
 							// Add an entry with the time included
