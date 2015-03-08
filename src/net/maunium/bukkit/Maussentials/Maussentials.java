@@ -38,14 +38,10 @@ public class Maussentials extends JavaPlugin implements I15r {
 	private static Maussentials instance;
 	
 	@Override
-	public void onLoad() {
-		instance = this;
-	}
-	
-	@Override
 	public void onEnable() {
 		long st = System.currentTimeMillis();
 		version = this.getDescription().getVersion();
+		
 		this.saveDefaultConfig();
 		this.saveResource("languages/en_US.lang", true);
 		try {
@@ -72,6 +68,8 @@ public class Maussentials extends JavaPlugin implements I15r {
 		addModule("privatemessaging", new PrivateMessaging(), true);
 		addModule("commandspy", new CommandSpy(), true);
 		addModule("delayed-teleports", new DelayedTeleportListeners(), true);
+		
+		instance = this;
 		
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info(name + " v" + version + " by " + author + " enabled in " + et + "ms.");
