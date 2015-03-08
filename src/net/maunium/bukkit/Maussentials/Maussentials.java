@@ -152,6 +152,10 @@ public class Maussentials extends JavaPlugin {
 		return bans;
 	}
 	
+	public PlayerData getPlayerData(){
+		return pd;
+	}
+	
 	public String translateStd(String node, Object... replace) {
 		return lang.translateStd(node, replace);
 	}
