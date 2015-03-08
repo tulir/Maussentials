@@ -16,6 +16,7 @@ import net.maunium.bukkit.Maussentials.Modules.PlayerData;
 import net.maunium.bukkit.Maussentials.Modules.PrivateMessaging;
 import net.maunium.bukkit.Maussentials.Modules.SignEditor;
 import net.maunium.bukkit.Maussentials.Modules.WelcomeMessage;
+import net.maunium.bukkit.Maussentials.Modules.Bans.MauBans;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandKill;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandPlainSay;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandPlugins;
@@ -66,6 +67,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 		addModule("command-plugin", new CommandReload(), true);
 		addModule("command-psay", new CommandPlainSay(), true);
 		addModule("godmode", new Godmode(), true);
+		addModule("bans", new MauBans(), true);
 		addModule("signeditor", new SignEditor(), true);
 		addModule("privatemessaging", new PrivateMessaging(), true);
 		addModule("commandspy", new CommandSpy(), true);
