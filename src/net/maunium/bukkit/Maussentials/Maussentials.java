@@ -1,7 +1,5 @@
 package net.maunium.bukkit.Maussentials;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
 import net.maunium.bukkit.Maussentials.Modules.DelayedTeleportListeners;
 import net.maunium.bukkit.Maussentials.Modules.Godmode;
+import net.maunium.bukkit.Maussentials.Modules.Language;
 import net.maunium.bukkit.Maussentials.Modules.PlayerData;
 import net.maunium.bukkit.Maussentials.Modules.PrivateMessaging;
 import net.maunium.bukkit.Maussentials.Modules.SignEditor;
@@ -25,32 +24,19 @@ import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSeen;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSpy;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandUUID;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
-import net.maunium.bukkit.Maussentials.Utils.I18n;
-import net.maunium.bukkit.Maussentials.Utils.I18n.I15r;
 
-public class Maussentials extends JavaPlugin implements I15r {
-	public String version, stag, errtag;
-	public final String name = "Maussentials", author = "Tulir293";
+public class Maussentials extends JavaPlugin {
 	private Map<String, MauModule> modules = new HashMap<String, MauModule>();
 	private DatabaseHandler dbh;
-	private I18n i18n;
+	private Language lang;
 	private static Maussentials instance;
 	
 	@Override
 	public void onEnable() {
 		long st = System.currentTimeMillis();
-		version = this.getDescription().getVersion();
 		
 		this.saveDefaultConfig();
 		this.saveResource("languages/en_US.lang", true);
-		try {
-			this.i18n = I18n.createInstance(new File(this.getDataFolder(), "languages"), getConfig().getString("language"));
-		} catch (IOException e) {
-			die("Failed to initialize internationalization", e);
-		}
-		
-		this.stag = translate("stag");
-		this.errtag = translate("errtag");
 		
 		addModule("database", dbh = new DatabaseHandler(), true);
 		addModule("welcome-message", new WelcomeMessage(), true);
@@ -63,6 +49,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 		addModule("command-psay", new CommandPlainSay(), true);
 		addModule("godmode", new Godmode(), true);
 		addModule("bans", new MauBans(), true);
+		addModule("language", lang = new Language(), true);
 		addModule("signeditor", new SignEditor(), true);
 		addModule("privatemessaging", new PrivateMessaging(), true);
 		addModule("commandspy", new CommandSpy(), true);
@@ -71,7 +58,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 		instance = this;
 		
 		int et = (int) (System.currentTimeMillis() - st);
-		getLogger().info(name + " v" + version + " by " + author + " enabled in " + et + "ms.");
+		getLogger().info("Maussentials v" + getDescription().getVersion() + " by Tulir293 enabled in " + et + "ms.");
 	}
 	
 	@Override
@@ -83,7 +70,7 @@ public class Maussentials extends JavaPlugin implements I15r {
 			m.unload();
 		
 		int et = (int) (System.currentTimeMillis() - st);
-		getLogger().info(name + " v" + version + " by " + author + " disabled in " + et + "ms.");
+		getLogger().info("Maussentials v" + getDescription().getVersion() + " by Tulir293 disabled in " + et + "ms.");
 	}
 	
 	public void die(String message, Throwable error) {
@@ -159,8 +146,11 @@ public class Maussentials extends JavaPlugin implements I15r {
 		return instance;
 	}
 	
-	@Override
-	public String translate(String node, Object... replace) {
-		return i18n.translate(node, replace);
+	public String translateStd(String node, Object... replace) {
+		return lang.translateStd(node, replace);
+	}
+	
+	public String translateErr(String node, Object... replace) {
+		return lang.translateErr(node, replace);
 	}
 }
