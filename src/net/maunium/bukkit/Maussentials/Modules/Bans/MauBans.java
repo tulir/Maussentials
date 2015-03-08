@@ -3,6 +3,8 @@ package net.maunium.bukkit.Maussentials.Modules.Bans;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.bukkit.event.HandlerList;
+
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
@@ -11,6 +13,7 @@ public class MauBans implements MauModule {
 	public static final String TABLE_BANS = "Bans";
 	public static final String COLUMN_BANNED = "Banned", COLUMN_TYPE = "BanType", COLUMN_REASON = "Reason", COLUMN_BANNEDBY = "BannedBy",
 			COLUMN_EXPIRE = "ExpireAt", TYPE_IP = "IP", TYPE_UUID = "UUID";
+	private JoinListener jl;
 	private boolean loaded = false;
 	
 	@Override
@@ -29,11 +32,13 @@ public class MauBans implements MauModule {
 					+ "PRIMARY KEY (" + COLUMN_BANNED + ", " + COLUMN_TYPE + "));");
 			// °FormatOn°
 		} catch (SQLException e) {}
+		plugin.getServer().getPluginManager().registerEvents(jl = new JoinListener(plugin, this), plugin);
 		loaded = true;
 	}
 	
 	@Override
 	public void unload() {
+		HandlerList.unregisterAll(jl);
 		loaded = false;
 	}
 	
