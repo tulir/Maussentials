@@ -153,4 +153,8 @@ public class Maussentials extends JavaPlugin {
 	public String translateErr(String node, Object... replace) {
 		return lang.translateErr(node, replace);
 	}
+	
+	public String translatePlain(String node, Object... replace) {
+		return lang.translate(node, replace);
+	}
 }
