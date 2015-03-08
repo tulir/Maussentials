@@ -295,7 +295,7 @@ public class PlayerData implements Listener, MauModule {
 	 * @return A map containing the UUIDs as keys and changed to timestamps as values.
 	 * @throws SQLException If database querying or resultset getting throws something.
 	 */
-	public Map<UUID, Long> getNamesFromUUID(String username) throws SQLException {
+	public Map<UUID, Long> getUUIDsFromName(String username) throws SQLException {
 		ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_HISTORY + " WHERE " + COLUMN_USERNAME + "='" + username + "';");
 		Map<UUID, Long> rtrn = new HashMap<UUID, Long>();
 		while (rs.next())
@@ -307,5 +307,41 @@ public class PlayerData implements Listener, MauModule {
 	 * Getting data from the Players table.
 	 */
 	
-	// TODO: Get data from the players table.
+	/**
+	 * Get the latest logged username of the given UUID.
+	 * 
+	 * @param u The UUID to get the username from.
+	 * @return The username.
+	 * @throws SQLException If database querying or resultset getting throws something.
+	 */
+	public String getNameByUUID(UUID u) throws SQLException {
+		ResultSet rs = plugin.getDB().query("SELECT " + COLUMN_USERNAME + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + u.toString() + "';");
+		if (rs.next()) return rs.getString(COLUMN_USERNAME);
+		else return null;
+	}
+	
+	/**
+	 * Get the UUID which has used the given username previously.
+	 * 
+	 * @param name The username to get the UUID from
+	 * @return The UUID.
+	 * @throws SQLException If database querying or resultset getting throws something.
+	 */
+	public UUID getUUIDByName(String name) throws SQLException {
+		ResultSet rs = plugin.getDB().query("SELECT " + COLUMN_UUID + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_USERNAME + "='" + name + "';");
+		if (rs.next()) return UUID.fromString(rs.getString(COLUMN_UUID));
+		else return null;
+	}
+	
+	public long getLastLoginByUUID(UUID u) throws SQLException {
+		ResultSet rs = plugin.getDB().query("SELECT " + COLUMN_LASTLOGIN + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + u.toString() + "';");
+		if (rs.next()) return rs.getLong(COLUMN_LASTLOGIN);
+		else return -1;
+	}
+	
+	public SerializableLocation getLocationByUUID(UUID u) throws SQLException {
+		ResultSet rs = plugin.getDB().query("SELECT " + COLUMN_LOCATION + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + u.toString() + "';");
+		if (rs.next()) return SerializableLocation.fromString(rs.getString(COLUMN_LOCATION));
+		else return null;
+	}
 }
