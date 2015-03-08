@@ -39,7 +39,7 @@ public class CommandSeen extends CommandModule {
 	
 	@Override
 	public void help(CommandSender sender, Command cmd, String label, String[] args) {
-		sender.sendMessage(plugin.stag + plugin.translate("seen.help"));
+		sender.sendMessage(plugin.translateErr("seen.help"));
 	}
 	
 	@Override

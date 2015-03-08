@@ -15,14 +15,14 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 public abstract class PlayerCommandModule extends CommandModule {
 	@Override
 	public final boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player)) sender.sendMessage(Maussentials.getInstance().errtag + Maussentials.getInstance().translate("must-be-ingame"));
+		if (!(sender instanceof Player)) sender.sendMessage(Maussentials.getInstance().translateErr("must-be-ingame"));
 		else return execute((Player) sender, cmd, label, args);
 		return true;
 	}
 	
 	@Override
 	public final void help(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player)) sender.sendMessage(Maussentials.getInstance().errtag + Maussentials.getInstance().translate("must-be-ingame"));
+		if (!(sender instanceof Player)) sender.sendMessage(Maussentials.getInstance().translateErr("must-be-ingame"));
 		else help((Player) sender, cmd, label, args);
 	}
 	

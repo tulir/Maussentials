@@ -48,7 +48,7 @@ public class CommandUUID extends CommandModule {
 					
 					// Make sure that it isn't empty. If it is, show an error.
 					if (in.isEmpty()) {
-						sender.sendMessage(plugin.errtag + plugin.translate("uuid.get.invalid", name));
+						sender.sendMessage(plugin.translateErr("uuid.get.invalid", name));
 						return true;
 					}
 					
@@ -57,16 +57,15 @@ public class CommandUUID extends CommandModule {
 					// Check if the username was found.
 					if (jo.has("error")) {
 						// Not found. Show error.
-						sender.sendMessage(plugin.errtag
-								+ plugin.translate("uuid.get.error", name, jo.get("error").getAsString(), jo.get("errorMessage").getAsString()));
+						sender.sendMessage(plugin.translateErr("uuid.get.error", name, jo.get("error").getAsString(), jo.get("errorMessage").getAsString()));
 					} else if (jo.has("id")) {
 						// Found. Show latest username and UUID.
-						sender.sendMessage(plugin.stag + plugin.translate("uuid.get.uuid", jo.get("id").getAsString()));
-						sender.sendMessage(plugin.stag + plugin.translate("uuid.get.name", jo.get("name").getAsString()));
+						sender.sendMessage(plugin.translateStd("uuid.get.uuid", jo.get("id").getAsString()));
+						sender.sendMessage(plugin.translateStd("uuid.get.name", jo.get("name").getAsString()));
 					}
 				} catch (IOException e1) {
 					// Something went wrong. Tell it to the user...
-					sender.sendMessage(plugin.errtag + plugin.translate("uuid.error", e1.getMessage()));
+					sender.sendMessage(plugin.translateErr("uuid.error", e1.getMessage()));
 					// ... and print it to the console
 					plugin.getLogger().severe("Error while fetching UUID from name: ");
 					e1.printStackTrace();
@@ -76,7 +75,7 @@ public class CommandUUID extends CommandModule {
 				String uuid = args[1];
 				if (args.length > 2 && args[1].equalsIgnoreCase("name")) {
 					String name = args[2];
-					sender.sendMessage(plugin.errtag + "History from name has not yet been implemented.");
+					sender.sendMessage(plugin.translateErr("nyi"));
 					return true;
 				}
 				
@@ -92,14 +91,14 @@ public class CommandUUID extends CommandModule {
 					
 					// Make sure that it isn't empty. If it is, show an error.
 					if (in.isEmpty()) {
-						sender.sendMessage(plugin.errtag + plugin.translate("uuid.history.invalid", uuid));
+						sender.sendMessage(plugin.translateErr("uuid.history.invalid", uuid));
 						return true;
 					}
 					
 					// Parse the response json.
 					JsonArray ja = new JsonParser().parse(in).getAsJsonArray();
 					List<String> ss = new ArrayList<String>();
-					ss.add(plugin.stag + plugin.translate("uuid.history", uuid));
+					ss.add(plugin.translateStd("uuid.history", uuid));
 					// Loop through the name change entries and add the details to the string list.
 					for (int i = 0; i < ja.size(); i++) {
 						JsonObject jo = ja.get(i).getAsJsonObject();
@@ -112,18 +111,18 @@ public class CommandUUID extends CommandModule {
 							long time = jo.get("changedToAt").getAsLong();
 							
 							// Add an entry with the time included
-							ss.add(plugin.translate("uuid.history.new", name, timeReadable, time));
+							ss.add(plugin.translatePlain("uuid.history.new", name, timeReadable, time));
 						} else {
 							// The name is the original one.
 							// Add an entry without the time changed to at.
-							ss.add(plugin.translate("uuid.history.original", name));
+							ss.add(plugin.translatePlain("uuid.history.original", name));
 						}
 					}
 					// Send the contents of the array
 					sender.sendMessage(ss.toArray(new String[0]));
 				} catch (IOException e1) {
 					// Something went wrong. Tell it to the user...
-					sender.sendMessage(plugin.errtag + plugin.translate("uuid.error", e1.getMessage()));
+					sender.sendMessage(plugin.translateErr("uuid.error", e1.getMessage()));
 					// ... and print it to the console
 					plugin.getLogger().severe("Error while fetching name history from UUID: ");
 					e1.printStackTrace();
@@ -152,8 +151,8 @@ public class CommandUUID extends CommandModule {
 	
 	@Override
 	public void help(CommandSender sender, Command command, String label, String[] args) {
-		sender.sendMessage(plugin.translate("uuid.help.get", label));
-		sender.sendMessage(plugin.translate("uuid.help.history", label));
+		sender.sendMessage(plugin.translateErr("uuid.help.get", label));
+		sender.sendMessage(plugin.translateErr("uuid.help.history", label));
 	}
 	
 	@Override

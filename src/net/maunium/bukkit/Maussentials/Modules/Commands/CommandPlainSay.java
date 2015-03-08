@@ -43,7 +43,7 @@ public class CommandPlainSay extends CommandModule {
 			
 			String s = ChatFormatter.formatAll(sb.toString());
 			for (Player p : plugin.getServer().getOnlinePlayers()) {
-				if (p.hasPermission("maussentials.plainsay.see")) p.sendMessage(plugin.translate("plainsay.spy", s));
+				if (p.hasPermission("maussentials.plainsay.see")) p.sendMessage(plugin.translatePlain("plainsay.spy", s));
 				else p.sendMessage(s);
 			}
 			return true;
@@ -52,7 +52,7 @@ public class CommandPlainSay extends CommandModule {
 	
 	@Override
 	public void help(CommandSender sender, Command cmd, String label, String[] args) {
-		sender.sendMessage(plugin.errtag + plugin.translate("plainsay.help", label));
+		sender.sendMessage(plugin.translateErr("plainsay.help", label));
 	}
 	
 	@Override

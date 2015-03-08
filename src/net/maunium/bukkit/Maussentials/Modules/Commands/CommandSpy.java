@@ -44,7 +44,7 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPreCommand(PlayerCommandPreprocessEvent evt) {
 		String msg = ChatFormatter.change('&', '`', evt.getMessage(), "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
-		String spy = plugin.translate("cmdspy.cmd", evt.getPlayer().getName(), msg);
+		String spy = plugin.translatePlain("cmdspy.cmd", evt.getPlayer().getName(), msg);
 		spy = ChatFormatter.change('`', '&', spy, "0123456789AaBbCcDdEeFfKkLlMmNnOoRr");
 		
 		for (Player p : plugin.getServer().getOnlinePlayers())
@@ -55,10 +55,10 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 	public boolean execute(Player p, Command cmd, String label, String[] args) {
 		if (p.hasMetadata(CMDSPY_META)) {
 			MetadataUtils.removeMetadata(p, CMDSPY_META, plugin);
-			p.sendMessage(plugin.stag + plugin.translate("cmdspy.off"));
+			p.sendMessage(plugin.translateStd("cmdspy.off"));
 		} else {
 			MetadataUtils.setFixedMetadata(p, CMDSPY_META, true, plugin);
-			p.sendMessage(plugin.stag + plugin.translate("cmdspy.on"));
+			p.sendMessage(plugin.translateStd("cmdspy.on"));
 		}
 		return true;
 	}

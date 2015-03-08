@@ -23,8 +23,8 @@ public class CommandKill extends CommandModule {
 			Player p = plugin.getServer().getPlayer(args[0]);
 			if (p != null) {
 				p.setHealth(0);
-				sender.sendMessage(plugin.stag + plugin.translate("kill.ed", p.getName()));
-			} else sender.sendMessage(plugin.errtag + plugin.translate("kill.notfound", args[0]));
+				sender.sendMessage(plugin.translateStd("kill.ed", p.getName()));
+			} else sender.sendMessage(plugin.translateErr("kill.notfound", args[0]));
 			return true;
 		}
 		return false;
@@ -47,7 +47,7 @@ public class CommandKill extends CommandModule {
 	
 	@Override
 	public void help(CommandSender sender, Command command, String label, String[] args) {
-		sender.sendMessage(plugin.stag + plugin.translate("kill.help", label));
+		sender.sendMessage(plugin.translateErr("kill.help", label));
 	}
 	
 	@Override

@@ -35,7 +35,7 @@ public class CommandPlugins implements MauModule, Listener {
 			evt.setCancelled(true);
 			Player p = evt.getPlayer();
 			if (!p.hasPermission("maussentials.plugins")) {
-				p.sendMessage(plugin.errtag + plugin.translate("plugins-perms"));
+				p.sendMessage(plugin.translateErr("permission-error", "maussentials.plugins"));
 				return;
 			}
 			List<String> plugins = new ArrayList<String>();
