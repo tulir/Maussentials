@@ -106,3 +106,21 @@ date.for.hours=hours
 date.for.minutes=minutes
 date.for.seconds=seconds
 date.for.none=less than 1 seconds
+
+# 0: Reason
+# 1: Banned by
+#
+# 2: IP
+bans.ipban.permanent=Your IP has been banned by &6{1}&c!<br>&c{0}
+# 2: Expire
+# 3: IP
+bans.ipban.temporary=Your IP has been temporarily banned by &6{1}&c!<br>&c{0}<br>&cThe ban will expire in {2}.
+
+# 0: Reason
+# 1: Banned by
+#
+# 2: UUID
+bans.ban.permanent=You have been banned by &6{1}&c!<br>&c{0}
+# 2: Expire
+# 3: UUID
+bans.ban.temporary=You have been temporarily banned by &6{1}&c!<br>&c{0}<br>&cThe ban will expire in {2}.
