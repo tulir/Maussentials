@@ -61,7 +61,6 @@ public class CommandSeen extends CommandModule {
 						sb.deleteCharAt(sb.length() - 1);
 						sender.sendMessage(plugin.translateStd("seen.ipsearch.done", args[0], sb.toString()));
 					} else sender.sendMessage(plugin.translateStd("seen.ipsearch.empty", args[0]));
-					// TODO: Ban checking for IPs
 				} catch (Exception e) {
 					sender.sendMessage(plugin.translateErr("seen.ip.queryfail", e.getMessage()));
 					e.printStackTrace();
