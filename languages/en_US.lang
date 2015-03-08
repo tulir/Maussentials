@@ -95,3 +95,14 @@ module.reloaded=Reloaded module &6{0}&7 successfully.
 module.notfound=Could not find module &6{0}&c!
 module.alreadyloaded=The module &6{0}&c is already loaded!
 module.alreadyunloaded=The module &6{0}&c is already unloaded!
+
+date.in.days=days
+date.in.hours=hours
+date.in.minutes=minutes
+date.in.seconds=seconds
+date.in.none=less than 1 second
+date.for.days=days
+date.for.hours=hours
+date.for.minutes=minutes
+date.for.seconds=seconds
+date.for.none=less than 1 seconds
