@@ -63,10 +63,10 @@ public class JoinListener implements Listener {
 				if (expireExact > 0) {
 					String expire = DateUtils.getDurationBreakdown(expireExact - System.currentTimeMillis(), DateUtils.MODE_IN);
 					evt.setLoginResult(Result.KICK_BANNED);
-					evt.setKickMessage(plugin.translatePlain("bans.ipban.temporary", reason, bannedBy, expire, evt.getUniqueId().toString()));
+					evt.setKickMessage(plugin.translatePlain("bans.ban.temporary", reason, bannedBy, expire, evt.getUniqueId().toString()));
 				} else {
 					evt.setLoginResult(Result.KICK_BANNED);
-					evt.setKickMessage(plugin.translatePlain("bans.ipban.permanent", reason, bannedBy, evt.getUniqueId().toString()));
+					evt.setKickMessage(plugin.translatePlain("bans.ban.permanent", reason, bannedBy, evt.getUniqueId().toString()));
 				}
 			}
 		} catch (Exception e) {
