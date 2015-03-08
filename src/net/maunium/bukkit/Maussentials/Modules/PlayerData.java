@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -32,9 +34,16 @@ import net.maunium.bukkit.Maussentials.Utils.SerializableLocation;
  */
 public class PlayerData implements Listener, MauModule {
 	private Maussentials plugin;
-	public static final String TABLE_PLAYERS = "Players", TABLE_HISTORY = "OldNames";
-	public static final String COLUMN_UUID = "UUID", COLUMN_USERNAME = "Username", COLUMN_IP = "IP", COLUMN_LASTLOGIN = "LastLogin",
-			COLUMN_LOCATION = "Location", COLUMN_CHANGEDFROM = "ChangedFrom", COLUMN_CHANGEDTO = "ChangedTo";
+	/** Table Names */
+	public static final String TABLE_PLAYERS = "Players", TABLE_HISTORY = "OldNames", TABLE_IPS = "IPs";
+	/** Used in many tables */
+	public static final String COLUMN_UUID = "UUID", COLUMN_USERNAME = "Username";
+	/** Used in IPs table */
+	public static final String COLUMN_IP = "IP", COLUMN_LASTUSED = "LastUsed";
+	/** Used in Players table */
+	public static final String COLUMN_LASTLOGIN = "LastLogin", COLUMN_LOCATION = "Location";
+	/** Used in OldNames table */
+	public static final String COLUMN_CHANGEDTO = "ChangedTo";
 	private boolean loaded = false;
 	
 	@Override
@@ -47,7 +56,6 @@ public class PlayerData implements Listener, MauModule {
 			plugin.getDB().query("CREATE TABLE " + TABLE_PLAYERS + " ("
 					+ COLUMN_UUID + " varchar(25) NOT NULL,"
 					+ COLUMN_USERNAME + " varchar(16) NOT NULL,"
-					+ COLUMN_IP + " varchar(16) NOT NULL,"
 					+ COLUMN_LASTLOGIN + " INTEGER NOT NULL,"
 					+ COLUMN_LOCATION + " TEXT NOT NULL,"
 					+ "PRIMARY KEY (" + COLUMN_UUID + "));");
@@ -57,6 +65,12 @@ public class PlayerData implements Listener, MauModule {
 					+ COLUMN_USERNAME + " varchar(16) NOT NULL,"
 					+ COLUMN_CHANGEDTO + " INTEGER NOT NULL,"
 					+ "PRIMARY KEY (" + COLUMN_UUID + ", " + COLUMN_USERNAME + "));");
+			// Create the table IPs
+			plugin.getDB().query("CREATE TABLE " + TABLE_HISTORY + " ("
+					+ COLUMN_UUID + " varchar(25) NOT NULL,"
+					+ COLUMN_IP + " varchar(16) NOT NULL,"
+					+ COLUMN_LASTUSED + " INTEGER NOT NULL,"
+					+ "PRIMARY KEY (" + COLUMN_UUID + ", " + COLUMN_IP + "));");
 			// °FormatOn°
 		} catch (SQLException e) {}
 		loaded = true;
@@ -69,37 +83,14 @@ public class PlayerData implements Listener, MauModule {
 		loaded = false;
 	}
 	
-	// °FormatOff°
-	public ResultSet setEntry(UUID uuid, String username, String ip, Location l) throws SQLException {
-		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES ("
-				+ "'" + uuid.toString() + "','"
-				+ username + "','"
-				+ ip + "','"
-				+ System.currentTimeMillis() + "','"
-				+ new SerializableLocation(l).toString()
-				+ "');");
+	@Override
+	public boolean isLoaded() {
+		return loaded;
 	}
 	
-	public ResultSet setTime(UUID uuid) throws SQLException {
-		return plugin.getDB().query("UPDATE " + TABLE_PLAYERS
-				+ " SET " + COLUMN_LASTLOGIN + "='" + System.currentTimeMillis()+ "'"
-				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
-	}
-	
-	public ResultSet setLocation(UUID uuid, Location l) throws SQLException {
-		return plugin.getDB().query("UPDATE " + TABLE_PLAYERS
-				+ " SET " + COLUMN_LOCATION + "='" + new SerializableLocation(l).toString() + "'"
-				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
-	}
-	
-	public ResultSet setHistory(UUID uuid, String username, long changedTo) throws SQLException{
-		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
-				+ uuid.toString() + "','"
-				+ username + "','"
-				+ changedTo
-				+ "');");
-	}
-	// °FormatOn°
+	/*
+	 * Listeners for prelogin, join and quit.
+	 */
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent evt) {
@@ -155,6 +146,10 @@ public class PlayerData implements Listener, MauModule {
 		}
 	}
 	
+	/**
+	 * Method to update name history for the specific UUID from Mojang's servers. Called when the database system
+	 * notices that an UUID logs in with an unidentified username.
+	 */
 	private void updateNameHistory(UUID uuid) {
 		try {
 			// Request the name history of the UUID.
@@ -198,8 +193,119 @@ public class PlayerData implements Listener, MauModule {
 		}
 	}
 	
-	@Override
-	public boolean isLoaded() {
-		return loaded;
+	/*
+	 * Methods for updating the values of the database.
+	 */
+	
+	// °FormatOff°
+	public ResultSet setEntry(UUID uuid, String username, String ip, Location l) throws SQLException {
+		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES ("
+				+ "'" + uuid.toString() + "','"
+				+ username + "','"
+				+ System.currentTimeMillis() + "','"
+				+ new SerializableLocation(l).toString()
+				+ "');");
 	}
+	
+	public ResultSet setTime(UUID uuid) throws SQLException {
+		return plugin.getDB().query("UPDATE " + TABLE_PLAYERS
+				+ " SET " + COLUMN_LASTLOGIN + "='" + System.currentTimeMillis()+ "'"
+				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
+	}
+	
+	public ResultSet setLocation(UUID uuid, Location l) throws SQLException {
+		return plugin.getDB().query("UPDATE " + TABLE_PLAYERS
+				+ " SET " + COLUMN_LOCATION + "='" + new SerializableLocation(l).toString() + "'"
+				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
+	}
+	
+	public ResultSet setHistory(UUID uuid, String username, long changedTo) throws SQLException {
+		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
+				+ uuid.toString() + "','"
+				+ username + "','"
+				+ changedTo
+				+ "');");
+	}
+	
+	public ResultSet setIPs(UUID uuid, String ip) throws SQLException {
+		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_IPS + " VALUES ('"
+				+ uuid.toString() + "','"
+				+ ip + "','"
+				+ System.currentTimeMillis()
+				+ "');");
+	}
+	// °FormatOn°
+	
+	/*
+	 * Getting data from the IP Log
+	 */
+	/**
+	 * Get all the UUIDs that have visited from the given IP.
+	 * 
+	 * @param ip The IP to search.
+	 * @return A map containing the UUIDs as keys and last used timestamps as values.
+	 * @throws SQLException If database querying or resultset getting throws something.
+	 */
+	public Map<UUID, Long> getUUIDsFromIP(String ip) throws SQLException {
+		ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_IPS + " WHERE " + COLUMN_IP + "='" + ip + "';");
+		Map<UUID, Long> rtrn = new HashMap<UUID, Long>();
+		while (rs.next())
+			rtrn.put(UUID.fromString(rs.getString(COLUMN_UUID)), rs.getLong(COLUMN_LASTUSED));
+		return rtrn;
+	}
+	
+	/**
+	 * Get all the IPs that the given UUID has logged in using.
+	 * 
+	 * @param uuid The UUID to search.
+	 * @return A map containing the IPs as keys and last used timestamps as values.
+	 * @throws SQLException If database querying or resultset getting throws something.
+	 */
+	public Map<String, Long> getIPsFromUUID(UUID uuid) throws SQLException {
+		ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_IPS + " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
+		Map<String, Long> rtrn = new HashMap<String, Long>();
+		while (rs.next())
+			rtrn.put(rs.getString(COLUMN_IP), rs.getLong(COLUMN_LASTUSED));
+		return rtrn;
+	}
+	
+	/*
+	 * Getting data from the Name History table
+	 */
+	
+	/**
+	 * Get all the usernames that the given UUID has logged in using.
+	 * 
+	 * @param uuid The UUID to search.
+	 * @return A map containing the usernames as keys and changed to timestamps as values.
+	 * @throws SQLException If database querying or resultset getting throws something.
+	 */
+	public Map<String, Long> getNamesFromUUID(UUID uuid) throws SQLException {
+		ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_HISTORY + " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
+		Map<String, Long> rtrn = new HashMap<String, Long>();
+		while (rs.next())
+			rtrn.put(rs.getString(COLUMN_USERNAME), rs.getLong(COLUMN_CHANGEDTO));
+		return rtrn;
+	}
+	
+	/**
+	 * Get all the UUIDs that the given username has been used by.
+	 * 
+	 * @param username The username to search.
+	 * @return A map containing the UUIDs as keys and changed to timestamps as values.
+	 * @throws SQLException If database querying or resultset getting throws something.
+	 */
+	public Map<UUID, Long> getNamesFromUUID(String username) throws SQLException {
+		ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_HISTORY + " WHERE " + COLUMN_USERNAME + "='" + username + "';");
+		Map<UUID, Long> rtrn = new HashMap<UUID, Long>();
+		while (rs.next())
+			rtrn.put(UUID.fromString(rs.getString(COLUMN_UUID)), rs.getLong(COLUMN_CHANGEDTO));
+		return rtrn;
+	}
+	
+	/*
+	 * Getting data from the Players table.
+	 */
+	
+	// TODO: Get data from the players table.
 }
