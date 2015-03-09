@@ -19,7 +19,6 @@ public class MauBans implements MauModule {
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-//		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		try {
 			// °FormatOff°
 			// Create the table Players
