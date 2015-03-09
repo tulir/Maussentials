@@ -66,7 +66,7 @@ public class CommandSeen extends CommandModule {
 						sender.sendMessage(plugin.translateStd("seen.ip.done", args[0], sb.toString()));
 					} else sender.sendMessage(plugin.translateErr("seen.ip.empty", args[0]));
 				} catch (Exception e) {
-					sender.sendMessage(plugin.translateErr("seen.ip.queryfail", e.getMessage()));
+					sender.sendMessage(plugin.translateErr("seen.error", e.getMessage()));
 					plugin.getLogger().severe("Failed to get UUIDs/Usernames from IP " + args[0] + ":");
 					e.printStackTrace();
 					return true;
@@ -159,7 +159,7 @@ public class CommandSeen extends CommandModule {
 						sender.sendMessage(plugin.translatePlain("seen.uuid.location", sl.toString()));
 					}
 				} catch (Exception e) {
-					sender.sendMessage(plugin.translateErr("seen.ip.queryfail", e.getMessage()));
+					sender.sendMessage(plugin.translateErr("seen.error", e.getMessage()));
 					plugin.getLogger().severe("Failed to get UUIDs/Usernames from IP " + args[0] + ":");
 					e.printStackTrace();
 					return true;
