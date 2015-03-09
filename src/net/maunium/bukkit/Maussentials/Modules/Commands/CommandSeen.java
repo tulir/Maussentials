@@ -1,6 +1,7 @@
 package net.maunium.bukkit.Maussentials.Modules.Commands;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -94,14 +95,21 @@ public class CommandSeen extends CommandModule {
 					e.printStackTrace();
 				}
 			} else {
+				UUID uuid = null;
 				try {
-					UUID uuid = plugin.getPlayerData().getUUIDByName(args[0]);
-					
-					if (uuid == null) {
-						sender.sendMessage(plugin.translateErr("seen.nevervisited", args[0]));
-						return true;
-					}
-					
+					uuid = plugin.getPlayerData().getUUIDByName(args[0]);
+				} catch (SQLException e1) {
+					sender.sendMessage(plugin.translateErr("seen.nevervisited", args[0]));
+					e1.printStackTrace();
+					return true;
+				}
+				
+				if (uuid == null) {
+					sender.sendMessage(plugin.translateErr("seen.nevervisited", args[0]));
+					return true;
+				}
+				
+				try {
 					OfflinePlayer op = plugin.getServer().getPlayer(uuid);
 					
 					sender.sendMessage(plugin.translateStd("seen.uuid.info", op != null ? op.getName() : args[0]));
@@ -158,7 +166,7 @@ public class CommandSeen extends CommandModule {
 				}
 				
 				try {
-					ResultSet rs = plugin.getBans().getBanData(args[0], MauBans.TYPE_IP);
+					ResultSet rs = plugin.getBans().getBanData(uuid.toString(), MauBans.TYPE_UUID);
 					if (rs != null) {
 						String reason = rs.getString(MauBans.COLUMN_REASON);
 						String bannedBy = rs.getString(MauBans.COLUMN_BANNEDBY);
@@ -171,8 +179,8 @@ public class CommandSeen extends CommandModule {
 						
 						if (expireExact > 0) {
 							String expire = DateUtils.getDurationBreakdown(expireExact - System.currentTimeMillis(), DateUtils.MODE_FOR);
-							sender.sendMessage(plugin.translatePlain("seen.ip.banned.temporary", reason, bannedBy, expire, args[0]));
-						} else sender.sendMessage(plugin.translatePlain("seen.ip.banned.permanent", reason, bannedBy, args[0]));
+							sender.sendMessage(plugin.translatePlain("seen.uuid.banned.temporary", reason, bannedBy, expire, args[0]));
+						} else sender.sendMessage(plugin.translatePlain("seen.uuid.banned.permanent", reason, bannedBy, args[0]));
 					}
 				} catch (Exception e) {
 					sender.sendMessage(plugin.translateErr("seen.ip.bancheckfail", args[0], e.getMessage()));
