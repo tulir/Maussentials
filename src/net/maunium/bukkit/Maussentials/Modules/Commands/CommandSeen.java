@@ -6,13 +6,16 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Bans.MauBans;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 import net.maunium.bukkit.Maussentials.Utils.DateUtils;
+import net.maunium.bukkit.Maussentials.Utils.SerializableLocation;
 
 /**
  * The /mauseen command
@@ -91,49 +94,92 @@ public class CommandSeen extends CommandModule {
 					e.printStackTrace();
 				}
 			} else {
-//				OfflinePlayer op = null;
-//				UUID uuid = null;
-//				String ip = null;
-//				if (op.getUniqueId() == null) {
-//					List<UUID> list = MauBukLib.getPlayerData().getUUIDsByName(args[0]);
-//					if (!list.isEmpty()) uuid = list.get(0);
-//				} else uuid = op.getUniqueId();
-//				if (op.isOnline()) ip = op.getPlayer().getAddress().getAddress().getHostAddress();
-//				else if (uuid != null) ip = MauBukLib.getPlayerData().getIPByUUID(uuid);
-//				
-//				sender.sendMessage(plugin.formatStd("seen.message.title", op.getName()));
-//				
-//				if (ip != null) sender.sendMessage(ChatColor.GRAY + plugin.format("seen.message.ip", ip));
-//				else sender.sendMessage(ChatColor.RED + plugin.format("seen.message.ip", plugin.format("seen.message.notfound")));
-//				
-//				if (uuid != null) {
-//					sender.sendMessage(ChatColor.GRAY + plugin.format("seen.message.uuid", uuid));
-//					long lastlogin = MauBukLib.getPlayerData().getLastLoginByUUID(uuid);
-//					if (lastlogin != 0) {
-//						lastlogin = System.currentTimeMillis() - lastlogin;
-//						if (op.isOnline()) sender.sendMessage(ChatColor.GRAY
-//								+ plugin.format("seen.message.lastlogin.online", DateUtils.getDurationBreakdown(lastlogin, 1)));
-//						else sender.sendMessage(ChatColor.GRAY + plugin.format("seen.message.lastlogin.offline", DateUtils.getDurationBreakdown(lastlogin, 1)));
-//					}
-//					Location l = op.isOnline() ? op.getPlayer().getLocation() : MauBukLib.getPlayerData().getLocationByUUID(uuid);
-//					if (l != null) sender.sendMessage(ChatColor.GRAY + plugin.format("seen.message.location", MauUtils.toReadableString(l)));
-//				} else sender.sendMessage(ChatColor.RED + plugin.format("seen.message.uuid", plugin.format("seen.message.notfound")));
-//				
-//				if (op.isOnline()) {
-//					Player p = op.getPlayer();
-//					if (p.hasMetadata("maucros")) {
-//						MetadataValue mv = p.getMetadata("maucros").get(0);
-//						sender.sendMessage(ChatColor.GRAY + plugin.format("seen.message.maucros", mv.asString()));
-//					}
-//				}
-//				
-//				if (plugin.isBanned(op.getUniqueId())) {
-//					Ban b = plugin.getBan(op.getUniqueId());
-//					sender.sendMessage(ChatColor.GRAY + plugin.format("seen.message.ban", op.getName(), b.getReason(), b.getBannedBy()));
-//					if (!b.isPermanent())
-//						sender.sendMessage(ChatColor.GRAY + plugin.format("seen.message.ban.expires", Ban.getDurationBreakdown(b.getTimeToTimeout(), 0)));
-//				}
-			}// else sender.sendMessage(plugin.formatErr("error.nevervisited", args[0]));
+				try {
+					UUID uuid = plugin.getPlayerData().getUUIDByName(args[0]);
+					
+					if (uuid == null) {
+						sender.sendMessage(plugin.translateErr("seen.nevervisited", args[0]));
+						return true;
+					}
+					
+					OfflinePlayer op = plugin.getServer().getPlayer(uuid);
+					
+					sender.sendMessage(plugin.translateStd("seen.uuid.info", op != null ? op.getName() : args[0]));
+					sender.sendMessage(plugin.translatePlain("seen.uuid.uuid", uuid.toString()));
+					
+					// Check if the player is online.
+					if (op.isOnline()) {
+						// The player is online. Get the player instance and use it to get the data.
+						Player p = op.getPlayer();
+						
+						// Get the players connection IP and send it.
+						sender.sendMessage(plugin.translatePlain("seen.uuid.latestip", p.getAddress().getAddress().getHostAddress()));
+						
+						// Get the time since the player logged in, format it...
+						String s = DateUtils.getDurationBreakdown(System.currentTimeMillis() - plugin.getPlayerData().getLastLoginByUUID(uuid),
+								DateUtils.MODE_FOR);
+						// ...and send it.
+						sender.sendMessage(plugin.translatePlain("seen.uuid.lastseen.online", s));
+						
+						// Get the players current location...
+						SerializableLocation sl = new SerializableLocation(p.getLocation());
+						// ...and send it.
+						sender.sendMessage(plugin.translatePlain("seen.uuid.location", sl.toString()));
+					} else {
+						// The player is offline. Use data from database.
+						
+						// Get the list of IPs the player has connected using.
+						Map<String, Long> ips = plugin.getPlayerData().getIPsFromUUID(uuid);
+						Entry<String, Long> lip = null;
+						// Loop through the list to find the latest IP.
+						for (Entry<String, Long> ip : ips.entrySet())
+							if (lip == null || lip.getValue() < ip.getValue()) lip = ip;
+						// If found, send it.
+						if (lip != null) sender.sendMessage(plugin.translatePlain("seen.uuid.latestip", lip.getKey()));
+						// Otherwise send an error message.
+						else sender.sendMessage(plugin.translatePlain("seen.uuid.latestip.unknown"));
+						
+						// Get the time since the player logged out, format it...
+						String s = DateUtils.getDurationBreakdown(System.currentTimeMillis() - plugin.getPlayerData().getLastLoginByUUID(uuid),
+								DateUtils.MODE_FOR);
+						// ...and send it.
+						sender.sendMessage(plugin.translatePlain("seen.uuid.lastseen.offline", s));
+						
+						// Get the players log-out location...
+						SerializableLocation sl = plugin.getPlayerData().getLocationByUUID(uuid);
+						// ...and send it.
+						sender.sendMessage(plugin.translatePlain("seen.uuid.location", sl.toString()));
+					}
+				} catch (Exception e) {
+					sender.sendMessage(plugin.translateErr("seen.ip.queryfail", e.getMessage()));
+					plugin.getLogger().severe("Failed to get UUIDs/Usernames from IP " + args[0] + ":");
+					e.printStackTrace();
+					return true;
+				}
+				
+				try {
+					ResultSet rs = plugin.getBans().getBanData(args[0], MauBans.TYPE_IP);
+					if (rs != null) {
+						String reason = rs.getString(MauBans.COLUMN_REASON);
+						String bannedBy = rs.getString(MauBans.COLUMN_BANNEDBY);
+						long expireExact = rs.getLong(MauBans.COLUMN_EXPIRE);
+						
+						if (!bannedBy.equals("CONSOLE")) {
+							UUID u = UUID.fromString(bannedBy);
+							bannedBy = plugin.getServer().getOfflinePlayer(u).getName();
+						}
+						
+						if (expireExact > 0) {
+							String expire = DateUtils.getDurationBreakdown(expireExact - System.currentTimeMillis(), DateUtils.MODE_FOR);
+							sender.sendMessage(plugin.translatePlain("seen.ip.banned.temporary", reason, bannedBy, expire, args[0]));
+						} else sender.sendMessage(plugin.translatePlain("seen.ip.banned.permanent", reason, bannedBy, args[0]));
+					}
+				} catch (Exception e) {
+					sender.sendMessage(plugin.translateErr("seen.ip.bancheckfail", args[0], e.getMessage()));
+					plugin.getLogger().severe("Failed to check if " + args[0] + " is banned: ");
+					e.printStackTrace();
+				}
+			}
 			return true;
 		} else return false;
 	}
