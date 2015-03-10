@@ -8,12 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
@@ -35,7 +38,7 @@ import net.maunium.bukkit.Maussentials.Utils.SerializableLocation;
 public class PlayerData implements Listener, MauModule {
 	private Maussentials plugin;
 	/** Table Names */
-	public static final String TABLE_PLAYERS = "Players", TABLE_HISTORY = "OldNames", TABLE_IPS = "IPs";
+	public static final String TABLE_PLAYERS = "Players", TABLE_HISTORY = "OldNames", TABLE_IPLOGS = "IPLogs";
 	/** Used in many tables */
 	public static final String COLUMN_UUID = "UUID", COLUMN_USERNAME = "Username";
 	/** Used in IPs table */
@@ -228,7 +231,7 @@ public class PlayerData implements Listener, MauModule {
 	}
 	
 	public ResultSet setIPs(UUID uuid, String ip) throws SQLException {
-		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_IPS + " VALUES ('"
+		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_IPLOGS + " VALUES ('"
 				+ uuid.toString() + "','"
 				+ ip + "','"
 				+ System.currentTimeMillis()
@@ -247,7 +250,7 @@ public class PlayerData implements Listener, MauModule {
 	 * @throws SQLException If database querying or resultset getting throws something.
 	 */
 	public Map<UUID, Long> getUUIDsFromIP(String ip) throws SQLException {
-		ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_IPS + " WHERE " + COLUMN_IP + "='" + ip + "';");
+		ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_IPLOGS + " WHERE " + COLUMN_IP + "='" + ip + "';");
 		Map<UUID, Long> rtrn = new HashMap<UUID, Long>();
 		while (rs.next())
 			rtrn.put(UUID.fromString(rs.getString(COLUMN_UUID)), rs.getLong(COLUMN_LASTUSED));
@@ -262,11 +265,36 @@ public class PlayerData implements Listener, MauModule {
 	 * @throws SQLException If database querying or resultset getting throws something.
 	 */
 	public Map<String, Long> getIPsFromUUID(UUID uuid) throws SQLException {
-		ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_IPS + " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
+		ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_IPLOGS + " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
 		Map<String, Long> rtrn = new HashMap<String, Long>();
 		while (rs.next())
 			rtrn.put(rs.getString(COLUMN_IP), rs.getLong(COLUMN_LASTUSED));
 		return rtrn;
+	}
+	
+	/**
+	 * Get the latest IP of the given UUID. The IP may be currently being used (if the player is logged in currently).
+	 * The IP may also be null, if the given UUID has never logged in.
+	 * 
+	 * @param uuid The UUID to search.
+	 * @return The latest known IP of the UUID, or null if the UUID has never logged in.
+	 * @throws SQLException If database querying or resultset getting throws something.
+	 */
+	public String getLatestIPByUUID(UUID uuid) throws SQLException {
+		// Check if the given player is online. If online, return the IP directly from the player instance without any
+		// SQL queries.
+		Player p = Bukkit.getServer().getPlayer(uuid);
+		if (p != null) return p.getAddress().getAddress().getHostAddress();
+		
+		// The player is not online, use the IP log table.
+		Map<String, Long> ips = getIPsFromUUID(uuid);
+		Entry<String, Long> latest = null;
+		// Loop through the query result IPs and find the one with the biggest used at timestamp.
+		for (Entry<String, Long> ip : ips.entrySet())
+			if (latest == null || latest.getValue() < ip.getValue()) latest = ip;
+		
+		// Return the IP from the IP log table, or null if there weren't any entries.
+		return latest != null ? latest.getKey() : null;
 	}
 	
 	/*
@@ -301,6 +329,38 @@ public class PlayerData implements Listener, MauModule {
 		while (rs.next())
 			rtrn.put(UUID.fromString(rs.getString(COLUMN_UUID)), rs.getLong(COLUMN_CHANGEDTO));
 		return rtrn;
+	}
+	
+	/**
+	 * Get the latest UUID who has owned the given name. The name may still be in use by the returned UUID. If a player
+	 * with the given name is online, the UUID will be fetched directly from the player instance.. The UUID will be null
+	 * if the name could not be found in the database.
+	 * 
+	 * @param username The username to search.
+	 * @return The UUID who has previously used or is using the given name, or null if the nobody has ever logged in
+	 *         using the given name.
+	 * @throws SQLException If database querying or resultset getting throws something.
+	 */
+	public UUID getLatestUUIDByName(String username) throws SQLException {
+		// Check if a player is online by the given name. If online, return the UUID directly from the player without
+		// any SQL queries.
+		Player p = Bukkit.getPlayer(username);
+		if (p != null) return p.getUniqueId();
+		
+		// The username is not online, check the Players table for an UUID.
+		UUID u = getUUIDByName(username);
+		if (u != null) return u;
+		
+		// The players table does not contain any entries with the given name. Use the name history table.
+		Map<UUID, Long> uuids = getUUIDsFromName(username);
+		
+		// Loop through the query result UUIDs and find the one with the biggest changedTo timestamp.
+		Entry<UUID, Long> latest = null;
+		for (Entry<UUID, Long> uuid : uuids.entrySet())
+			if (latest == null || latest.getValue() < uuid.getValue()) latest = uuid;
+		
+		// Return the UUID from the history table, or null if there weren't any entries.
+		return latest != null ? latest.getKey() : null;
 	}
 	
 	/*
