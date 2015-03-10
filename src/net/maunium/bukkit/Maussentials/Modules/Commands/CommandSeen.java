@@ -97,7 +97,7 @@ public class CommandSeen extends CommandModule {
 			} else {
 				UUID uuid = null;
 				try {
-					uuid = plugin.getPlayerData().getUUIDByName(args[0]);
+					uuid = plugin.getPlayerData().getLatestUUIDByName(args[0]);
 				} catch (SQLException e1) {
 					sender.sendMessage(plugin.translateErr("seen.nevervisited", args[0]));
 					e1.printStackTrace();
@@ -136,15 +136,11 @@ public class CommandSeen extends CommandModule {
 					} else {
 						// The player is offline. Use data from database.
 						
-						// Get the list of IPs the player has connected using.
-						Map<String, Long> ips = plugin.getPlayerData().getIPsFromUUID(uuid);
-						Entry<String, Long> lip = null;
-						// Loop through the list to find the latest IP.
-						for (Entry<String, Long> ip : ips.entrySet())
-							if (lip == null || lip.getValue() < ip.getValue()) lip = ip;
-						// If found, send it.
-						if (lip != null) sender.sendMessage(plugin.translatePlain("seen.uuid.latestip", lip.getKey()));
-						// Otherwise send an error message.
+						// Get the latest IP of the UUID.
+						String lip = plugin.getPlayerData().getLatestIPByUUID(uuid);
+						// Check if the IP was found and send it if it was.
+						if (lip != null && !lip.isEmpty()) sender.sendMessage(plugin.translatePlain("seen.uuid.latestip", lip));
+						// If it wasn't, send an error.
 						else sender.sendMessage(plugin.translatePlain("seen.uuid.latestip.unknown"));
 						
 						// Get the time since the player logged out, format it...
