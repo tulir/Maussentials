@@ -41,6 +41,9 @@ commands:
   mausignedit:
     description: Edit signs
     aliases: [signedit, mause, se]
+  mauban:
+    description: "Bananize that damn hacker!"
+    aliases: [ban, maubanaani, banaani, maubanana, banana, maubananize, bananize, maubananisoi, bananisoi]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message
@@ -100,3 +103,15 @@ permissions:
       maussentials.sign.format.color: true
       maussentials.sign.format.style: true
       maussentials.sign.format.magic: true
+  maussentials.bans.ban:
+    description: Ban a player
+    default: OP
+  maussentials.bans.see.ban:
+    description: See when a player is banned
+    default: true
+  maussentials.bans:
+    description: Use the whole MauBans module.
+    default: OP
+    children:
+      maussentials.bans.ban: true
+      maussentials.bans.see.ban: true
