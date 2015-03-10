@@ -6,6 +6,7 @@ nyi=That feature has not yet been implemented 3:
 # 0: Permission node
 permission-error=You do not have access to &6{0}&c.
 must-be-ingame=You must be in-game to use that command!
+commandnotloaded=The command &6{0}&c either has not yet been implemented or belongs to a module that has been disabled.
 
 # 0: throwable.getMessage()
 uuid.error=Failed to fetch data: &6{0}&c (See console)
