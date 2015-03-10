@@ -5,6 +5,8 @@ import java.util.Map;
 
 import lib.PatPeter.SQLibrary.Database;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
@@ -73,6 +75,12 @@ public class Maussentials extends JavaPlugin {
 		
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info("Maussentials v" + getDescription().getVersion() + " by Tulir293 disabled in " + et + "ms.");
+	}
+	
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+		sender.sendMessage(translateErr("commandnotloaded", label));
+		return true;
 	}
 	
 	public void die(String message, Throwable error) {
