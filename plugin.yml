@@ -41,6 +41,9 @@ commands:
   mausignedit:
     description: Edit signs
     aliases: [signedit, mause, se]
+  mauplayerdata:
+    description: Inspect the data in the PlayerData system.
+    aliases: [playerdata, maupd, pd]
   mauban:
     description: "Bananize that damn hacker!"
     aliases: [ban, maubanaani, banaani, maubanana, banana, maubananize, bananize, maubananisoi, bananisoi]
@@ -83,6 +86,9 @@ permissions:
     default: OP
   maussentials.plainsay.see:
     description: See when a plain say message is broadcasted.
+    default: OP
+  maussentials.playerdata:
+    description: Inspect the data in the PlayerData system.
     default: OP
   maussentials.sign.edit:
     description: Edit signs
