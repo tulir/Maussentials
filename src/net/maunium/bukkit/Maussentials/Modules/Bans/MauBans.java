@@ -2,6 +2,7 @@ package net.maunium.bukkit.Maussentials.Modules.Bans;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import org.bukkit.event.HandlerList;
 
@@ -32,12 +33,14 @@ public class MauBans implements MauModule {
 			// °FormatOn°
 		} catch (SQLException e) {}
 		plugin.getServer().getPluginManager().registerEvents(jl = new JoinListener(plugin, this), plugin);
+		plugin.getCommand("mauban").setExecutor(new CommandBan(plugin, this));
 		loaded = true;
 	}
 	
 	@Override
 	public void unload() {
 		HandlerList.unregisterAll(jl);
+		plugin.getCommand("mauban").setExecutor(plugin);
 		loaded = false;
 	}
 	
@@ -56,5 +59,22 @@ public class MauBans implements MauModule {
 			plugin.getDB().query("DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + banned + "' AND " + COLUMN_TYPE + "='" + type + "';");
 			return null;
 		} else return rs;
+	}
+	
+	public void ban(UUID uuid, String banner, String reason, long timeout) {
+		try {
+			// °FormatOff°
+			plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_BANS + " VALUES ('"
+					+ uuid.toString() + "','"
+					+ TYPE_UUID + "','"
+					+ reason + "','"
+					+ banner + "','"
+					+ timeout
+					+ "');");
+			// °FormatOn°
+		} catch (SQLException e) {
+			plugin.getLogger().severe("Failed to add ban entry for " + uuid + ":");
+			e.printStackTrace();
+		}
 	}
 }
