@@ -41,7 +41,7 @@ public abstract class CommandModule implements MauModule, CommandExecutor {
 	 * @param permission The permission to check.
 	 * @return True if the player has the permission, false otherwise.
 	 */
-	public boolean checkPerms(CommandSender p, String permission) {
+	public static boolean checkPerms(CommandSender p, String permission) {
 		if (!p.hasPermission(permission)) {
 			p.sendMessage(Maussentials.getInstance().translateErr("permission-error", permission));
 			return false;
