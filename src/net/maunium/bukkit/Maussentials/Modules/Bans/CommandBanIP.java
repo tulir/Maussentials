@@ -75,7 +75,7 @@ public class CommandBanIP implements CommandExecutor {
 						"maussentials.bans.see.ipban");
 			return true;
 		} else {
-			sender.sendMessage(plugin.translateErr("bans.help.banip", label));
+			sender.sendMessage(plugin.translateErr("bans.help.ipban", label));
 			return true;
 		}
 	}

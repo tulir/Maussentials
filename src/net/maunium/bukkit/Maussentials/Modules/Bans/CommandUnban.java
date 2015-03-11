@@ -42,8 +42,8 @@ public class CommandUnban implements CommandExecutor {
 			
 			host.unban(u);
 			
-			if (!args[1].equalsIgnoreCase("silent"))
-				plugin.getServer().broadcast(plugin.translatePlain("bans.broadcast.unbanned", p.getName(), sender.getName()), "maussentials.bans.see.unban");
+			if (args.length > 1 && args[1].equalsIgnoreCase("silent")) return true;
+			plugin.getServer().broadcast(plugin.translatePlain("bans.broadcast.unbanned", p.getName(), sender.getName()), "maussentials.bans.see.unban");
 			return true;
 		} else {
 			sender.sendMessage(plugin.translateErr("bans.help.unban", label));
