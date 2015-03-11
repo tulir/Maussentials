@@ -32,17 +32,17 @@ public class CommandBan implements CommandExecutor {
 			try {
 				u = plugin.getPlayerData().getLatestUUIDByName(args[0]);
 			} catch (SQLException e) {
-				sender.sendMessage(plugin.translateErr("error.nevervisited", args[0]));
+				sender.sendMessage(plugin.translateErr("ban.error.sql", args[0], e.getMessage()));
 				e.printStackTrace();
 				return true;
 			}
 			
 			if (u == null) {
-				sender.sendMessage(plugin.translateErr("error.nevervisited", args[0]));
+				sender.sendMessage(plugin.translateErr("ban.error.nevervisited", args[0]));
 				return true;
 			}
 			
-			OfflinePlayer op = plugin.getServer().getOfflinePlayer(u);
+			OfflinePlayer p = plugin.getServer().getOfflinePlayer(u);
 			
 			StringBuffer sb = new StringBuffer();
 			for (int i = 1; i < args.length; i++) {
@@ -61,8 +61,7 @@ public class CommandBan implements CommandExecutor {
 			}
 			
 			if (!silent)
-				plugin.getServer()
-						.broadcast(plugin.translatePlain("ban.broadcast.banned", op.getName(), reason, sender.getName()), "maussentials.bans.see.ban");
+				plugin.getServer().broadcast(plugin.translatePlain("ban.broadcast.banned", p.getName(), reason, sender.getName()), "maussentials.bans.see.ban");
 			return true;
 		}
 		return false;
