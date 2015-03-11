@@ -55,14 +55,14 @@ public class MauBans implements MauModule {
 		ResultSet rs = plugin.getDB().query(
 				"SELECT * FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + banned + "' AND " + COLUMN_TYPE + "='" + type + "';");
 		
-		rs.next();
-		
-		long expire = rs.getLong(COLUMN_EXPIRE);
-		if (expire > 0 && expire <= System.currentTimeMillis()) {
-			plugin.getLogger().fine("Unbanning " + banned + " (" + type + " ban) as the ban has expired.");
-			plugin.getDB().query("DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + banned + "' AND " + COLUMN_TYPE + "='" + type + "';");
-			return null;
-		} else return rs;
+		if (rs.next()) {
+			long expire = rs.getLong(COLUMN_EXPIRE);
+			if (expire > 0 && expire <= System.currentTimeMillis()) {
+				plugin.getLogger().fine("Unbanning " + banned + " (" + type + " ban) as the ban has expired.");
+				plugin.getDB().query("DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + banned + "' AND " + COLUMN_TYPE + "='" + type + "';");
+				return null;
+			} else return rs;
+		} else return null;
 	}
 	
 	public void ban(UUID uuid, String banner, String reason, long timeout) {
