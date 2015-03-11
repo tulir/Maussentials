@@ -110,7 +110,6 @@ date.for.none=less than 1 seconds
 
 # 0: Reason
 # 1: Banned by
-#
 # 2: IP
 bans.ipban.permanent=Your IP has been banned by &6{1}&c!<br>&c{0}
 # 2: Expire
@@ -118,22 +117,42 @@ bans.ipban.permanent=Your IP has been banned by &6{1}&c!<br>&c{0}
 bans.ipban.temporary=Your IP has been temporarily banned by &6{1}&c!<br>&c{0}<br>&cThe ban will expire in {2}.
 # 0: Reason
 # 1: Banned by
-#
 # 2: UUID
 bans.ban.permanent=You have been banned by &6{1}&c!<br>&c{0}
 # 2: Expire
 # 3: UUID
 bans.ban.temporary=You have been temporarily banned by &6{1}&c!<br>&c{0}<br>&cThe ban will expire in {2}.
 
+# No arguments
+bans.error.reasonmissing=You must enter a ban reason!
+# 0: Username
+bans.error.nevervisited.player=The player &6{0}&c has never visited this server.
 # 0: IP
-#
+bans.error.nevervisited.ip=The IP &6{0}&c has never been used to connect to this server.
+# 0: Username or IP
+# 1: exception.getMessage()
+bans.error.sql=SQL query error: &6{1}
+
+# 0: Username / IP
+# 1: Reason
+# 2: Banner
+bans.broadcast.banned=&cThe player &6{0}&c has been banned by &6{2}&c for "&6{1}&c".
+bans.broadcast.ipbanned=&cThe IP &6{0}&c has been banned by &6{2}&c for "&6{1}&c".
+# 3: The player whose name was used in the command.
+bans.broadcast.ipbanned=&cThe IP &6{0}&c (IP of &6{3}&c) has been banned by &6{2}&c for "&6{1}&c".
+# 3: Ban expiry
+bans.broadcast.tempbanned=&cThe player &6{0}&c has been temporarily (&6{3}&c) banned by &6{2}&c for "&6{1}&c".
+bans.broadcast.tempipbanned=&cThe IP &6{0}&c has been temporarily (&6{3}&c) banned by &6{2}&c for "&6{1}&c".
+# 4: The player whose name was used in the command.
+bans.broadcast.tempipbanned=&cThe IP &6{0}&c (IP of &6{4}&c) has been temporarily (&6{3}&c) banned by &6{2}&c for "&6{1}&c".
+
+# 0: IP
 seen.ip.done=The following players have logged in from &6{0}&7:<br>{1}.
 # 1: List of players (colors hardcoded)
 seen.ip.empty=There are no logged logins from &6{0}&c!
 seen.error=Exception while handling command: &6{0}&c
 # 0: Reason
 # 1: Banned by
-#
 # 2: Expire
 # 3: IP
 seen.ip.banned.temporary=The IP &6{3}&7 has been temporarily banned by &6{1}&7 for &6{2}&7:<br>{0}
