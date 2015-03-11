@@ -47,6 +47,9 @@ commands:
   mauban:
     description: "Bananize that damn hacker!"
     aliases: [ban, maubanaani, banaani, maubanana, banana, maubananize, bananize, maubananisoi, bananisoi]
+  maubanip:
+    description: "Bananize the IP of that damn hacker and/or ban bypasser!"
+    aliases: [banip, maubanaaniip, banaaniip, maubananaip, bananaip, maubananizeip, bananizeip, maubananisoiip, bananisoiip, ipban, mauipbanaani, ipbanaani, mauipbanana, ipbanana, mauipbananize, ipbananize, mauipbananisoi, ipbananisoi]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message
