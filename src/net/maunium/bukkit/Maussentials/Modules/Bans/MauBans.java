@@ -34,6 +34,7 @@ public class MauBans implements MauModule {
 		} catch (SQLException e) {}
 		plugin.getServer().getPluginManager().registerEvents(jl = new JoinListener(plugin, this), plugin);
 		plugin.getCommand("mauban").setExecutor(new CommandBan(plugin, this));
+		plugin.getCommand("maubanip").setExecutor(new CommandBanIP(plugin, this));
 		loaded = true;
 	}
 	
@@ -41,6 +42,7 @@ public class MauBans implements MauModule {
 	public void unload() {
 		HandlerList.unregisterAll(jl);
 		plugin.getCommand("mauban").setExecutor(plugin);
+		plugin.getCommand("maubanip").setExecutor(plugin);
 		loaded = false;
 	}
 	
@@ -74,6 +76,23 @@ public class MauBans implements MauModule {
 			// °FormatOn°
 		} catch (SQLException e) {
 			plugin.getLogger().severe("Failed to add ban entry for " + uuid + ":");
+			e.printStackTrace();
+		}
+	}
+	
+	public void ipban(String ip, String banner, String reason, long timeout) {
+		try {
+			// °FormatOff°
+			plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_BANS + " VALUES ('"
+					+ ip + "','"
+					+ TYPE_IP + "','"
+					+ reason + "','"
+					+ banner + "','"
+					+ timeout
+					+ "');");
+			// °FormatOn°
+		} catch (SQLException e) {
+			plugin.getLogger().severe("Failed to add IP ban entry for " + ip + ":");
 			e.printStackTrace();
 		}
 	}
