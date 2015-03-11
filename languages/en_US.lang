@@ -134,12 +134,12 @@ bans.error.nevervisited.ip=The IP &6{0}&c has never been used to connect to this
 bans.error.sql=SQL query error: &6{1}
 
 # 0: Label
-bans.help.ban=Usage: /{0} <username> <reason>
-bans.help.ipban=Usage: /{0} <IP/username> <reason>
-bans.help.unban=Usage: /{0} <username>
-bans.help.unipban=Usage: /{0} <IP/username>
-bans.help.tempban=Usage: /{0} <username> <time> <reason>
-bans.help.tempipban=Usage: /{0} <IP/username> <time> <reason>
+bans.help.ban=Usage: /{0} <username> <reason> [silent]
+bans.help.ipban=Usage: /{0} <IP/username> <reason> [silent]
+bans.help.unban=Usage: /{0} <username> [silent]
+bans.help.unipban=Usage: /{0} <IP/username> [silent]
+bans.help.tempban=Usage: /{0} <username> <time> <reason> [silent]
+bans.help.tempipban=Usage: /{0} <IP/username> <time> <reason> [silent]
 
 # 0: Username / IP
 # 1: Reason
@@ -147,12 +147,17 @@ bans.help.tempipban=Usage: /{0} <IP/username> <time> <reason>
 bans.broadcast.banned=&cThe player &6{0}&c has been banned by &6{2}&c for "&6{1}&c".
 bans.broadcast.ipbanned=&cThe IP &6{0}&c has been banned by &6{2}&c for "&6{1}&c".
 # 3: The player whose name was used in the command.
-bans.broadcast.ipbanned=&cThe IP &6{0}&c (IP of &6{3}&c) has been banned by &6{2}&c for "&6{1}&c".
+bans.broadcast.ipbanned.byname=&cThe IP &6{0}&c (IP of &6{3}&c) has been banned by &6{2}&c for "&6{1}&c".
 # 3: Ban expiry
 bans.broadcast.tempbanned=&cThe player &6{0}&c has been temporarily (&6{3}&c) banned by &6{2}&c for "&6{1}&c".
 bans.broadcast.tempipbanned=&cThe IP &6{0}&c has been temporarily (&6{3}&c) banned by &6{2}&c for "&6{1}&c".
 # 4: The player whose name was used in the command.
-bans.broadcast.tempipbanned=&cThe IP &6{0}&c (IP of &6{4}&c) has been temporarily (&6{3}&c) banned by &6{2}&c for "&6{1}&c".
+bans.broadcast.tempipbanned.byname=&cThe IP &6{0}&c (IP of &6{4}&c) has been temporarily (&6{3}&c) banned by &6{2}&c for "&6{1}&c".
+
+# 0: Username/IP
+# 1: Unbanner
+bans.broadcast.unbanned=&7The player &6{0}&7 has been unbanned by &6{0}&7.
+bans.broadcast.unipbanned=&7The IP &6{0}&7 has been unbanned by &6{0}&7.
 
 # 0: IP
 seen.ip.done=The following players have logged in from &6{0}&7:<br>{1}.
