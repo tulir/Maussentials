@@ -27,15 +27,17 @@ public class CommandBanIP implements CommandExecutor {
 			sender.sendMessage(plugin.translateErr("bans.error.reasonmissing"));
 			return true;
 		} else if (args.length > 1) {
-			String ip;
+			String ip, username = null;
 			
 			if (args[0].contains(".")) ip = args[0];
 			else {
 				try {
 					UUID u = plugin.getPlayerData().getLatestUUIDByName(args[0]);
 					
-					if (u != null) ip = plugin.getPlayerData().getLatestIPByUUID(u);
-					else {
+					if (u != null) {
+						ip = plugin.getPlayerData().getLatestIPByUUID(u);
+						username = plugin.getPlayerData().getNameByUUID(u);
+					} else {
 						sender.sendMessage(plugin.translateErr("bans.error.nevervisited.ip", args[0]));
 						return true;
 					}
@@ -68,7 +70,9 @@ public class CommandBanIP implements CommandExecutor {
 			}
 			
 			if (!silent)
-				plugin.getServer().broadcast(plugin.translatePlain("bans.broadcast.ipbanned", ip, reason, sender.getName()), "maussentials.bans.see.ipban");
+				plugin.getServer().broadcast(
+						plugin.translatePlain("bans.broadcast.ipbanned" + (username != null ? ".withname" : ""), ip, reason, sender.getName(), username),
+						"maussentials.bans.see.ipban");
 			return true;
 		} else {
 			sender.sendMessage(plugin.translateErr("bans.help.banip", label));
