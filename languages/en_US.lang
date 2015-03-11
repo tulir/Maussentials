@@ -133,6 +133,14 @@ bans.error.nevervisited.ip=The IP &6{0}&c has never been used to connect to this
 # 1: exception.getMessage()
 bans.error.sql=SQL query error: &6{1}
 
+# 0: Label
+bans.help.ban=Usage: /{0} <username> <reason>
+bans.help.ipban=Usage: /{0} <IP/username> <reason>
+bans.help.unban=Usage: /{0} <username>
+bans.help.unipban=Usage: /{0} <IP/username>
+bans.help.tempban=Usage: /{0} <username> <time> <reason>
+bans.help.tempipban=Usage: /{0} <IP/username> <time> <reason>
+
 # 0: Username / IP
 # 1: Reason
 # 2: Banner
