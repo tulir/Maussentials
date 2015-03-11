@@ -47,9 +47,15 @@ commands:
   mauban:
     description: "Bananize that damn hacker!"
     aliases: [ban, maubanaani, banaani, maubanana, banana, maubananize, bananize, maubananisoi, bananisoi]
+  mauunban:
+    description: "Unbananize that innocent player that some retard banned!"
+    aliases: [unban, mauunbanaani, unbanaani, mauunbanana, unbanana, mauunbananize, unbananize, mauunbananisoi, unbananisoi]
   maubanip:
     description: "Bananize the IP of that damn hacker and/or ban bypasser!"
     aliases: [banip, maubanaaniip, banaaniip, maubananaip, bananaip, maubananizeip, bananizeip, maubananisoiip, bananisoiip, ipban, mauipbanaani, ipbanaani, mauipbanana, ipbanana, mauipbananize, ipbananize, mauipbananisoi, ipbananisoi]
+  mauunbanip:
+    description: "Bananize the IP of that damn hacker and/or ban bypasser!"
+    aliases: [unbanip, mauunbanaaniip, unbanaaniip, mauunbananaip, unbananaip, mauunbananizeip, unbananizeip, mauunbananisoiip, unbananisoiip, unipban, mauunipbanaani, unipbanaani, mauunipbanana, unipbanana, mauunipbananize, unipbananize, mauunipbananisoi, unipbananisoi]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message
@@ -115,12 +121,36 @@ permissions:
   maussentials.bans.ban:
     description: Ban a player
     default: OP
+  maussentials.bans.unban:
+    description: Unban a player
+    default: OP
+  maussentials.bans.ipban:
+    description: Ban an IP
+    default: OP
+  maussentials.bans.unipban:
+    description: Unban an IP
+    default: OP
   maussentials.bans.see.ban:
     description: See when a player is banned
     default: true
+  maussentials.bans.see.unban:
+    description: See when a player is unbanned
+    default: true
+  maussentials.bans.see.ipban:
+    description: See when an IP is banned
+    default: OP
+  maussentials.bans.see.unipban:
+    description: See when an IP is unbanned
+    default: OP
   maussentials.bans:
     description: Use the whole MauBans module.
     default: OP
     children:
       maussentials.bans.ban: true
+      maussentials.bans.unban: true
+      maussentials.bans.ipban: true
+      maussentials.bans.unipban: true
       maussentials.bans.see.ban: true
+      maussentials.bans.see.unban: true
+      maussentials.bans.see.ipban: true
+      maussentials.bans.see.unipban: true
