@@ -24,7 +24,7 @@ public class CommandBanIP implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!CommandModule.checkPerms(sender, "maussentials.bans.ipban")) return true;
 		if (args.length == 1) {
-			sender.sendMessage(plugin.translateErr("ban.error.reasonmissing"));
+			sender.sendMessage(plugin.translateErr("bans.error.reasonmissing"));
 			return true;
 		} else if (args.length > 1) {
 			String ip;
@@ -36,18 +36,18 @@ public class CommandBanIP implements CommandExecutor {
 					
 					if (u != null) ip = plugin.getPlayerData().getLatestIPByUUID(u);
 					else {
-						sender.sendMessage(plugin.translateErr("ban.error.nevervisited", args[0]));
+						sender.sendMessage(plugin.translateErr("bans.error.nevervisited.ip", args[0]));
 						return true;
 					}
 				} catch (SQLException e) {
-					sender.sendMessage(plugin.translateErr("ban.error.sql", args[0], e.getMessage()));
+					sender.sendMessage(plugin.translateErr("bans.error.sql", args[0], e.getMessage()));
 					e.printStackTrace();
 					return true;
 				}
 			}
 			
 			if (ip == null) {
-				sender.sendMessage(plugin.translateErr("ban.error.nevervisited", args[0]));
+				sender.sendMessage(plugin.translateErr("bans.error.nevervisited.ip", args[0]));
 				return true;
 			}
 			
@@ -68,9 +68,11 @@ public class CommandBanIP implements CommandExecutor {
 			}
 			
 			if (!silent)
-				plugin.getServer().broadcast(plugin.translatePlain("ban.broadcast.ipbanned", ip, reason, sender.getName()), "maussentials.bans.see.ipban");
+				plugin.getServer().broadcast(plugin.translatePlain("bans.broadcast.ipbanned", ip, reason, sender.getName()), "maussentials.bans.see.ipban");
+			return true;
+		} else {
+			sender.sendMessage(plugin.translateErr("bans.help.banip", label));
 			return true;
 		}
-		return false;
 	}
 }

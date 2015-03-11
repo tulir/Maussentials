@@ -25,20 +25,20 @@ public class CommandBan implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!CommandModule.checkPerms(sender, "maussentials.bans.ban")) return true;
 		if (args.length == 1) {
-			sender.sendMessage(plugin.translateErr("ban.error.reasonmissing"));
+			sender.sendMessage(plugin.translateErr("bans.error.reasonmissing"));
 			return true;
 		} else if (args.length > 1) {
 			UUID u = null;
 			try {
 				u = plugin.getPlayerData().getLatestUUIDByName(args[0]);
 			} catch (SQLException e) {
-				sender.sendMessage(plugin.translateErr("ban.error.sql", args[0], e.getMessage()));
+				sender.sendMessage(plugin.translateErr("bans.error.sql", args[0], e.getMessage()));
 				e.printStackTrace();
 				return true;
 			}
 			
 			if (u == null) {
-				sender.sendMessage(plugin.translateErr("ban.error.nevervisited", args[0]));
+				sender.sendMessage(plugin.translateErr("bans.error.nevervisited.player", args[0]));
 				return true;
 			}
 			
@@ -61,9 +61,12 @@ public class CommandBan implements CommandExecutor {
 			}
 			
 			if (!silent)
-				plugin.getServer().broadcast(plugin.translatePlain("ban.broadcast.banned", p.getName(), reason, sender.getName()), "maussentials.bans.see.ban");
+				plugin.getServer()
+						.broadcast(plugin.translatePlain("bans.broadcast.banned", p.getName(), reason, sender.getName()), "maussentials.bans.see.ban");
+			return true;
+		} else {
+			sender.sendMessage(plugin.translateErr("bans.help.ban", label));
 			return true;
 		}
-		return false;
 	}
 }
