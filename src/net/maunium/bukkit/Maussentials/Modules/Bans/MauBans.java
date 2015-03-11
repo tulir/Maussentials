@@ -34,7 +34,9 @@ public class MauBans implements MauModule {
 		} catch (SQLException e) {}
 		plugin.getServer().getPluginManager().registerEvents(jl = new JoinListener(plugin, this), plugin);
 		plugin.getCommand("mauban").setExecutor(new CommandBan(plugin, this));
+		plugin.getCommand("mauunban").setExecutor(new CommandUnban(plugin, this));
 		plugin.getCommand("maubanip").setExecutor(new CommandBanIP(plugin, this));
+		plugin.getCommand("mauunbanip").setExecutor(new CommandUnbanIP(plugin, this));
 		loaded = true;
 	}
 	
@@ -42,7 +44,9 @@ public class MauBans implements MauModule {
 	public void unload() {
 		HandlerList.unregisterAll(jl);
 		plugin.getCommand("mauban").setExecutor(plugin);
+		plugin.getCommand("mauunban").setExecutor(plugin);
 		plugin.getCommand("maubanip").setExecutor(plugin);
+		plugin.getCommand("mauunbanip").setExecutor(plugin);
 		loaded = false;
 	}
 	
@@ -95,6 +99,25 @@ public class MauBans implements MauModule {
 			// °FormatOn°
 		} catch (SQLException e) {
 			plugin.getLogger().severe("Failed to add IP ban entry for " + ip + ":");
+			e.printStackTrace();
+		}
+	}
+	
+	public void unban(UUID u) {
+		try {
+			plugin.getDB().query(
+					"DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + u.toString() + "' AND " + COLUMN_TYPE + "='" + TYPE_UUID + "';");
+		} catch (SQLException e) {
+			plugin.getLogger().severe("Failed to unban " + u + ":");
+			e.printStackTrace();
+		}
+	}
+	
+	public void unbanip(String ip) {
+		try {
+			plugin.getDB().query("DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + ip + "' AND " + COLUMN_TYPE + "='" + TYPE_IP + "';");
+		} catch (SQLException e) {
+			plugin.getLogger().severe("Failed to unban " + ip + ":");
 			e.printStackTrace();
 		}
 	}
