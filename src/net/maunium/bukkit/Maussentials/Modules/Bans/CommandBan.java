@@ -63,6 +63,8 @@ public class CommandBan implements CommandExecutor {
 			if (!silent)
 				plugin.getServer()
 						.broadcast(plugin.translatePlain("bans.broadcast.banned", p.getName(), reason, sender.getName()), "maussentials.bans.see.ban");
+			
+			if (p.isOnline()) p.getPlayer().kickPlayer(plugin.translatePlain("bans.ban.permanent", reason, sender.getName(), p.getUniqueId()));
 			return true;
 		} else {
 			sender.sendMessage(plugin.translateErr("bans.help.ban", label));
