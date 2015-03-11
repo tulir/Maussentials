@@ -43,8 +43,9 @@ public class Maussentials extends JavaPlugin {
 		this.saveResource("languages/en_US.lang", true);
 		
 		addModule("database", dbh = new DatabaseHandler(), true);
-		addModule("welcome-message", new WelcomeMessage(), true);
 		addModule("playerdata", pd = new PlayerData(), true);
+		addModule("bans", bans = new MauBans(), true);
+		addModule("welcome-message", new WelcomeMessage(), true);
 		addModule("command-uuid", new CommandUUID(), true);
 		addModule("command-kill", new CommandKill(), true);
 		addModule("command-seen", new CommandSeen(), true);
@@ -52,7 +53,6 @@ public class Maussentials extends JavaPlugin {
 		addModule("command-plugin", new CommandReload(), true);
 		addModule("command-psay", new CommandPlainSay(), true);
 		addModule("godmode", new Godmode(), true);
-		addModule("bans", this.bans = new MauBans(), true);
 		addModule("language", lang = new Language(), true);
 		addModule("signeditor", new SignEditor(), true);
 		addModule("privatemessaging", new PrivateMessaging(), true);
