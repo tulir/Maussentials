@@ -1,5 +1,9 @@
 package net.maunium.bukkit.Maussentials.Modules;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.command.Command;
@@ -29,17 +33,22 @@ public class WelcomeMessage extends CommandModule implements Listener {
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
+		try {
+			List<String> welcome = new ArrayList<String>();
+			BufferedReader br = new BufferedReader(new FileReader(new File(plugin.getDataFolder(), "motd.txt")));
+			String s;
+			while ((s = br.readLine()) != null)
+				welcome.add(ChatFormatter.formatAll(s));
+			br.close();
+			
+			this.welcome = welcome.toArray(new String[0]);
+		} catch (Exception e) {
+			plugin.getLogger().severe("Failed to load welcome message:");
+			e.printStackTrace();
+			return;
+		}
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		// Set executor
 		plugin.getCommand("mauwelcomemessage").setExecutor(this);
-		// Load the list of lines to be in the welcome message from config.
-		List<String> s = plugin.getConfig().getStringList("welcome-message");
-		// Initialize the welcome message array
-		welcome = new String[s.size()];
-		// Loop through the lines
-		for (int i = 0; i < s.size(); i++)
-			// Translate the alt format codes to real format codes and add the string to the array.
-			welcome[i] = ChatFormatter.formatAll(s.get(i));
 		loaded = true;
 	}
 	
@@ -58,12 +67,12 @@ public class WelcomeMessage extends CommandModule implements Listener {
 		evt.getPlayer().sendMessage(variables(welcome, evt.getPlayer()));
 	}
 	
-	public String[] variables(String[] s, Player p) {
+	public String[] variables(String[] s, CommandSender p) {
 		String[] n = new String[s.length];
 		for (int i = 0; i < s.length; i++) {
 			String ss = s[i];
 			ss = ss.replace("{PLAYER}", p.getName());
-			ss = ss.replace("{DISPLAYNAME}", p.getDisplayName());
+			ss = ss.replace("{DISPLAYNAME}", (p instanceof Player) ? ((Player) p).getDisplayName() : p.getName());
 			ss = ss.replace("{ONLINE}", Integer.toString(plugin.getServer().getOnlinePlayers().size()));
 			ss = ss.replace("{MAXPLAYERS}", Integer.toString(plugin.getServer().getMaxPlayers()));
 			n[i] = ss;
@@ -74,7 +83,7 @@ public class WelcomeMessage extends CommandModule implements Listener {
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		// Send every line in the welcome message array.
-		sender.sendMessage(welcome);
+		sender.sendMessage(variables(welcome, sender));
 		return true;
 	}
 	
