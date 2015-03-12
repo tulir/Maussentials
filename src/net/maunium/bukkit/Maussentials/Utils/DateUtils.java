@@ -71,7 +71,10 @@ public class DateUtils {
 			sb.append(" ");
 			sb.append(m.translatePlain("date." + md + ".minutes"));
 			
-			if (seconds > 0) sb.append("date.and");
+			if (seconds > 0) {
+				sb.append(" ");
+				sb.append(m.translatePlain("date.and"));
+			}
 			sb.append(" ");
 		}
 		if (seconds > 0) {
