@@ -195,6 +195,7 @@ public class Maussentials extends JavaPlugin {
 			}
 			sb.append(e.getKey());
 			sb.append(ChatColor.WHITE);
+			sb.append(", ");
 		}
 		
 		sender.sendMessage(translateStd("module.list", en, dis, sb.toString()));
