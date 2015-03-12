@@ -65,8 +65,8 @@ public class I18n {
 			String rtrn = ChatFormatter.formatAll(lang.getProperty(node));
 			int i = 0;
 			for (Object o : arguments) {
-				rtrn = rtrn.replace("{" + i + "}", ChatFormatter.formatAll(o.toString()));
 				rtrn = rtrn.replace("{" + i + "}>>nf", o.toString());
+				rtrn = rtrn.replace("{" + i + "}", ChatFormatter.formatAll(o.toString()));
 				i++;
 			}
 			return rtrn.replace("<br>", "\n");
