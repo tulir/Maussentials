@@ -92,7 +92,7 @@ module.reloaded=Reloaded module &6{0}&7 successfully.
 module.notfound=Could not find module &6{0}&c!
 module.alreadyloaded=The module &6{0}&c is already loaded!
 module.alreadyunloaded=The module &6{0}&c is already unloaded!
-module.list=&aEnabled Module ({0})&f - &2Disabled Module ({1})&f<br>{2}
+module.list=&aLoaded Module ({0})&f - &2Unloaded Module ({1})&f<br>{2}
 
 # "In" and "For" separated, as some languages (such as Finnish) have different conjugations for them.
 # No arguments
