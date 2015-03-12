@@ -17,6 +17,7 @@ import java.util.Properties;
  */
 public class I18n {
 	private Properties lang;
+	
 	/**
 	 * Creates an Internationalization instance without a name.<br>
 	 * The created instance can only be used through the non-static method {@link #format(node, replace)}
@@ -61,14 +62,14 @@ public class I18n {
 	 */
 	public String translate(String node, Object... arguments) {
 		if (lang.containsKey(node)) {
-			String rtrn = lang.getProperty(node);
-			rtrn = ChatFormatter.formatAll(rtrn);
+			String rtrn = ChatFormatter.formatAll(lang.getProperty(node));
 			int i = 0;
 			for (Object o : arguments) {
-				rtrn = rtrn.replace("{" + i + "}", o.toString());
+				rtrn = rtrn.replace("{" + i + "}", ChatFormatter.formatAll(o.toString()));
+				rtrn = rtrn.replace("{" + i + "}>>nf", o.toString());
 				i++;
 			}
-			return ChatFormatter.formatAll(rtrn).replace("<br>", "\n");
+			return rtrn.replace("<br>", "\n");
 		} else return node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
 	}
 	
