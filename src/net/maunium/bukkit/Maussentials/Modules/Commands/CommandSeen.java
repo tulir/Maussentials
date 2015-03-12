@@ -32,7 +32,6 @@ public class CommandSeen extends CommandModule {
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("mauseen").setExecutor(this);
-		this.permission = "maussentials.seen";
 		loaded = true;
 	}
 	
@@ -45,6 +44,7 @@ public class CommandSeen extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
+		if (!checkPerms(sender, "maussentials.seen")) return true;
 		if (args.length == 1) {
 			if (args[0].contains(".")) {
 				Map<UUID, Long> uuids;

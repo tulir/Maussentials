@@ -21,6 +21,7 @@ public class CommandReload extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
+		if (!checkPerms(sender, "maussentials.reload")) return true;
 		if (args.length > 2) {
 			if (args[0].equalsIgnoreCase("module")) {
 				if (args[1].equalsIgnoreCase("load")) {
@@ -80,7 +81,6 @@ public class CommandReload extends CommandModule {
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-		this.permission = "maussentials.reload";
 		plugin.getCommand("maureload").setExecutor(this);
 		pm = plugin.getServer().getPluginManager();
 		loaded = true;

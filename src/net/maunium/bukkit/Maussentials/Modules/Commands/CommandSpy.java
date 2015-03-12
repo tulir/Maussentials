@@ -28,7 +28,6 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 		this.plugin = plugin;
 		this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		this.plugin.getCommand("maucommandspy").setExecutor(this);
-		this.permission = "maussentials.commandspy";
 		loaded = true;
 	}
 	
@@ -50,6 +49,7 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 	
 	@Override
 	public boolean execute(Player p, Command cmd, String label, String[] args) {
+		if (!checkPerms(p, "maussentials.spy")) return true;
 		if (p.hasMetadata(CMDSPY_META)) {
 			MetadataUtils.removeMetadata(p, CMDSPY_META, plugin);
 			p.sendMessage(plugin.translateStd("cmdspy.off"));

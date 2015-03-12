@@ -32,7 +32,6 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 		this.plugin = plugin;
 		this.plugin.getCommand("mausignedit").setExecutor(this);
 		this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
-		this.permission = "maussentials.sign.edit";
 		loaded = true;
 	}
 	
@@ -46,6 +45,7 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 	
 	@Override
 	public boolean execute(Player sender, Command cmd, String label, String[] args) {
+		if (!checkPerms(sender, "maussentials.sign.edit")) return true;
 		if (args.length > 0) {
 			int line;
 			try {

@@ -27,7 +27,6 @@ public class Godmode extends PlayerCommandModule implements Listener {
 		this.plugin = plugin;
 		this.plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		this.plugin.getCommand("maugod").setExecutor(this);
-		this.permission = "maussentials.god";
 		loaded = true;
 	}
 	
@@ -51,6 +50,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 	
 	@Override
 	public boolean execute(Player sender, Command cmd, String label, String[] args) {
+		if (!checkPerms(sender, "maussentials.god")) return true;
 		if (args.length == 0) {
 			sender.sendMessage(plugin.translateStd("god." + (toggle_def(sender) ? "off" : "on.def")));
 		} else if (args.length > 0) {

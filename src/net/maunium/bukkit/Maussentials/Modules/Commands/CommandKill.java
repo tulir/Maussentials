@@ -19,6 +19,7 @@ public class CommandKill extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
+		if (!checkPerms(sender, "maussentials.kill")) return true;
 		if (args.length > 0) {
 			Player p = plugin.getServer().getPlayer(args[0]);
 			if (p != null) {
@@ -33,7 +34,6 @@ public class CommandKill extends CommandModule {
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-		this.permission = "maussentials.kill";
 		plugin.getCommand("maukill").setExecutor(this);
 		loaded = true;
 	}

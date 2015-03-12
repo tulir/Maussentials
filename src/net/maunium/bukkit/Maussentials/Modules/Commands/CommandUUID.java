@@ -29,6 +29,7 @@ public class CommandUUID extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
+		if (!checkPerms(sender, "maussentials.uuid")) return true;
 		if (args.length > 1) {
 			if (args[0].equalsIgnoreCase("get")) {
 				String name = args[1];
@@ -142,7 +143,6 @@ public class CommandUUID extends CommandModule {
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-		this.permission = "maussentials.uuid";
 		plugin.getCommand("mauuuid").setExecutor(this);
 		loaded = true;
 	}
