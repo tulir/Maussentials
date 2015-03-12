@@ -8,6 +8,9 @@ commands:
   mauwelcomemessage:
     description: Print the welcome message
     aliases: [welcomemessage, mauwm, wm, mauwelcomemsg, welcomemsg, mauwelcome, welcome, maumotd, motd]
+  maurules:
+    description: Print the rules
+    aliases: [rules, rls, maurls]
   maukill:
     description: Kill a player
     aliases: [kill, mauslay, slay]
@@ -59,6 +62,9 @@ commands:
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message
+    default: true
+  maussentials.rules:
+    description: Print the rules
     default: true
   maussentials.kill:
     description: Kill a player
