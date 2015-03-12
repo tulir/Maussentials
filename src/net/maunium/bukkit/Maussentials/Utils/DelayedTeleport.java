@@ -18,9 +18,10 @@ import net.maunium.bukkit.Maussentials.Maussentials;
  * @since 0.1
  */
 public class DelayedTeleport {
-	private static Maussentials plugin;
+	private final Maussentials plugin;
 	public static final String DELAYED_TP_META = "MaussentialsDelayedTeleportInfo";
 	private final Player p;
+	private final Runnable onSuccess, onFail;
 	private final Location target;
 	private final int delay, safeDelay;
 	private final String fail, success;
@@ -28,147 +29,212 @@ public class DelayedTeleport {
 	private final List<UUID> noCancel;
 	
 	/**
-	 * Creates a delayed teleport with all the default options.
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
 	 * 
 	 * @param p The player to teleport.
 	 * @param target The target location.
 	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
 	 *            certain conditions are met.
-	 * @param fail The message to send on fail (canceled teleport). Can be null.
-	 * @param success The message to send after successful teleport. Can be null.
+	 * @param fail The message to send on fail (canceled teleport).
+	 * @param success The message to send after a successful teleport.
+	 * @param onFail The runnable to run on fail (canceled teleport).
+	 * @param onSuccess The runnable to run after a successful teleport.
 	 * @param safeRange If there are no players in the range or all the players in the range are in the noCancel array,
-	 *            the player will use the safeDelay instead for delay for the delay of the teleportation.
+	 *            the player will use the safeDelay instead for delay for the delay of the teleportation. Setting to 0
+	 *            or less disables the safeRange system.
 	 * @param safeDelay The delay in ticks to use instead if all the players in the safeRange are in the noCancel list.
-	 * @param noCancel The list of players who can be near the player without disallowing use of safeDelay as delay.
+	 *            Setting to the same as delay or -1 disables the safeRange system.
+	 * @param noCancel The list of players who can be near the player without disallowing use of safeDelay as delay. Can
+	 *            be null and will not affect the status of the safeRange system if null or empty.
+	 * @throws IllegalArgumentException if p or target is null.
+	 */
+	public DelayedTeleport(Player p, Location target, int delay, String fail, String success, Runnable onFail, Runnable onSuccess, double safeRange, int safeDelay, List<UUID> noCancel) {
+		this.plugin = Maussentials.getInstance();
+		if (p == null || target == null) throw new IllegalArgumentException("Player/Target can't be null!");
+		this.p = p;
+		this.target = target;
+		this.delay = delay;
+		this.fail = fail;
+		this.success = success;
+		this.onFail = onFail;
+		this.onSuccess = onSuccess;
+		this.safeRange = safeRange;
+		this.safeDelay = safeDelay;
+		this.noCancel = noCancel;
+	}
+	
+	/**
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
+	 * 
+	 * @param p The player to teleport.
+	 * @param target The target location.
+	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
+	 *            certain conditions are met.
+	 * @param fail The message to send on fail (canceled teleport).
+	 * @param success The message to send after a successful teleport.
+	 * @param onFail The runnable to run on fail (canceled teleport).
+	 * @param onSuccess The runnable to run after a successful teleport.
+	 * @param safeRange If there are no players in the range or all the players in the range are in the noCancel array,
+	 *            the player will use the safeDelay instead for delay for the delay of the teleportation. Setting to 0
+	 *            or less disables the safeRange system.
+	 * @param safeDelay The delay in ticks to use instead if all the players in the safeRange are in the noCancel list.
+	 *            Setting to the same as delay or -1 disables the safeRange system.
+	 * @throws IllegalArgumentException if p or target is null.
+	 */
+	public DelayedTeleport(Player p, Location target, int delay, String fail, String success, Runnable onFail, Runnable onSuccess, double safeRange, int safeDelay) {
+		this(p, target, delay, fail, success, onFail, onSuccess, safeRange, safeDelay, null);
+	}
+	
+	/**
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
+	 * 
+	 * @param p The player to teleport.
+	 * @param target The target location.
+	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
+	 *            certain conditions are met.
+	 * @param onFail The runnable to run on fail (canceled teleport).
+	 * @param onSuccess The runnable to run after a successful teleport.
+	 * @param safeRange If there are no players in the range or all the players in the range are in the noCancel array,
+	 *            the player will use the safeDelay instead for delay for the delay of the teleportation. Setting to 0
+	 *            or less disables the safeRange system.
+	 * @param safeDelay The delay in ticks to use instead if all the players in the safeRange are in the noCancel list.
+	 *            Setting to the same as delay or -1 disables the safeRange system.
+	 * @throws IllegalArgumentException if p or target is null.
+	 */
+	public DelayedTeleport(Player p, Location target, int delay, Runnable onFail, Runnable onSuccess, double safeRange, int safeDelay) {
+		this(p, target, delay, null, null, onFail, onSuccess, safeRange, safeDelay, null);
+	}
+	
+	/**
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
+	 * 
+	 * @param p The player to teleport.
+	 * @param target The target location.
+	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
+	 *            certain conditions are met.
+	 * @param fail The message to send on fail (canceled teleport).
+	 * @param success The message to send after a successful teleport.
+	 * @param safeRange If there are no players in the range or all the players in the range are in the noCancel array,
+	 *            the player will use the safeDelay instead for delay for the delay of the teleportation. Setting to 0
+	 *            or less disables the safeRange system.
+	 * @param safeDelay The delay in ticks to use instead if all the players in the safeRange are in the noCancel list.
+	 *            Setting to the same as delay or -1 disables the safeRange system.
+	 * @throws IllegalArgumentException if p or target is null.
+	 */
+	public DelayedTeleport(Player p, Location target, int delay, String fail, String success, double safeRange, int safeDelay) {
+		this(p, target, delay, fail, success, null, null, safeRange, safeDelay, null);
+	}
+	
+	/**
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
+	 * 
+	 * @param p The player to teleport.
+	 * @param target The target location.
+	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
+	 *            certain conditions are met.
+	 * @param onFail The runnable to run on fail (canceled teleport).
+	 * @param onSuccess The runnable to run after a successful teleport.
+	 * @param safeRange If there are no players in the range or all the players in the range are in the noCancel array,
+	 *            the player will use the safeDelay instead for delay for the delay of the teleportation. Setting to 0
+	 *            or less disables the safeRange system.
+	 * @param safeDelay The delay in ticks to use instead if all the players in the safeRange are in the noCancel list.
+	 *            Setting to the same as delay or -1 disables the safeRange system.
+	 * @param noCancel The list of players who can be near the player without disallowing use of safeDelay as delay. Can
+	 *            be null and will not affect the status of the safeRange system if null or empty.
+	 * @throws IllegalArgumentException if p or target is null.
+	 */
+	public DelayedTeleport(Player p, Location target, int delay, Runnable onFail, Runnable onSuccess, double safeRange, int safeDelay, List<UUID> noCancel) {
+		this(p, target, delay, null, null, onFail, onSuccess, safeRange, safeDelay, noCancel);
+	}
+	
+	/**
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
+	 * 
+	 * @param p The player to teleport.
+	 * @param target The target location.
+	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
+	 *            certain conditions are met.
+	 * @param fail The message to send on fail (canceled teleport).
+	 * @param success The message to send after a successful teleport.
+	 * @param safeRange If there are no players in the range or all the players in the range are in the noCancel array,
+	 *            the player will use the safeDelay instead for delay for the delay of the teleportation. Setting to 0
+	 *            or less disables the safeRange system.
+	 * @param safeDelay The delay in ticks to use instead if all the players in the safeRange are in the noCancel list.
+	 *            Setting to the same as delay or -1 disables the safeRange system.
+	 * @param noCancel The list of players who can be near the player without disallowing use of safeDelay as delay. Can
+	 *            be null and will not affect the status of the safeRange system if null or empty.
+	 * @throws IllegalArgumentException if p or target is null.
 	 */
 	public DelayedTeleport(Player p, Location target, int delay, String fail, String success, double safeRange, int safeDelay, List<UUID> noCancel) {
-		this.p = p;
-		this.target = target;
-		this.delay = delay;
-		this.fail = fail;
-		this.success = success;
-		this.safeRange = safeRange;
-		this.safeDelay = safeDelay;
-		this.noCancel = noCancel;
+		this(p, target, delay, fail, success, null, null, safeRange, safeDelay, noCancel);
 	}
 	
 	/**
-	 * Creates a delayed teleport without the safe range and team systems.
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
 	 * 
 	 * @param p The player to teleport.
 	 * @param target The target location.
 	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
 	 *            certain conditions are met.
-	 * @param fail The message to send on fail (canceled teleport). Can be null.
-	 * @param success The message to send after successful teleport. Can be null.
-	 * @param safeRange If there are no players in the range or all the players in the range are in the noCancel array,
-	 *            the player will use the safeDelay instead for delay for the delay of the teleportation.
-	 * @param safeDelay The delay in ticks to use instead if all the players in the safeRange are in the noCancel list.
-	 * @param noCancel The list of players who can be near the player without disallowing use of safeDelay as delay.
+	 * @param fail The message to send on fail (canceled teleport).
+	 * @param success The message to send after a successful teleport.
+	 * @param onFail The runnable to run on fail (canceled teleport).
+	 * @param onSuccess The runnable to run after a successful teleport.
+	 * @throws IllegalArgumentException if p or target is null.
+	 */
+	public DelayedTeleport(Player p, Location target, int delay, String fail, String success, Runnable onFail, Runnable onSuccess) {
+		this(p, target, delay, fail, success, onFail, onSuccess, -1, -1, null);
+	}
+	
+	/**
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
+	 * 
+	 * @param p The player to teleport.
+	 * @param target The target location.
+	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
+	 *            certain conditions are met.
+	 * @param onFail The runnable to run on fail (canceled teleport).
+	 * @param onSuccess The runnable to run after a successful teleport.
+	 * @throws IllegalArgumentException if p or target is null.
+	 */
+	public DelayedTeleport(Player p, Location target, int delay, Runnable onFail, Runnable onSuccess) {
+		this(p, target, delay, null, null, onFail, onSuccess, -1, -1, null);
+	}
+	
+	/**
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
+	 * 
+	 * @param p The player to teleport.
+	 * @param target The target location.
+	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
+	 *            certain conditions are met.
+	 * @param fail The message to send on fail (canceled teleport).
+	 * @param success The message to send after a successful teleport.
+	 * @throws IllegalArgumentException if p or target is null.
 	 */
 	public DelayedTeleport(Player p, Location target, int delay, String fail, String success) {
-		this.p = p;
-		this.target = target;
-		this.delay = delay;
-		this.fail = fail;
-		this.success = success;
-		this.safeRange = -1;
-		this.safeDelay = -1;
-		this.noCancel = null;
+		this(p, target, delay, fail, success, null, null, -1, -1, null);
 	}
 	
 	/**
-	 * Creates a delayed teleport without delays (only teleports if safe range applies)
-	 * 
-	 * @param p The player to teleport.
-	 * @param target The target location.
-	 * @param fail The message to send on fail (canceled teleport). Can be null.
-	 * @param success The message to send after successful teleport. Can be null.
-	 * @param safeRange If there are players in the safeRange that not in the noCancel list, the player will not be
-	 *            teleported.
-	 * @param noCancel The list of players who can be near the player without disallowing teleportation.
-	 */
-	public DelayedTeleport(Player p, Location target, String fail, String success, double safeRange, List<UUID> noCancel) {
-		this.p = p;
-		this.target = target;
-		this.delay = -1;
-		this.fail = fail;
-		this.success = success;
-		this.safeRange = safeRange;
-		this.safeDelay = -1;
-		this.noCancel = noCancel;
-	}
-	
-	/**
-	 * Creates a delayed teleport with all the default options but with no fail/success messages.
+	 * Creates an Delayed Teleport instance. All the non-primitive arguments except p and target can be null.
 	 * 
 	 * @param p The player to teleport.
 	 * @param target The target location.
 	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
 	 *            certain conditions are met.
-	 * @param safeRange If there are no players in the range or all the players in the range are in the noCancel array,
-	 *            the player will use the safeDelay instead for delay for the delay of the teleportation.
-	 * @param safeDelay The delay in ticks to use instead if all the players in the safeRange are in the noCancel list.
-	 * @param noCancel The list of players who can be near the player without disallowing use of safeDelay as delay.
-	 */
-	public DelayedTeleport(Player p, Location target, int delay, double safeRange, int safeDelay, List<UUID> noCancel) {
-		this.p = p;
-		this.target = target;
-		this.delay = delay;
-		this.fail = null;
-		this.success = null;
-		this.safeRange = safeRange;
-		this.safeDelay = safeDelay;
-		this.noCancel = noCancel;
-	}
-	
-	/**
-	 * Creates a delayed teleport without the safe range and team systems but with no fail/success messages.
-	 * 
-	 * @param p The player to teleport.
-	 * @param target The target location.
-	 * @param delay The delay in ticks to use for teleportation by default. This may be overriden by safeDelay if
-	 *            certain conditions are met.
-	 * @param safeRange If there are no players in the range or all the players in the range are in the noCancel array,
-	 *            the player will use the safeDelay instead for delay for the delay of the teleportation.
-	 * @param safeDelay The delay in ticks to use instead if all the players in the safeRange are in the noCancel list.
-	 * @param noCancel The list of players who can be near the player without disallowing use of safeDelay as delay.
+	 * @param fail The message to send on fail (canceled teleport).
+	 * @param success The message to send after a successful teleport.
+	 * @throws IllegalArgumentException if p or target is null.
 	 */
 	public DelayedTeleport(Player p, Location target, int delay) {
-		this.p = p;
-		this.target = target;
-		this.delay = delay;
-		this.fail = null;
-		this.success = null;
-		this.safeRange = -1;
-		this.safeDelay = -1;
-		this.noCancel = null;
-	}
-	
-	/**
-	 * Creates a delayed teleport without delays (only teleports if safe range applies) but with no fail/success
-	 * messages.
-	 * 
-	 * @param p The player to teleport.
-	 * @param target The target location.
-	 * @param safeRange If there are players in the safeRange that not in the noCancel list, the player will not be
-	 *            teleported.
-	 * @param noCancel The list of players who can be near the player without disallowing teleportation.
-	 */
-	public DelayedTeleport(Player p, Location target, double safeRange, List<UUID> noCancel) {
-		this.p = p;
-		this.target = target;
-		this.delay = -1;
-		this.fail = null;
-		this.success = null;
-		this.safeRange = safeRange;
-		this.safeDelay = -1;
-		this.noCancel = noCancel;
+		this(p, target, delay, null, null, null, null, -1, -1, null);
 	}
 	
 	public void failed() {
-		if (fail != null) p.sendMessage(fail);
 		MetadataUtils.removeMetadata(p, DELAYED_TP_META, plugin);
+		if (fail != null) p.sendMessage(fail);
+		if (onFail != null) onFail.run();
 	}
 	
 	/**
@@ -178,17 +244,18 @@ public class DelayedTeleport {
 	public void start() {
 		MetadataUtils.setFixedMetadata(p, DELAYED_TP_META, this, plugin);
 		
-		for (Entity e : p.getNearbyEntities(safeRange, safeRange, safeRange)) {
-			if (e instanceof Player) {
-				Player x = (Player) e;
-				if (x.getUniqueId().equals(p.getUniqueId())) continue;
-				if (noCancel != null && noCancel.contains(x)) continue;
-				Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, delay);
-				return;
+		if (safeRange > 0 && safeDelay != -1 && safeDelay != delay) {
+			for (Entity e : p.getNearbyEntities(safeRange, safeRange, safeRange)) {
+				if (e instanceof Player) {
+					Player x = (Player) e;
+					if (x.getUniqueId().equals(p.getUniqueId())) continue;
+					if (noCancel != null && noCancel.contains(x.getUniqueId())) continue;
+					Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, delay);
+					return;
+				}
 			}
-		}
-		
-		Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, safeDelay);
+			Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, safeDelay);
+		} else Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, delay);
 	}
 	
 	private Runnable delayer = new Runnable() {
@@ -196,13 +263,10 @@ public class DelayedTeleport {
 		public void run() {
 			if (p.hasMetadata(DELAYED_TP_META)) {
 				p.teleport(target);
-				if (success != null) p.sendMessage(success);
 				MetadataUtils.removeMetadata(p, DELAYED_TP_META, plugin);
+				if (success != null) p.sendMessage(success);
+				if (onSuccess != null) onSuccess.run();
 			}
 		}
 	};
-	
-	public static void setPlugin(Maussentials _plugin) {
-		if (_plugin.equals(Maussentials.getInstance())) plugin = _plugin;
-	}
 }
