@@ -78,6 +78,7 @@ public class BasicMessages extends CommandModule implements Listener {
 		welcome = null;
 		HandlerList.unregisterAll(this);
 		plugin.getCommand("mauwelcomemessage").setExecutor(plugin);
+		plugin.getCommand("maurules").setExecutor(plugin);
 		plugin = null;
 		loaded = false;
 	}
