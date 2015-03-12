@@ -80,10 +80,10 @@ permissions:
     default: OP
   maussentials.message.color:
     description: Color in private messages
-    default: true
+    default: OP
   maussentials.message.style:
     description: Style in private messages
-    default: true
+    default: OP
   maussentials.message.magic:
     description: Magic in private messages
     default: OP
