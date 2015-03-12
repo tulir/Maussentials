@@ -34,49 +34,53 @@ public class CommandPlugins implements MauModule, Listener {
 		if (msg.startsWith("plugins") || msg.equals("pl") || msg.equals("pls") || msg.equals("plugs")) {
 			evt.setCancelled(true);
 			Player p = evt.getPlayer();
-			if (!p.hasPermission("maussentials.plugins")) {
-				p.sendMessage(plugin.translateErr("permission-error", "maussentials.plugins"));
-				return;
-			}
-			List<String> plugins = new ArrayList<String>();
-			
-			int emp = 0;
-			int dmp = 0;
-			int ep = 0;
-			int dp = 0;
-			
-			for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
-				if (isMauPlugin(pl)) {
-					if (pl.isEnabled()) {
-						plugins.add(ChatColor.GREEN + pl.getName() + ChatColor.WHITE);
-						emp++;
-					} else {
-						plugins.add(ChatColor.DARK_GREEN + pl.getName() + ChatColor.WHITE);
-						dmp++;
-					}
+			plugins(p);
+		}
+	}
+	
+	public final void plugins(Player p) {
+		if (!p.hasPermission("maussentials.plugins")) {
+			p.sendMessage(plugin.translateErr("permission-error", "maussentials.plugins"));
+			return;
+		}
+		List<String> plugins = new ArrayList<String>();
+		
+		int emp = 0;
+		int dmp = 0;
+		int ep = 0;
+		int dp = 0;
+		
+		for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
+			if (isMauPlugin(pl)) {
+				if (pl.isEnabled()) {
+					plugins.add(ChatColor.GREEN + pl.getName() + ChatColor.WHITE);
+					emp++;
 				} else {
-					if (pl.isEnabled()) {
-						plugins.add(ChatColor.AQUA + pl.getName() + ChatColor.WHITE);
-						ep++;
-					} else {
-						plugins.add(ChatColor.RED + pl.getName() + ChatColor.WHITE);
-						dp++;
-					}
+					plugins.add(ChatColor.DARK_GREEN + pl.getName() + ChatColor.WHITE);
+					dmp++;
+				}
+			} else {
+				if (pl.isEnabled()) {
+					plugins.add(ChatColor.AQUA + pl.getName() + ChatColor.WHITE);
+					ep++;
+				} else {
+					plugins.add(ChatColor.RED + pl.getName() + ChatColor.WHITE);
+					dp++;
 				}
 			}
-			
-			Collections.sort(plugins, String.CASE_INSENSITIVE_ORDER);
-			StringBuffer sb = new StringBuffer();
-			for (String s : plugins) {
-				sb.append(s);
-				sb.append(", ");
-			}
-			String[] send = new String[] {
-					ChatColor.GREEN + "Enabled MauPlugin (" + emp + ")" + ChatColor.WHITE + " - " + ChatColor.DARK_GREEN + "Disabled MauPlugin (" + dmp + ")",
-					ChatColor.AQUA + "Enabled Plugin (" + ep + ")" + ChatColor.WHITE + " - " + ChatColor.RED + "Disabled Plugin (" + dp + ")", " ",
-					sb.delete(sb.length() - 2, sb.length()).toString(), " " };
-			p.sendMessage(send);
 		}
+		
+		Collections.sort(plugins, String.CASE_INSENSITIVE_ORDER);
+		StringBuffer sb = new StringBuffer();
+		for (String s : plugins) {
+			sb.append(s);
+			sb.append(", ");
+		}
+		String[] send = new String[] {
+				ChatColor.GREEN + "Enabled MauPlugin (" + emp + ")" + ChatColor.WHITE + " - " + ChatColor.DARK_GREEN + "Disabled MauPlugin (" + dmp + ")",
+				ChatColor.AQUA + "Enabled Plugin (" + ep + ")" + ChatColor.WHITE + " - " + ChatColor.RED + "Disabled Plugin (" + dp + ")", " ",
+				sb.delete(sb.length() - 2, sb.length()).toString(), " " };
+		p.sendMessage(send);
 	}
 	
 	public boolean isMauPlugin(Plugin pl) {
