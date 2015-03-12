@@ -3,6 +3,7 @@ package net.maunium.bukkit.Maussentials.Modules;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.MetadataValue;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
@@ -66,8 +67,15 @@ public class PrivateMessaging extends CommandModule {
 			return false;
 		} else if (cmd.getName().equals("maureply")) {
 			String replyTo = null;
-			if (sender instanceof Player) replyTo = MetadataUtils.getMetadata((Player) sender, REPLY_META, plugin).asString();
-			else replyTo = CONSOLE_REPLY;
+			if (sender instanceof Player) {
+				MetadataValue mv = MetadataUtils.getMetadata((Player) sender, REPLY_META, plugin);
+				if (mv != null) replyTo = mv.asString();
+				else {
+					sender.sendMessage(plugin.translateErr("pm.reply.nobody"));
+					return true;
+				}
+				
+			} else replyTo = CONSOLE_REPLY;
 			if (replyTo == null || replyTo.isEmpty()) {
 				sender.sendMessage(plugin.translateErr("pm.reply.nobody"));
 				return true;
