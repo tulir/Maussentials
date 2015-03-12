@@ -2,12 +2,15 @@ package net.maunium.bukkit.Maussentials;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import lib.PatPeter.SQLibrary.Database;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import net.md_5.bungee.api.ChatColor;
 
 import net.maunium.bukkit.Maussentials.Modules.BasicMessages;
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
@@ -177,5 +180,23 @@ public class Maussentials extends JavaPlugin {
 	
 	public String translatePlain(String node, Object... replace) {
 		return lang.translate(node, replace);
+	}
+	
+	public void modules(CommandSender sender) {
+		int en = 0, dis = 0;
+		StringBuffer sb = new StringBuffer();
+		for (Entry<String, MauModule> e : modules.entrySet()) {
+			if (e.getValue().isLoaded()) {
+				sb.append(ChatColor.GREEN);
+				en++;
+			} else {
+				sb.append(ChatColor.DARK_GREEN);
+				dis++;
+			}
+			sb.append(e.getKey());
+			sb.append(ChatColor.WHITE);
+		}
+		
+		sender.sendMessage(translateStd("module.list", en, dis, sb.toString()));
 	}
 }
