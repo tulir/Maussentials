@@ -37,8 +37,11 @@ public class WelcomeMessage extends CommandModule implements Listener {
 			List<String> welcome = new ArrayList<String>();
 			BufferedReader br = new BufferedReader(new FileReader(new File(plugin.getDataFolder(), "motd.txt")));
 			String s;
-			while ((s = br.readLine()) != null)
+			while ((s = br.readLine()) != null) {
+				if (s.startsWith("#")) continue;
+				else if (s.startsWith("\\#")) s = s.substring(1);
 				welcome.add(ChatFormatter.formatAll(s));
+			}
 			br.close();
 			
 			this.welcome = welcome.toArray(new String[0]);
