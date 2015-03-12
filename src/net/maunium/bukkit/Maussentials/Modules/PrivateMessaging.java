@@ -41,6 +41,7 @@ public class PrivateMessaging extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
+		if (!checkPerms(sender, "maussentials.message")) return true;
 		if (cmd.getName().equals("maumessage")) {
 			if (args.length > 1) {
 				CommandSender p;
