@@ -78,8 +78,7 @@ signedit.click=Click a sign to edit it.
 signedit.edited=Edited sign successfully.
 
 # 0: Label
-plugin.help=Usage: /{0} plugin <load/unload/reload/enable/disable/restart> <name>
-module.help=Usage: /{0} module <load/unload/reload> <name>
+reloader.help=Incorrect usage.<br>&c/{0} plugin <load/unload/reload/enable/disable/restart> <name><br>&c/{0} module <load/unload/reload> <name>
 # 0: Plugin/Module name
 plugin.enabled=Enabled plugin &6{0}&7 successfully.
 plugin.disabled=Disabled plugin &6{0}&7 successfully.
