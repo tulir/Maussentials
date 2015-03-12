@@ -47,6 +47,7 @@ public class MauBans implements MauModule {
 		plugin.getCommand("mauunban").setExecutor(plugin);
 		plugin.getCommand("maubanip").setExecutor(plugin);
 		plugin.getCommand("mauunbanip").setExecutor(plugin);
+		plugin = null;
 		loaded = false;
 	}
 	
