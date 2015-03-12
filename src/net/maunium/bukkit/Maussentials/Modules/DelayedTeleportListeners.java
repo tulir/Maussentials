@@ -25,7 +25,6 @@ public class DelayedTeleportListeners implements MauModule, Listener {
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-		DelayedTeleport.setPlugin(plugin);
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		loaded = true;
 	}
