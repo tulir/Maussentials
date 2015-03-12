@@ -13,11 +13,8 @@ import net.maunium.bukkit.Maussentials.Maussentials;
  * @since 0.1
  */
 public abstract class CommandModule implements MauModule, CommandExecutor {
-	protected String permission = "";
-	
 	@Override
 	public final boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!checkPerms(sender, permission)) return true;
 		if (!execute(sender, cmd, label, args)) help(sender, cmd, label, args);
 		return true;
 	}
