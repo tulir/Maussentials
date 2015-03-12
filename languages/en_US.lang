@@ -183,3 +183,5 @@ seen.uuid.latestip=&7IP Address: &6{0}&7.
 # No arguments
 seen.uuid.latestip.unknown=&7IP Address: &6Unknown&7.
 seen.uuid.location=&7Location: &6{0}&7.
+
+plainsay.spy={0} &7&o({1} PS)
