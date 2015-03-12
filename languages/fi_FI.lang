@@ -1,0 +1,191 @@
+# No arguments
+stag=&2[&aMaussentials&2] &7
+errtag=&4[&cMaussentials&4] &c
+nyi=Tuota ominaisuutta ei ole vielä lisätty 3:
+
+# 0: Permission node
+permission-error=Sinulla ei ole lupaa &6{0}&c.
+must-be-ingame=Sinun on oltava pelin sisällä käyttääksesi tuota komentoa!
+commandnotloaded=Komento &6{0}&c on joko osa moduulia joka on poissa käytöstä tai sitä ei ole vielä lisätty.
+
+# 0: throwable.getMessage()
+uuid.error=Tietojen etsiminen epäonnistui: &6{0}&c (Katso konsoli)
+# 0: Username
+uuid.get.invalid=Pelaajan &6{0}&c profiilia ei voitu hakea.
+# 0: Username
+# 1: error field from returned JSON
+# 2: errorMessage field from returned JSON
+uuid.get.error=Pelaajan &6{0}&c profiilia ei voitu hakea: &6{1}
+# 0: Username
+uuid.get.name=Nykyinen nimi: &6{0}&7.
+# 0: UUID
+uuid.get.uuid=UUID: &6{0}&7.
+uuid.history.invalid=UUID:n &6{0}&c nimihistoriaa ei voitu hakea.
+uuid.history=UUID:n &6{0}&f nimihistoria:
+# 0: Username
+uuid.history.original=&7 - &6{0}&7 (Alkuperäinen Nimi)
+uuid.history.new=&7 - &6{0}&7 (Vaihdettu &6{1}&7).
+# 0: Label
+uuid.help.get=Käyttäminen: /{0} get <käyttäjänimi> [aika]
+uuid.help.history=Käyttäminen: /{0} history <uuid>
+
+# 0: Username
+kill.ed=Tapettiin pelaaja &6{0}&7.
+kill.notfound=Pelaajaa &6{0}&c ei löydetty!
+
+# No arguments
+god.off=Jumalamuoto deaktivoitu.
+god.on.def=Tavallinen jumalamuoto aktivoitu.
+god.on.dmg=Damage-jumalamuoto aktivoitu.
+# 0: Username
+god.for.on.def=Tavallinen jumalamuoto aktivoitu pelaajalle &6{0}&7.
+god.for.on.dmg=Damage-jumalamuoto aktivoitu pelaajalle &6{0}&7.
+god.for.off=Jumalamuoto deaktivoitu pelaajalta &6{0}&7.
+god.notfound=Pelaajaa &6{0}&c ei löydetty!
+# 0: Label
+god.help=Käyttäminen: /{0} [käyttäjänimi/default/damage] [default/damage/private]
+god.private=Pelaaja &6{0}&c käyttää yksityistä jumalamuotoa. Et voi vaikuttaa siihen.
+
+# 0: From
+# 1: To
+# 2: Message
+pm.msg.to=&3[&6{0}&3 -> &6minä&3] &f{2}>>nf
+pm.msg.from=&3[&6minä&3 -> &6{1}&3] &f{2}>>nf
+pm.spy.msg=&2[SPY] &3[&6{0}&3 -> &6{1}&3] &f{2}>>nf
+# 0: Label
+pm.help.pm=Käyttäminen: /{0} <kohde> <viesti>
+pm.help.reply=Käyttäminen: /{0} <viesti>
+pm.help.socialspy=Käyttäminen: /{0} [pelaaja]
+# No arguments
+pm.msg.nobody=Tuota pelaajaa ei löydetty.
+pm.reply.nobody=Sinulla ei ole ketään, jolle vastata.
+pm.spy.on=Yksityisviestien vakoilutila aktivoitu.
+pm.spy.off=Yksityisviestien vakoilutila deaktivoitu.
+
+# No arguments
+cmdspy.onlyplayer=Komentojen vakoilutila konsolissa on aina päällä.
+# 0: Username
+# 1: Command
+cmdspy.cmd=&6{0}&7 ajoi komennon &3{1}>>nf&7.
+cmdspy.on=Komentojen vakoilutila aktivoitu.
+cmdspy.off=Komentojen vakoilutila deaktivoitu.
+
+# 0: Label
+signedit.help=Käyttäminen: /{0} <rivi 1-4> [teksti]
+# No arguments
+signedit.toolong=Kyltin rivin maksimipituus on 16 merkkiä!
+signedit.click=Napsauta kylttiä muokataksesi sitä.
+signedit.edited=Kyltti muokattu onnistuneesti.
+
+# 0: Label
+reloader.help=Väärä käyttötapa.<br>&c/{0} plugin <list/load/unload/reload/enable/disable/restart> <name><br>&c/{0} module <list/load/unload/reload> <name>
+# 0: Plugin/Module name
+plugin.enabled=Aktivoitiin plugin &6{0}&7 onnistuneesti.
+plugin.disabled=Deaktivoitiin plugin &6{0}&7 onnistuneesti.
+plugin.restarted=Käynnistettiin plugin &6{0}&7 uudelleen onnistuneesti.
+plugin.notfound=Pluginia &6{0}&c ei löydetty!
+plugin.alreadyenabled=Plugin &6{0}&c on jo aktivoitu!
+plugin.alreadydisabled=Plugin &6{0}&c on jo deaktivoitu!
+module.loaded=Aktivoitiin moduuli &6{0}&7 onnistuneesti.
+module.unloaded=Deaktivoitiin moduuli &6{0}&7 onnistuneesti.
+module.reloaded=Käynnistettiin moduuli &6{0}&7 uudelleen onnistuneesti.
+module.notfound=Moduulia &6{0}&c ei löydetty!
+module.alreadyloaded=Moduuli &6{0}&c on jo aktivoitu!
+module.alreadyunloaded=Moduuli &6{0}&c on jo deaktivoitu!
+module.list=&aAktivoitu Moduuli ({0})&f - &2Deaktivoitu Moduuli ({1})&f<br>{2}
+
+# "In" and "For" separated, as some languages (such as Finnish) have different conjugations for them.
+# No arguments
+date.in.days=päivän
+date.in.hours=tunnin
+date.in.minutes=minuutin
+date.in.seconds=sekunnin
+date.in.none=alle sekunnin
+date.for.days=päivää
+date.for.hours=tuntia
+date.for.minutes=minuuttia
+date.for.seconds=sekuntia
+date.for.none=alle 1 sekuntia
+date.and=ja
+date.comma=,
+
+# 0: Reason
+# 1: Banned by
+# 2: IP
+bans.ipban.permanent=&6{1}&c on antanut IPllesi porttikiellon!<br>&c{0}
+# 2: Expire
+# 3: IP
+bans.ipban.temporary=&6{1}&c on antanut IPllesi väliaikaisen porttikiellon!<br>&c{0}<br>&cPorttikielto loppuu {2} kuluttua.
+# 0: Reason
+# 1: Banned by
+# 2: UUID
+bans.ban.permanent=&6{1}&c on antanut sinulle porttikiellon!<br>&c{0}
+# 2: Expire
+# 3: UUID
+bans.ban.temporary=&6{1}&c on antanut sinulle väliaikaisen porttikiellon!<br>&c{0}<br>&cPorttikielto loppuu {2} kuluttua.
+
+# No arguments
+bans.error.reasonmissing=Sinun on annettava porttikiellolle syy!
+# 0: Username
+bans.error.nevervisited.player=Pelaaja &6{0}&c ei ole koskaan käynyt palvelimella.
+# 0: IP
+bans.error.nevervisited.ip=IPtä &6{0}&c ei ole koskaan käytetty palvelimelle yhdistämiseen.
+# 0: Username or IP
+# 1: exception.getMessage()
+bans.error.sql=SQL query virhe: &6{1}
+
+# 0: Label
+bans.help.ban=Käyttäminen: /{0} <käyttäjänimi> <syy> [silent]
+bans.help.ipban=Käyttäminen: /{0} <IP/käyttäjänimi> <syy> [silent]
+bans.help.unban=Käyttäminen: /{0} <käyttäjänimi> [silent]
+bans.help.unipban=Käyttäminen: /{0} <IP/käyttäjänimi> [silent]
+bans.help.tempban=Käyttäminen: /{0} <käyttäjänimi> <time> <syy> [silent]
+bans.help.tempipban=Käyttäminen: /{0} <IP/käyttäjänimi> <time> <syy> [silent]
+
+# 0: Username / IP
+# 1: Reason
+# 2: Banner
+bans.broadcast.banned=&6{2}&c antoi porttikiellon pelaajalle &6{0}&c syyllä "&6{1}&c".
+bans.broadcast.banned=&6{2}&c antoi porttikiellon IPlle &6{0}&c syyllä "&6{1}&c".
+# 3: The player whose name was used in the command.
+bans.broadcast.banned=&6{2}&c antoi porttikiellon IPlle &6{0}&c (Pelaajan &6{3}&c IP) syyllä "&6{1}&c".
+# 3: Ban expiry
+bans.broadcast.tempbanned=&6{2}&c antoi pelaajalle &6{0}&c väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
+bans.broadcast.tempipbanned=&6{2}&c antoi IPlle &6{0}&c väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
+# 4: The player whose name was used in the command.
+bans.broadcast.tempipbanned=&6{2}&c antoi IPlle &6{0}&c (Pelaajan &6{3}&c IP) väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
+
+# 0: Username/IP
+# 1: Unbanner
+bans.broadcast.unbanned=&6{0}&7 poisti pelaajan &6{0}&7 porttikiellon.
+bans.broadcast.unipbanned=&6{0}&7 poisti IPn &6{0}&7 porttikiellon.
+
+# 0: IP
+# 1: List of players (colors hardcoded)
+seen.ip.done=Seuraavat pelaajat ovat kirjautuneet sisään IPstä &6{0}&7:<br>{1}.
+seen.ip.empty=Kukaan ei ole kirjautunut sisään IPstä &6{0}&c!
+seen.error=Virhe komennon käsittelyssä: &6{0}&c
+# 0: Reason
+# 1: Banned by
+# 2: Expire
+# 3: IP
+seen.ip.banned.temporary=IPllä &6{3}&7 on väliaikainen porttikielto joka poistuu &6{2}&7 päästä pelaajan &6{1}&7 toimesta:<br>{0}
+# 2: IP
+seen.ip.banned.temporary=IPllä &6{3}&7 on porttikielto pelaajan &6{1}&7 toimesta:<br>{0}
+# 0: IP
+seen.ip.bancheckfail=IP-porttikiellon tarkistus epäonnistui: &6{0}&c
+# 0: Username
+seen.nevervisited=Pelaaja &6{0}&c ei ole koskaan käynyt palvelimella!
+seen.uuid.info=Tietoja pelaajasta &6{0}&7:
+# 0: UUID
+seen.uuid.uuid=&7UUID: &6{0}&7.
+# 0: IP
+seen.uuid.latestip=&7IP Osoite: &6{0}&7.
+# 0: Time
+seen.uuid.lastseen.online=&2Online&7 &6{0}&7 ajan.
+seen.uuid.lastseen.online=&4Offline&7 &6{0}&7 ajan.
+# No arguments
+seen.uuid.latestip.unknown=&7IP Osoite: &6Tuntematon&7.
+seen.uuid.location=&7Sijainti: &6{0}&7.
+
+plainsay.spy={0} &7&o({1} PS)
