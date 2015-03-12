@@ -116,7 +116,7 @@ public class CommandSeen extends CommandModule {
 					sender.sendMessage(plugin.translatePlain("seen.uuid.uuid", uuid.toString()));
 					
 					// Check if the player is online.
-					if (op.isOnline()) {
+					if (op != null && op.isOnline()) {
 						// The player is online. Get the player instance and use it to get the data.
 						Player p = op.getPlayer();
 						
@@ -132,7 +132,7 @@ public class CommandSeen extends CommandModule {
 						// Get the players current location...
 						SerializableLocation sl = new SerializableLocation(p.getLocation());
 						// ...and send it.
-						sender.sendMessage(plugin.translatePlain("seen.uuid.location", sl.toString()));
+						sender.sendMessage(plugin.translatePlain("seen.uuid.location", sl.toReadableString()));
 					} else {
 						// The player is offline. Use data from database.
 						
