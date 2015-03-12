@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.maunium.bukkit.Maussentials.Modules.BasicMessages;
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
 import net.maunium.bukkit.Maussentials.Modules.DelayedTeleportListeners;
 import net.maunium.bukkit.Maussentials.Modules.Godmode;
@@ -16,7 +17,6 @@ import net.maunium.bukkit.Maussentials.Modules.Language;
 import net.maunium.bukkit.Maussentials.Modules.PlayerData;
 import net.maunium.bukkit.Maussentials.Modules.PrivateMessaging;
 import net.maunium.bukkit.Maussentials.Modules.SignEditor;
-import net.maunium.bukkit.Maussentials.Modules.WelcomeMessage;
 import net.maunium.bukkit.Maussentials.Modules.Bans.MauBans;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandKill;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandPlainSay;
@@ -48,7 +48,7 @@ public class Maussentials extends JavaPlugin {
 		addModule("database", dbh = new DatabaseHandler(), true);
 		addModule("playerdata", pd = new PlayerData(), true);
 		addModule("bans", bans = new MauBans(), true);
-		addModule("welcome-message", new WelcomeMessage(), true);
+		addModule("basic-messages", new BasicMessages(), true);
 		addModule("command-uuid", new CommandUUID(), true);
 		addModule("command-kill", new CommandKill(), true);
 		addModule("command-seen", new CommandSeen(), true);
