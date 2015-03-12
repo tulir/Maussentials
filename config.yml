@@ -16,13 +16,3 @@ sql:
   # Hostname and port only required for hostname databases.
   hostname: localhost
   port: 3306
-# Message to show players on join
-# Allowed variables:
-# {PLAYER} = Player name
-# {DISPLAYNAME} = Player display name
-# {ONLINE} = Player count
-# {MAXPLAYERS} = Max player count
-# Format codes with & prefix
-welcome-message:
-  - '&6Hello, &e{PLAYER}&6. There are &e{ONLINE} / {MAXPLAYERS}&6 players online.'
-  - Quotation not required unless string contains special characters.
