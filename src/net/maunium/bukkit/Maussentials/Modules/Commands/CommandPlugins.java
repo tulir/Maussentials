@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,11 +35,11 @@ public class CommandPlugins implements MauModule, Listener {
 		if (msg.startsWith("plugins") || msg.equals("pl") || msg.equals("pls") || msg.equals("plugs")) {
 			evt.setCancelled(true);
 			Player p = evt.getPlayer();
-			plugins(p);
+			plugins(plugin, p);
 		}
 	}
 	
-	public final void plugins(Player p) {
+	public static final void plugins(Maussentials plugin, CommandSender p) {
 		if (!p.hasPermission("maussentials.plugins")) {
 			p.sendMessage(plugin.translateErr("permission-error", "maussentials.plugins"));
 			return;
@@ -83,7 +84,7 @@ public class CommandPlugins implements MauModule, Listener {
 		p.sendMessage(send);
 	}
 	
-	public boolean isMauPlugin(Plugin pl) {
+	public static boolean isMauPlugin(Plugin pl) {
 		if (pl.getDescription().getMain().startsWith("net.maunium") || pl.getName().toLowerCase(Locale.ENGLISH).contains("mau")) return true;
 		else if (pl.getDescription().getAuthors() != null && pl.getDescription().getAuthors().contains("tulir293")) return true;
 		else if (pl.getDescription().getWebsite() != null && pl.getDescription().getWebsite().toLowerCase(Locale.ENGLISH).contains("maunium.net")) return true;
