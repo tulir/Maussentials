@@ -22,10 +22,14 @@ public class CommandReload extends CommandModule {
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
 		if (!checkPerms(sender, "maussentials.reload")) return true;
-		if (args.length > 2) {
+		if (args.length == 2) {
+			if (args[0].equalsIgnoreCase("module") && args[1].equalsIgnoreCase("list")) plugin.modules(sender);
+			else if (args[0].equalsIgnoreCase("plugin") && args[1].equalsIgnoreCase("list")) CommandPlugins.plugins(plugin, sender);
+			else return false;
+			return true;
+		} else if (args.length > 2) {
 			if (args[0].equalsIgnoreCase("module")) {
-				if (args[1].equalsIgnoreCase("list")) plugin.modules(sender);
-				else if (args[1].equalsIgnoreCase("load")) {
+				if (args[1].equalsIgnoreCase("load")) {
 					byte b = plugin.loadModule(args[2]);
 					if (b == 1) sender.sendMessage(plugin.translateStd("module.loaded", args[2]));
 					else if (b == 0) sender.sendMessage(plugin.translateErr("module.alreadyloaded", args[2]));
@@ -41,8 +45,7 @@ public class CommandReload extends CommandModule {
 				} else return false;
 				return true;
 			} else if (args[0].equalsIgnoreCase("plugin")) {
-				if (args[1].equalsIgnoreCase("list")) CommandPlugins.plugins(plugin, sender);
-				else if (args[1].equalsIgnoreCase("load")) {
+				if (args[1].equalsIgnoreCase("load")) {
 					sender.sendMessage(plugin.translateErr("nyi"));
 				} else if (args[1].equalsIgnoreCase("unload")) {
 					sender.sendMessage(plugin.translateErr("nyi"));
