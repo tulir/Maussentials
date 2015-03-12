@@ -1,0 +1,8 @@
+# Message to show on /rules
+# Format codes with & prefix
+#
+# Lines starting with # will be ignored.
+# To write a # sign, start the message with a backslash ( \ )
+&6[1] &3Use common sense
+&6[2] &3Change these rules to fit your server
+&6[3] &3Be happy
