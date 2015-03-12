@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
+import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
 
 /**
@@ -119,6 +120,10 @@ public class PrivateMessaging extends CommandModule {
 	private void message(String message, CommandSender s, CommandSender t) {
 		boolean sender = s instanceof Player;
 		boolean target = t instanceof Player;
+		
+		if (s.hasPermission("maussentials.message.color")) message = ChatFormatter.formatColors(message);
+		if (s.hasPermission("maussentials.message.style")) message = ChatFormatter.formatStyles(message);
+		if (s.hasPermission("maussentials.message.magic")) message = ChatFormatter.formatMagic(message);
 		
 		s.sendMessage(plugin.translatePlain("pm.msg.from", s.getName(), t.getName(), message));
 		t.sendMessage(plugin.translatePlain("pm.msg.to", s.getName(), t.getName(), message));
