@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.BooleanUtils;
+
 import net.maunium.bukkit.Maussentials.Maussentials;
 
 /**
@@ -25,6 +27,7 @@ public class DateUtils {
 	 * @return
 	 */
 	public static String getDurationBreakdown(long millis, int mode) {
+		Maussentials m = Maussentials.getInstance();
 		if (millis < 0) return "never";
 		long days = TimeUnit.MILLISECONDS.toDays(millis);
 		millis -= TimeUnit.DAYS.toMillis(days);
@@ -40,29 +43,45 @@ public class DateUtils {
 		if (days > 0) {
 			sb.append(days);
 			sb.append(" ");
-			sb.append(Maussentials.getInstance().translatePlain("date." + md + ".days"));
+			sb.append(m.translatePlain("date." + md + ".days"));
+			
+			if (hours > 0 || minutes > 0 || seconds > 0) {
+				if (BooleanUtils.xor(new boolean[] { hours > 0, minutes > 0, seconds > 0 })) {
+					sb.append(" ");
+					sb.append(m.translatePlain("date.and"));
+				} else sb.append(m.translatePlain("date.comma"));
+			}
 			sb.append(" ");
 		}
 		if (hours > 0) {
 			sb.append(hours);
 			sb.append(" ");
-			sb.append(Maussentials.getInstance().translatePlain("date." + md + ".hours"));
+			sb.append(m.translatePlain("date." + md + ".hours"));
+			
+			if (minutes > 0 || seconds > 0) {
+				if (BooleanUtils.xor(new boolean[] { minutes > 0, seconds > 0 })) {
+					sb.append(" ");
+					sb.append(m.translatePlain("date.and"));
+				} else sb.append(m.translatePlain("date.comma"));
+			}
 			sb.append(" ");
 		}
 		if (minutes > 0) {
 			sb.append(minutes);
 			sb.append(" ");
-			sb.append(Maussentials.getInstance().translatePlain("date." + md + ".minutes"));
+			sb.append(m.translatePlain("date." + md + ".minutes"));
+			
+			if (seconds > 0) sb.append("date.and");
 			sb.append(" ");
 		}
 		if (seconds > 0) {
 			sb.append(seconds);
 			sb.append(" ");
-			sb.append(Maussentials.getInstance().translatePlain("date." + md + ".seconds"));
+			sb.append(m.translatePlain("date." + md + ".seconds"));
 			sb.append(" ");
 		}
 		sb.deleteCharAt(sb.length() - 1);
-		if (sb.length() == 0) sb.append(Maussentials.getInstance().translatePlain("date." + md + ".none"));
+		if (sb.length() == 0) sb.append(m.translatePlain("date." + md + ".none"));
 		return sb.toString();
 	}
 	
