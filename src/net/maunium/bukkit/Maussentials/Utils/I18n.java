@@ -61,16 +61,21 @@ public class I18n {
 	 *         node (arguments)
 	 */
 	public String translate(String node, Object... arguments) {
-		if (lang.containsKey(node)) {
-			String rtrn = ChatFormatter.formatAll(lang.getProperty(node));
-			int i = 0;
-			for (Object o : arguments) {
-				rtrn = rtrn.replace("{" + i + "}>>nf", o.toString());
-				rtrn = rtrn.replace("{" + i + "}", ChatFormatter.formatAll(o.toString()));
-				i++;
-			}
-			return rtrn.replace("<br>", "\n");
-		} else return node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
+		try {
+			if (lang.containsKey(node)) {
+				String rtrn = ChatFormatter.formatAll(lang.getProperty(node)).replace("<br>", "\n");
+				int i = 0;
+				for (Object o : arguments) {
+					if(o == null) o = "null";
+					rtrn = rtrn.replace("{" + i + "}>>nf", o.toString());
+					rtrn = rtrn.replace("{" + i + "}", ChatFormatter.formatAll(o.toString()));
+					i++;
+				}
+				return rtrn;
+			} else return node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
+		} catch (Throwable t) {
+			return node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
+		}
 	}
 	
 	/**
