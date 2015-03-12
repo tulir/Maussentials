@@ -175,7 +175,7 @@ seen.ip.banned.permanent=The IP &6{2}&7 has been permanently banned by &6{1}&7:<
 # 0: IP
 seen.ip.bancheckfail=Failed to execute IP ban check: &6{0}&c
 # 0: Username
-seen.nevervisited=The player &6{0}&7 has never visited the server!
+seen.nevervisited=The player &6{0}&c has never visited the server!
 seen.uuid.info=Info about the player &6{0}&7:
 # 0: UUID
 seen.uuid.uuid=&7UUID: &6{0}&7.
