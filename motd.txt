@@ -1,0 +1,12 @@
+# Message to show players on join
+# Allowed variables:
+# {PLAYER} = Player name
+# {DISPLAYNAME} = Player display name
+# {ONLINE} = Player count
+# {MAXPLAYERS} = Max player count
+# Format codes with & prefix
+#
+# Lines starting with # will be ignored.
+# To write a # sign, start the message with a backslash ( \ )
+&6Hello, &e{PLAYER}&6. There are &e{ONLINE} / {MAXPLAYERS}&6 players online.
+Quotation not required unless string contains special characters.
