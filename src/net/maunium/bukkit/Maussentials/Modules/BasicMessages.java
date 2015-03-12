@@ -20,14 +20,14 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
 
 /**
- * Welcome message
+ * Basic message
  * 
  * @author Tulir293
  * @since 0.1
  */
-public class WelcomeMessage extends CommandModule implements Listener {
+public class BasicMessages extends CommandModule implements Listener {
 	private Maussentials plugin;
-	private String[] welcome;
+	private String[] welcome, rules;
 	private boolean loaded = false;
 	
 	@Override
@@ -50,8 +50,26 @@ public class WelcomeMessage extends CommandModule implements Listener {
 			e.printStackTrace();
 			return;
 		}
+		try {
+			List<String> rules = new ArrayList<String>();
+			BufferedReader br = new BufferedReader(new FileReader(new File(plugin.getDataFolder(), "rules.txt")));
+			String s;
+			while ((s = br.readLine()) != null) {
+				if (s.startsWith("#")) continue;
+				else if (s.startsWith("\\#")) s = s.substring(1);
+				rules.add(ChatFormatter.formatAll(s));
+			}
+			br.close();
+			
+			this.rules = rules.toArray(new String[0]);
+		} catch (Exception e) {
+			plugin.getLogger().severe("Failed to load rules:");
+			e.printStackTrace();
+			return;
+		}
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		plugin.getCommand("mauwelcomemessage").setExecutor(this);
+		plugin.getCommand("maurules").setExecutor(this);
 		loaded = true;
 	}
 	
@@ -85,8 +103,8 @@ public class WelcomeMessage extends CommandModule implements Listener {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		// Send every line in the welcome message array.
-		sender.sendMessage(variables(welcome, sender));
+		if (cmd.getName().equals("maurules")) sender.sendMessage(rules);
+		else if (cmd.getName().equals("mauwelcomemessage")) sender.sendMessage(variables(welcome, sender));
 		return true;
 	}
 	
