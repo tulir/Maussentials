@@ -43,8 +43,8 @@ public class CommandPlainSay extends CommandModule {
 			
 			String s = ChatFormatter.formatAll(sb.toString());
 			for (Player p : plugin.getServer().getOnlinePlayers()) {
-				if (p.hasPermission("maussentials.plainsay.see")) p.sendMessage(plugin.translatePlain("plainsay.spy", s));
-				else p.sendMessage(s);
+				if (p.hasPermission("maussentials.plainsay.see")) p.sendMessage(plugin.translatePlain("plainsay.spy", s, sender.getName()));
+				else p.sendMessage(ChatFormatter.formatAll(s));
 			}
 			return true;
 		} else return false;
