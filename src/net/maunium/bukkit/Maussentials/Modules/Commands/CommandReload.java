@@ -96,8 +96,7 @@ public class CommandReload extends CommandModule {
 	
 	@Override
 	public void help(CommandSender sender, Command command, String label, String[] args) {
-		sender.sendMessage(plugin.translateErr("plugin.help", label));
-		sender.sendMessage(plugin.translateErr("module.help", label));
+		sender.sendMessage(plugin.translateErr("reloader.help", label));
 	}
 	
 	@Override
