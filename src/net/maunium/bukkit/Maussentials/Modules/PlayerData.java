@@ -69,7 +69,7 @@ public class PlayerData implements Listener, MauModule {
 					+ COLUMN_CHANGEDTO + " INTEGER NOT NULL,"
 					+ "PRIMARY KEY (" + COLUMN_UUID + ", " + COLUMN_USERNAME + "));");
 			// Create the table IPs
-			plugin.getDB().query("CREATE TABLE " + TABLE_HISTORY + " ("
+			plugin.getDB().query("CREATE TABLE " + TABLE_IPLOGS + " ("
 					+ COLUMN_UUID + " varchar(25) NOT NULL,"
 					+ COLUMN_IP + " varchar(16) NOT NULL,"
 					+ COLUMN_LASTUSED + " INTEGER NOT NULL,"
