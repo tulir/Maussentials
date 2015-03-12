@@ -85,8 +85,7 @@ public class BasicMessages extends CommandModule implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent evt) {
-		// Send every line in the welcome message array.
-		evt.getPlayer().sendMessage(variables(welcome, evt.getPlayer()));
+		if (evt.getPlayer().hasPermission("maussentials.welcomemessage")) evt.getPlayer().sendMessage(variables(welcome, evt.getPlayer()));
 	}
 	
 	public String[] variables(String[] s, CommandSender p) {
@@ -104,8 +103,9 @@ public class BasicMessages extends CommandModule implements Listener {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equals("maurules")) sender.sendMessage(rules);
-		else if (cmd.getName().equals("mauwelcomemessage")) sender.sendMessage(variables(welcome, sender));
+		if (cmd.getName().equals("maurules") && checkPerms(sender, "maussentials.rules")) sender.sendMessage(rules);
+		else if (cmd.getName().equals("mauwelcomemessage") && checkPerms(sender, "maussentials.welcomemessage"))
+			sender.sendMessage(variables(welcome, sender));
 		return true;
 	}
 	
