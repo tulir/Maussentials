@@ -41,6 +41,9 @@ public class Maussentials extends JavaPlugin {
 		
 		this.saveDefaultConfig();
 		this.saveResource("languages/en_US.lang", true);
+//		this.saveResource("languages/fi_FI.lang", true);
+		this.saveResource("motd.txt", true);
+		this.saveResource("rules.txt", true);
 		
 		addModule("database", dbh = new DatabaseHandler(), true);
 		addModule("playerdata", pd = new PlayerData(), true);
@@ -78,7 +81,7 @@ public class Maussentials extends JavaPlugin {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		sender.sendMessage(translateErr("commandnotloaded", label));
 		return true;
 	}
@@ -160,7 +163,7 @@ public class Maussentials extends JavaPlugin {
 		return bans;
 	}
 	
-	public PlayerData getPlayerData(){
+	public PlayerData getPlayerData() {
 		return pd;
 	}
 	
