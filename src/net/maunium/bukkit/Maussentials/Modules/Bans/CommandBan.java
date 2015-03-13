@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
-import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 
 public class CommandBan implements CommandExecutor {
 	private Maussentials plugin;
@@ -23,7 +22,7 @@ public class CommandBan implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!CommandModule.checkPerms(sender, "maussentials.bans.ban")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.bans.ban")) return true;
 		if (args.length == 1) {
 			sender.sendMessage(plugin.translateErr("bans.error.reasonmissing"));
 			return true;

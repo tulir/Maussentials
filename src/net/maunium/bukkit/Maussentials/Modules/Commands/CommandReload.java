@@ -14,14 +14,14 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
  * @author Tulir293
  * @since 0.1
  */
-public class CommandReload extends CommandModule {
+public class CommandReload implements CommandModule {
 	private Maussentials plugin;
 	private PluginManager pm;
 	private boolean loaded = false;
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-		if (!checkPerms(sender, "maussentials.reload")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.reload")) return true;
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("module") && args[1].equalsIgnoreCase("list")) plugin.modules(sender);
 			else if (args[0].equalsIgnoreCase("plugin") && args[1].equalsIgnoreCase("list")) CommandPlugins.plugins(plugin, sender);

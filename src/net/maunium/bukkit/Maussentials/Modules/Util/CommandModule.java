@@ -4,17 +4,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import net.maunium.bukkit.Maussentials.Maussentials;
-
 /**
  * A module mainly used for a command executor.
  * 
  * @author Tulir293
  * @since 0.1
  */
-public abstract class CommandModule implements MauModule, CommandExecutor {
+public interface CommandModule extends MauModule, CommandExecutor {
 	@Override
-	public final boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public default boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!execute(sender, cmd, label, args)) help(sender, cmd, label, args);
 		return true;
 	}
@@ -28,22 +26,7 @@ public abstract class CommandModule implements MauModule, CommandExecutor {
 	 * @param args The arguments.
 	 * @return If the syntax of the command was correct or not. If false, will print a help message.
 	 */
-	public abstract boolean execute(CommandSender sender, Command cmd, String label, String[] args);
-	
-	/**
-	 * Check if the given player has the given permission. If not, send the player an error containing the permission
-	 * node.
-	 * 
-	 * @param p The player to check.
-	 * @param permission The permission to check.
-	 * @return True if the player has the permission, false otherwise.
-	 */
-	public static boolean checkPerms(CommandSender p, String permission) {
-		if (!p.hasPermission(permission)) {
-			p.sendMessage(Maussentials.getInstance().translateErr("permission-error", permission));
-			return false;
-		} else return true;
-	}
+	public boolean execute(CommandSender sender, Command cmd, String label, String[] args);
 	
 	/**
 	 * Print the help message.
@@ -53,5 +36,5 @@ public abstract class CommandModule implements MauModule, CommandExecutor {
 	 * @param label The label used. Useful if you want to show an usage example with the same label as the sender used.
 	 * @param args The arguments used.
 	 */
-	public abstract void help(CommandSender sender, Command cmd, String label, String[] args);
+	public void help(CommandSender sender, Command cmd, String label, String[] args);
 }

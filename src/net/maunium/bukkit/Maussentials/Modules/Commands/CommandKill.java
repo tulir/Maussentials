@@ -13,13 +13,13 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
  * @author Tulir293
  * @since 0.1
  */
-public class CommandKill extends CommandModule {
+public class CommandKill implements CommandModule {
 	private Maussentials plugin;
 	private boolean loaded = false;
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-		if (!checkPerms(sender, "maussentials.kill")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.kill")) return true;
 		if (args.length > 0) {
 			Player p = plugin.getServer().getPlayer(args[0]);
 			if (p != null) {

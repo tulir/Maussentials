@@ -182,6 +182,21 @@ public class Maussentials extends JavaPlugin {
 		return lang.translate(node, replace);
 	}
 	
+	/**
+	 * Check if the given player has the given permission. If not, send the player an error containing the permission
+	 * node.
+	 * 
+	 * @param p The player to check.
+	 * @param permission The permission to check.
+	 * @return True if the player has the permission, false otherwise.
+	 */
+	public boolean checkPerms(CommandSender p, String permission) {
+		if (!p.hasPermission(permission)) {
+			p.sendMessage(Maussentials.getInstance().translateErr("permission-error", permission));
+			return false;
+		} else return true;
+	}
+	
 	public void modules(CommandSender sender) {
 		int en = 0, dis = 0;
 		StringBuffer sb = new StringBuffer();

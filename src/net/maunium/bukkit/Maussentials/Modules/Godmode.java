@@ -17,7 +17,7 @@ import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
  * @author Tulir293
  * @since 0.1
  */
-public class Godmode extends PlayerCommandModule implements Listener {
+public class Godmode implements PlayerCommandModule, Listener {
 	private Maussentials plugin;
 	private static final String DEFAULT_GOD = "MaussentialsGodDefault", PRIVATE_GOD = "MaussentialsGodPrivatized", DAMAGE_GOD = "MaussentialsGodDamage";
 	private boolean loaded = false;
@@ -50,7 +50,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 	
 	@Override
 	public boolean execute(Player sender, Command cmd, String label, String[] args) {
-		if (!checkPerms(sender, "maussentials.god")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.god")) return true;
 		if (args.length == 0) {
 			sender.sendMessage(plugin.translateStd("god." + (toggle_def(sender) ? "off" : "on.def")));
 		} else if (args.length > 0) {
@@ -60,7 +60,7 @@ public class Godmode extends PlayerCommandModule implements Listener {
 			} else if (args[0].equalsIgnoreCase("damage") || args[0].equalsIgnoreCase("dmg")) {
 				if (args.length > 1 && args[1].equalsIgnoreCase("private")) MetadataUtils.setFixedMetadata(sender, PRIVATE_GOD, true, plugin);
 				sender.sendMessage(plugin.translateStd("god." + (toggle(DAMAGE_GOD, sender) ? "on.dmg" : "off")));
-			} else if (checkPerms(sender, "maussentials.god.others")) {
+			} else if (plugin.checkPerms(sender, "maussentials.god.others")) {
 				Player p = plugin.getServer().getPlayer(args[0]);
 				if (p != null) {
 					if (args.length == 1) {

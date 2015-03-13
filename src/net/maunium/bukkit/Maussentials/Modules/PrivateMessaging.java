@@ -16,7 +16,7 @@ import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
  * @author Tulir293
  * @since 0.1
  */
-public class PrivateMessaging extends CommandModule {
+public class PrivateMessaging implements CommandModule {
 	private Maussentials plugin;
 	private static final String REPLY_META = "MaussentialsPMReplyTarget", MSGSPY_META = "MaussentialsPMSpy";
 	private String CONSOLE_REPLY = "";
@@ -42,7 +42,7 @@ public class PrivateMessaging extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!checkPerms(sender, "maussentials.message")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.message")) return true;
 		if (cmd.getName().equals("maumessage")) {
 			if (args.length > 1) {
 				CommandSender p;
@@ -103,7 +103,7 @@ public class PrivateMessaging extends CommandModule {
 			}
 			return false;
 		} else if (cmd.getName().equals("mausocialspy")) {
-			if (!checkPerms(sender, "maussentials.message.spy")) return true;
+			if (!plugin.checkPerms(sender, "maussentials.message.spy")) return true;
 			if (!(sender instanceof Player)) {
 				if (CONSOLE_SPY) {
 					CONSOLE_SPY = false;

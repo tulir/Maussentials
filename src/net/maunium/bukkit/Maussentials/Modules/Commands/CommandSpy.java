@@ -18,7 +18,7 @@ import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
  * @author Tulir293
  * @since 0.1
  */
-public class CommandSpy extends PlayerCommandModule implements Listener {
+public class CommandSpy implements PlayerCommandModule, Listener {
 	private Maussentials plugin;
 	private static final String CMDSPY_META = "MaussentialsCommandSpy";
 	private boolean loaded = false;
@@ -49,7 +49,7 @@ public class CommandSpy extends PlayerCommandModule implements Listener {
 	
 	@Override
 	public boolean execute(Player p, Command cmd, String label, String[] args) {
-		if (!checkPerms(p, "maussentials.spy")) return true;
+		if (!plugin.checkPerms(p, "maussentials.spy")) return true;
 		if (p.hasMetadata(CMDSPY_META)) {
 			MetadataUtils.removeMetadata(p, CMDSPY_META, plugin);
 			p.sendMessage(plugin.translateStd("cmdspy.off"));

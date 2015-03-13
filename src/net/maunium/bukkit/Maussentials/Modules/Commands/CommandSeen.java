@@ -24,7 +24,7 @@ import net.maunium.bukkit.Maussentials.Utils.SerializableLocation;
  * @author Tulir293
  * @since 0.1
  */
-public class CommandSeen extends CommandModule {
+public class CommandSeen implements CommandModule {
 	private Maussentials plugin;
 	private boolean loaded = false;
 	
@@ -44,7 +44,7 @@ public class CommandSeen extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!checkPerms(sender, "maussentials.seen")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.seen")) return true;
 		if (args.length == 1) {
 			if (args[0].contains(".")) {
 				Map<UUID, Long> uuids;

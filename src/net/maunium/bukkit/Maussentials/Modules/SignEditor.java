@@ -22,7 +22,7 @@ import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
  * @author Tulir293
  * @since 0.1
  */
-public class SignEditor extends PlayerCommandModule implements Listener {
+public class SignEditor implements PlayerCommandModule, Listener {
 	private static final String EDIT_META = "MaussentialsSignEditPreparedLines";
 	private Maussentials plugin;
 	private boolean loaded = false;
@@ -45,7 +45,7 @@ public class SignEditor extends PlayerCommandModule implements Listener {
 	
 	@Override
 	public boolean execute(Player sender, Command cmd, String label, String[] args) {
-		if (!checkPerms(sender, "maussentials.sign.edit")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.sign.edit")) return true;
 		if (args.length > 0) {
 			int line;
 			try {

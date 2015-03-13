@@ -23,13 +23,13 @@ import net.maunium.bukkit.Maussentials.Utils.DateUtils;
  * @author Tulir293
  * @since 0.1
  */
-public class CommandUUID extends CommandModule {
+public class CommandUUID implements CommandModule {
 	private Maussentials plugin;
 	private boolean loaded = false;
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
-		if (!checkPerms(sender, "maussentials.uuid")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.uuid")) return true;
 		if (args.length > 1) {
 			if (args[0].equalsIgnoreCase("get")) {
 				String name = args[1];

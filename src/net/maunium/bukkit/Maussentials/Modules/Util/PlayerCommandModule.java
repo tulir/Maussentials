@@ -12,16 +12,16 @@ import net.maunium.bukkit.Maussentials.Maussentials;
  * @author Tulir293
  * @since 0.1
  */
-public abstract class PlayerCommandModule extends CommandModule {
+public interface PlayerCommandModule extends CommandModule {
 	@Override
-	public final boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
+	public default boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) sender.sendMessage(Maussentials.getInstance().translateErr("must-be-ingame"));
 		else return execute((Player) sender, cmd, label, args);
 		return true;
 	}
 	
 	@Override
-	public final void help(CommandSender sender, Command cmd, String label, String[] args) {
+	public default void help(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) sender.sendMessage(Maussentials.getInstance().translateErr("must-be-ingame"));
 		else help((Player) sender, cmd, label, args);
 	}
@@ -35,7 +35,7 @@ public abstract class PlayerCommandModule extends CommandModule {
 	 * @param args The arguments.
 	 * @return If the syntax of the command was correct or not. If false, will print a help message.
 	 */
-	public abstract boolean execute(Player sender, Command cmd, String label, String[] args);
+	public boolean execute(Player sender, Command cmd, String label, String[] args);
 	
 	/**
 	 * Print the help message.
@@ -45,5 +45,5 @@ public abstract class PlayerCommandModule extends CommandModule {
 	 * @param label The label used. Useful if you want to show an usage example with the same label as the sender used.
 	 * @param args The arguments used.
 	 */
-	public abstract void help(Player sender, Command cmd, String label, String[] args);
+	public void help(Player sender, Command cmd, String label, String[] args);
 }

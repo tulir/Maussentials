@@ -14,7 +14,7 @@ import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
  * @author Tulir293
  * @since 0.1
  */
-public class CommandPlainSay extends CommandModule {
+public class CommandPlainSay implements CommandModule {
 	private Maussentials plugin;
 	private boolean loaded = false;
 	
@@ -34,7 +34,7 @@ public class CommandPlainSay extends CommandModule {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!checkPerms(sender, "maussentials.plainsay")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.plainsay")) return true;
 		if (args.length > 0) {
 			StringBuilder sb = new StringBuilder();
 			for (String s : args)

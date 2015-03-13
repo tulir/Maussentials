@@ -25,7 +25,7 @@ import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
  * @author Tulir293
  * @since 0.1
  */
-public class BasicMessages extends CommandModule implements Listener {
+public class BasicMessages implements CommandModule, Listener {
 	private Maussentials plugin;
 	private String[] welcome, rules;
 	private boolean loaded = false;
@@ -103,8 +103,8 @@ public class BasicMessages extends CommandModule implements Listener {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		if (cmd.getName().equals("maurules") && checkPerms(sender, "maussentials.rules")) sender.sendMessage(rules);
-		else if (cmd.getName().equals("mauwelcomemessage") && checkPerms(sender, "maussentials.welcomemessage"))
+		if (cmd.getName().equals("maurules") && plugin.checkPerms(sender, "maussentials.rules")) sender.sendMessage(rules);
+		else if (cmd.getName().equals("mauwelcomemessage") && plugin.checkPerms(sender, "maussentials.welcomemessage"))
 			sender.sendMessage(variables(welcome, sender));
 		return true;
 	}

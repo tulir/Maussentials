@@ -9,7 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
-import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 
 public class CommandUnban implements CommandExecutor {
 	private Maussentials plugin;
@@ -22,7 +21,7 @@ public class CommandUnban implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!CommandModule.checkPerms(sender, "maussentials.bans.unban")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.bans.unban")) return true;
 		if (args.length > 0) {
 			UUID u = null;
 			try {
