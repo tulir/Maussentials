@@ -104,7 +104,7 @@ public class CommandTempBanIP implements CommandExecutor {
 								DateUtils.getDurationBreakdown(time, DateUtils.MODE_FOR), username), "maussentials.bans.see.ipban");
 			return true;
 		} else {
-			sender.sendMessage(plugin.translateErr("bans.help.tempban", label));
+			sender.sendMessage(plugin.translateErr("bans.help.tempipban", label));
 			return true;
 		}
 	}
