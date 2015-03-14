@@ -23,7 +23,7 @@ public class CommandTempBan implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!plugin.checkPerms(sender, "maussentials.bans.tempban")) return true;
+		if (!plugin.checkPerms(sender, "maussentials.bans.ban")) return true;
 		if (args.length == 1) {
 			sender.sendMessage(plugin.translateErr("bans.error.reasonmissing"));
 			return true;
