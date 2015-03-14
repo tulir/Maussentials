@@ -69,7 +69,7 @@ public class CommandBanIP implements CommandExecutor {
 			
 			if (!silent)
 				plugin.getServer().broadcast(
-						plugin.translatePlain("bans.broadcast.ipbanned" + (username != null ? ".withname" : ""), ip, reason, sender.getName(), username),
+						plugin.translatePlain("bans.broadcast.ipbanned" + (username != null ? ".byname" : ""), ip, reason, sender.getName(), username),
 						"maussentials.bans.see.ipban");
 			return true;
 		} else {
