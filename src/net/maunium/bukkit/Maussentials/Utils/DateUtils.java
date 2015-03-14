@@ -83,8 +83,8 @@ public class DateUtils {
 			sb.append(m.translatePlain("date." + md + ".seconds"));
 			sb.append(" ");
 		}
-		sb.deleteCharAt(sb.length() - 1);
 		if (sb.length() == 0) sb.append(m.translatePlain("date." + md + ".none"));
+		else sb.deleteCharAt(sb.length() - 1);
 		return sb.toString();
 	}
 	
