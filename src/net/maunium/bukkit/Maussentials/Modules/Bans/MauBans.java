@@ -34,8 +34,10 @@ public class MauBans implements MauModule {
 		} catch (SQLException e) {}
 		plugin.getServer().getPluginManager().registerEvents(jl = new JoinListener(plugin, this), plugin);
 		plugin.getCommand("mauban").setExecutor(new CommandBan(plugin, this));
+		plugin.getCommand("mautempban").setExecutor(new CommandTempBan(plugin, this));
 		plugin.getCommand("mauunban").setExecutor(new CommandUnban(plugin, this));
 		plugin.getCommand("maubanip").setExecutor(new CommandBanIP(plugin, this));
+		plugin.getCommand("mautempbanip").setExecutor(new CommandTempBanIP(plugin, this));
 		plugin.getCommand("mauunbanip").setExecutor(new CommandUnbanIP(plugin, this));
 		loaded = true;
 	}
@@ -44,8 +46,10 @@ public class MauBans implements MauModule {
 	public void unload() {
 		HandlerList.unregisterAll(jl);
 		plugin.getCommand("mauban").setExecutor(plugin);
+		plugin.getCommand("mautempban").setExecutor(plugin);
 		plugin.getCommand("mauunban").setExecutor(plugin);
 		plugin.getCommand("maubanip").setExecutor(plugin);
+		plugin.getCommand("mautempbanip").setExecutor(plugin);
 		plugin.getCommand("mauunbanip").setExecutor(plugin);
 		plugin = null;
 		loaded = false;
@@ -63,7 +67,7 @@ public class MauBans implements MauModule {
 		if (rs.next()) {
 			long expire = rs.getLong(COLUMN_EXPIRE);
 			if (expire > 0 && expire <= System.currentTimeMillis()) {
-				plugin.getLogger().fine("Unbanning " + banned + " (" + type + " ban) as the ban has expired.");
+				plugin.getLogger().info("Unbanning " + banned + " (" + type + " ban) as the ban has expired.");
 				plugin.getDB().query("DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + banned + "' AND " + COLUMN_TYPE + "='" + type + "';");
 				return null;
 			} else return rs;
