@@ -148,12 +148,12 @@ bans.help.tempipban=Käyttäminen: /{0} <IP/käyttäjänimi> <time> <syy> [silen
 bans.broadcast.banned=&6{2}&c antoi porttikiellon pelaajalle &6{0}&c syyllä "&6{1}&c".
 bans.broadcast.banned=&6{2}&c antoi porttikiellon IPlle &6{0}&c syyllä "&6{1}&c".
 # 3: The player whose name was used in the command.
-bans.broadcast.banned=&6{2}&c antoi porttikiellon IPlle &6{0}&c (Pelaajan &6{3}&c IP) syyllä "&6{1}&c".
+bans.broadcast.ipbanned.byname=&6{2}&c antoi porttikiellon IPlle &6{0}&c (Pelaajan &6{3}&c IP) syyllä "&6{1}&c".
 # 3: Ban expiry
 bans.broadcast.tempbanned=&6{2}&c antoi pelaajalle &6{0}&c väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
 bans.broadcast.tempipbanned=&6{2}&c antoi IPlle &6{0}&c väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
 # 4: The player whose name was used in the command.
-bans.broadcast.tempipbanned=&6{2}&c antoi IPlle &6{0}&c (Pelaajan &6{3}&c IP) väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
+bans.broadcast.tempipbanned.byname=&6{2}&c antoi IPlle &6{0}&c (Pelaajan &6{3}&c IP) väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
 
 # 0: Username/IP
 # 1: Unbanner
