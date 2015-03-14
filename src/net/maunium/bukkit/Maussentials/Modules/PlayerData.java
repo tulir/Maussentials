@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
@@ -98,19 +97,21 @@ public class PlayerData implements Listener, MauModule {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent evt) {
 		if (evt.getAddress() != null && evt.getUniqueId() != null && evt.getName() != null) {
+			SerializableLocation loc = new SerializableLocation(0, 0, 0, plugin.getServer().getWorlds().get(0));
 			try {
-				ResultSet rs = plugin.getDB().query(
-						"SELECT " + COLUMN_USERNAME + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + evt.getUniqueId() + "';");
+				ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + evt.getUniqueId() + "';");
 				if (rs.next()) {
 					String old = rs.getString(COLUMN_USERNAME);
 					if (!old.equals(evt.getName())) updateNameHistory(evt.getUniqueId());
+					
+					loc = SerializableLocation.fromString(rs.getString(COLUMN_LOCATION));
 				} else updateNameHistory(evt.getUniqueId());
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			
 			try {
-				setEntry(evt.getUniqueId(), evt.getName(), new Location(plugin.getServer().getWorlds().get(0), 0, 0, 0));
+				setEntry(evt.getUniqueId(), evt.getName(), loc);
 				plugin.getLogger().fine("Updated database. New entry: " + evt.getUniqueId() + ", " + evt.getName());
 			} catch (SQLException e) {
 				plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getUniqueId() + ", " + evt.getName());
@@ -131,7 +132,7 @@ public class PlayerData implements Listener, MauModule {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent evt) {
 		try {
-			setLocation(evt.getPlayer().getUniqueId(), evt.getPlayer().getLocation());
+			setLocation(evt.getPlayer().getUniqueId(), new SerializableLocation(evt.getPlayer().getLocation()));
 			plugin.getLogger().fine("Updated Location for " + evt.getPlayer().getName());
 		} catch (SQLException e) {
 			plugin.getLogger().severe("Failed to update Location for " + evt.getPlayer().getName());
@@ -149,7 +150,7 @@ public class PlayerData implements Listener, MauModule {
 			e.printStackTrace();
 		}
 		try {
-			setLocation(evt.getPlayer().getUniqueId(), evt.getPlayer().getLocation());
+			setLocation(evt.getPlayer().getUniqueId(), new SerializableLocation(evt.getPlayer().getLocation()));
 			plugin.getLogger().fine("Updated Location for " + evt.getPlayer().getName());
 		} catch (SQLException e) {
 			plugin.getLogger().severe("Failed to update Location for " + evt.getPlayer().getName());
@@ -209,12 +210,12 @@ public class PlayerData implements Listener, MauModule {
 	 */
 	
 	// °FormatOff°
-	public ResultSet setEntry(UUID uuid, String username, Location l) throws SQLException {
+	public ResultSet setEntry(UUID uuid, String username, SerializableLocation l) throws SQLException {
 		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES ("
 				+ "'" + uuid.toString() + "','"
 				+ username + "','"
 				+ System.currentTimeMillis() + "','"
-				+ new SerializableLocation(l).toString()
+				+ l.toString()
 				+ "');");
 	}
 	
@@ -224,9 +225,9 @@ public class PlayerData implements Listener, MauModule {
 				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
 	}
 	
-	public ResultSet setLocation(UUID uuid, Location l) throws SQLException {
+	public ResultSet setLocation(UUID uuid, SerializableLocation l) throws SQLException {
 		return plugin.getDB().query("UPDATE " + TABLE_PLAYERS
-				+ " SET " + COLUMN_LOCATION + "='" + new SerializableLocation(l).toString() + "'"
+				+ " SET " + COLUMN_LOCATION + "='" + l.toString() + "'"
 				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
 	}
 	
