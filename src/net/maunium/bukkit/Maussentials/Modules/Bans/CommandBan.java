@@ -44,7 +44,12 @@ public class CommandBan implements CommandExecutor {
 			OfflinePlayer p = plugin.getServer().getOfflinePlayer(u);
 			
 			StringBuffer sb = new StringBuffer();
+			boolean silent = false;
 			for (int i = 1; i < args.length; i++) {
+				if (i == args.length - 1 && args[i].equalsIgnoreCase("silent")) {
+					silent = true;
+					continue;
+				}
 				sb.append(args[i]);
 				sb.append(" ");
 			}
@@ -52,12 +57,6 @@ public class CommandBan implements CommandExecutor {
 			String reason = sb.toString();
 			
 			host.ban(u, (sender instanceof Player) ? ((Player) sender).getUniqueId().toString() : "CONSOLE", reason, -1);
-			
-			boolean silent = false;
-			if (reason.endsWith(" silent")) {
-				reason = reason.substring(reason.length() - 7, reason.length());
-				silent = true;
-			}
 			
 			if (!silent)
 				plugin.getServer()
