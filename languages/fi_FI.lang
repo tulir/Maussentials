@@ -183,9 +183,17 @@ seen.uuid.uuid=&7UUID: &6{0}&7.
 seen.uuid.latestip=&7IP Osoite: &6{0}&7.
 # 0: Time
 seen.uuid.lastseen.online=&2Online&7 &6{0}&7 ajan.
-seen.uuid.lastseen.online=&4Offline&7 &6{0}&7 ajan.
+seen.uuid.lastseen.offline=&4Offline&7 &6{0}&7 ajan.
 # No arguments
 seen.uuid.latestip.unknown=&7IP Osoite: &6Tuntematon&7.
 seen.uuid.location=&7Sijainti: &6{0}&7.
+
+# 0: Reason
+# 1: Banner
+# 2: Player name
+seen.uuid.banned.permanent=Pelaajan &6{1}&7 antama porttikielto syyllä &6{0}&7. 
+# 2: Expiry
+# 3: Player name
+seen.uuid.banned.temporary=Pelaajan &6{1}&7 antama väliaikainen (&6{2}&7) porttikielto syyllä &6{0}&7. 
 
 plainsay.spy={0} &7&o({1} PS)

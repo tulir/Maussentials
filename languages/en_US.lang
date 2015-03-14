@@ -157,8 +157,8 @@ bans.broadcast.tempipbanned.byname=&cThe IP &6{0}&c (IP of &6{4}&c) has been tem
 
 # 0: Username/IP
 # 1: Unbanner
-bans.broadcast.unbanned=&7The player &6{0}&7 has been unbanned by &6{0}&7.
-bans.broadcast.unipbanned=&7The IP &6{0}&7 has been unbanned by &6{0}&7.
+bans.broadcast.unbanned=&7The player &6{0}&7 has been unbanned by &6{1}&7.
+bans.broadcast.unipbanned=&7The IP &6{0}&7 has been unbanned by &6{1}&7.
 
 # 0: IP
 seen.ip.done=The following players have logged in from &6{0}&7:<br>{1}.
@@ -187,5 +187,13 @@ seen.uuid.lastseen.offline=&4Offline&7 for &6{0}&7.
 # No arguments
 seen.uuid.latestip.unknown=&7IP Address: &6Unknown&7.
 seen.uuid.location=&7Location: &6{0}&7.
+
+# 0: Reason
+# 1: Banner
+# 2: Player name
+seen.uuid.banned.permanent=Banned by &6{1}&7 for &6{0}&7. 
+# 2: Expiry
+# 3: Player name
+seen.uuid.banned.temporary=Temporarily (&6{2}&7) banned by &6{1}&7 for &6{0}&7. 
 
 plainsay.spy={0} &7&o({1} PS)
