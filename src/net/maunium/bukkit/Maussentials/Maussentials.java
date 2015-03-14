@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import net.maunium.bukkit.Maussentials.Modules.BasicMessages;
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
-import net.maunium.bukkit.Maussentials.Modules.DelayedTeleportListeners;
+import net.maunium.bukkit.Maussentials.Modules.DelayedActionListeners;
 import net.maunium.bukkit.Maussentials.Modules.Godmode;
 import net.maunium.bukkit.Maussentials.Modules.Language;
 import net.maunium.bukkit.Maussentials.Modules.PlayerData;
@@ -62,7 +62,7 @@ public class Maussentials extends JavaPlugin {
 		addModule("signeditor", new SignEditor(), true);
 		addModule("privatemessaging", new PrivateMessaging(), true);
 		addModule("commandspy", new CommandSpy(), true);
-		addModule("delayed-teleports", new DelayedTeleportListeners(), true);
+		addModule("delayed-teleports", new DelayedActionListeners(), true);
 		
 		instance = this;
 		
