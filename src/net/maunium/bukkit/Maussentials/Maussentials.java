@@ -6,11 +6,10 @@ import java.util.Map.Entry;
 
 import lib.PatPeter.SQLibrary.Database;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import net.md_5.bungee.api.ChatColor;
 
 import net.maunium.bukkit.Maussentials.Modules.BasicMessages;
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
