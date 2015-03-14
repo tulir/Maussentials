@@ -109,12 +109,20 @@ public class PlayerData implements Listener, MauModule {
 				e1.printStackTrace();
 			}
 			
+			try {
+				setEntry(evt.getUniqueId(), evt.getName(), new Location(plugin.getServer().getWorlds().get(0), 0, 0, 0));
+				plugin.getLogger().fine("Updated database. New entry: " + evt.getUniqueId() + ", " + evt.getName());
+			} catch (SQLException e) {
+				plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getUniqueId() + ", " + evt.getName());
+				e.printStackTrace();
+			}
+			
 			String ia = evt.getAddress().getHostAddress();
 			try {
-				setEntry(evt.getUniqueId(), evt.getName(), ia, new Location(plugin.getServer().getWorlds().get(0), 0, 0, 0));
-				plugin.getLogger().fine("Updated database. New entry: " + evt.getUniqueId() + ", " + evt.getName() + ", " + ia);
+				setIPs(evt.getUniqueId(), ia);
+				plugin.getLogger().fine("Updated IP history. New entry: " + evt.getUniqueId() + ", " + ia);
 			} catch (SQLException e) {
-				plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getUniqueId() + ", " + evt.getName() + ", " + ia);
+				plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getUniqueId() + ", " + ia);
 				e.printStackTrace();
 			}
 		}
@@ -201,7 +209,7 @@ public class PlayerData implements Listener, MauModule {
 	 */
 	
 	// °FormatOff°
-	public ResultSet setEntry(UUID uuid, String username, String ip, Location l) throws SQLException {
+	public ResultSet setEntry(UUID uuid, String username, Location l) throws SQLException {
 		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES ("
 				+ "'" + uuid.toString() + "','"
 				+ username + "','"
