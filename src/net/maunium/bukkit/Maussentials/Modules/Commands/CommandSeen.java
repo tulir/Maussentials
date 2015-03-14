@@ -152,7 +152,7 @@ public class CommandSeen implements CommandModule {
 						// Get the players log-out location...
 						SerializableLocation sl = plugin.getPlayerData().getLocationByUUID(uuid);
 						// ...and send it.
-						sender.sendMessage(plugin.translatePlain("seen.uuid.location", sl.toString()));
+						sender.sendMessage(plugin.translatePlain("seen.uuid.location", sl.toReadableString()));
 					}
 				} catch (Exception e) {
 					sender.sendMessage(plugin.translateErr("seen.error", e.getMessage()));
