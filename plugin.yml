@@ -50,12 +50,18 @@ commands:
   mauban:
     description: "Bananize that damn hacker!"
     aliases: [ban, maubanaani, banaani, maubanana, banana, maubananize, bananize, maubananisoi, bananisoi]
+  mautempban:
+    description: "Temporarily bananize that damn hacker!"
+    aliases: [tempban, mautempbanaani, tempbanaani, mautempbanana, tempbanana, mautempbananize, tempbananize, mautempbananisoi, tempbananisoi]
   mauunban:
     description: "Unbananize that innocent player that some retard banned!"
     aliases: [unban, mauunbanaani, unbanaani, mauunbanana, unbanana, mauunbananize, unbananize, mauunbananisoi, unbananisoi]
   maubanip:
     description: "Bananize the IP of that damn hacker and/or ban bypasser!"
     aliases: [banip, maubanaaniip, banaaniip, maubananaip, bananaip, maubananizeip, bananizeip, maubananisoiip, bananisoiip, ipban, mauipbanaani, ipbanaani, mauipbanana, ipbanana, mauipbananize, ipbananize, mauipbananisoi, ipbananisoi]
+  mautempbanip:
+    description: "Temporarily bananize the IP of that damn hacker and/or ban bypasser!"
+    aliases: [tempbanip, mautempbanaaniip, tempbanaaniip, mautempbananaip, tempbananaip, mautempbananizeip, tempbananizeip, mautempbananisoiip, tempbananisoiip, tempipban, mautempipbanaani, tempipbanaani, mautempipbanana, tempipbanana, mautempipbananize, tempipbananize, mautempipbananisoi, tempipbananisoi]
   mauunbanip:
     description: "Bananize the IP of that damn hacker and/or ban bypasser!"
     aliases: [unbanip, mauunbanaaniip, unbanaaniip, mauunbananaip, unbananaip, mauunbananizeip, unbananizeip, mauunbananisoiip, unbananisoiip, unipban, mauunipbanaani, unipbanaani, mauunipbanana, unipbanana, mauunipbananize, unipbananize, mauunipbananisoi, unipbananisoi]
