@@ -4,6 +4,7 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
 public class MauTPs implements MauModule {
+	public static final String TP_REQUEST_META = "MaussentialsTPRequestFrom";
 	private Maussentials plugin;
 	private boolean loaded = false;
 	
