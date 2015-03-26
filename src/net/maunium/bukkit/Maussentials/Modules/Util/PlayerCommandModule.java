@@ -9,7 +9,7 @@ import net.maunium.bukkit.Maussentials.Utils.IngameMauCommandExecutor;
  * @author Tulir293
  * @since 0.1
  */
-public interface PlayerCommandModule extends IngameMauCommandExecutor {
+public interface PlayerCommandModule extends MauModule, IngameMauCommandExecutor {
 	@Override
 	public default String getErrorMessage() {
 		return Maussentials.getInstance().translateErr("must-be-ingame");
