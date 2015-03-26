@@ -15,6 +15,7 @@ public class CommandTPAccept implements IngameMauCommandExecutor {
 	
 	@Override
 	public boolean execute(Player sender, Command cmd, String label, String[] args) {
+		if (!plugin.checkPerms(sender, "maussentials.tp.accept")) return true;
 		return false;
 	}
 	

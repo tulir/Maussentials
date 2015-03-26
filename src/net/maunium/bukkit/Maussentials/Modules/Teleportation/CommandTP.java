@@ -19,6 +19,7 @@ public class CommandTP implements MauCommandExecutor {
 	
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
+		if (!plugin.checkPerms(sender, "maussentials.tp")) return true;
 		if (args.length > 0) {
 			Player p = plugin.getServer().getPlayer(args[0]);
 			if (p != null) {

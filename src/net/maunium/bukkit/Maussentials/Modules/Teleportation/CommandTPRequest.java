@@ -16,6 +16,7 @@ public class CommandTPRequest implements IngameMauCommandExecutor {
 	
 	@Override
 	public boolean execute(Player sender, Command cmd, String label, String[] args) {
+		if (!plugin.checkPerms(sender, "maussentials.tp.request")) return true;
 		if (args.length > 0) {
 			Player p = plugin.getServer().getPlayer(args[0]);
 			if (p != null) {
