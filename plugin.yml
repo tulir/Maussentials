@@ -65,6 +65,18 @@ commands:
   mauunbanip:
     description: "Bananize the IP of that damn hacker and/or ban bypasser!"
     aliases: [unbanip, mauunbanaaniip, unbanaaniip, mauunbananaip, unbananaip, mauunbananizeip, unbananizeip, mauunbananisoiip, unbananisoiip, unipban, mauunipbanaani, unipbanaani, mauunipbanana, unipbanana, mauunipbananize, unipbananize, mauunipbananisoi, unipbananisoi]
+  mautp:
+    description: Teleport to a player
+    aliases: [tp, mauteleport, teleport]
+  mautprequest:
+    description: Request to teleport to a player
+    aliases: [tprequest, mautpr, tpr, mautpask, tpask, mautpa, tpa]
+  mautpaccept:
+    description: Accept a teleportation request
+    aliases: [tpaccept, mautpyes, tpyes, mautpy, tpy]
+  mautpdeny:
+    description: Deny a teleportation request
+    aliases: [tpdeny, mautpno, tpno, mautpn, tpn]
 permissions:
   maussentials.welcomemessage:
     description: Print the welcome message
@@ -175,3 +187,12 @@ permissions:
       maussentials.bans.see.unban: true
       maussentials.bans.see.ipban: true
       maussentials.bans.see.unipban: true
+  maussentials.tp:
+    description: Teleportation. Self -> Player, Self -> Coords, Player -> Player or Player -> Coords
+    default: OP
+  maussentials.tp.request:
+    description: Request to teleport to a specific player.
+    default: true
+  maussentials.tp.accept:
+    description: Accept or deny a teleport request
+    default: true
