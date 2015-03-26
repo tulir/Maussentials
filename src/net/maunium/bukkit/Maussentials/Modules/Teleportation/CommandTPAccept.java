@@ -1,22 +1,25 @@
 package net.maunium.bukkit.Maussentials.Modules.Teleportation;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
+import net.maunium.bukkit.Maussentials.Utils.IngameMauCommandExecutor;
 
-public class CommandTPAccept implements CommandExecutor {
+public class CommandTPAccept implements IngameMauCommandExecutor {
 	private Maussentials plugin;
-	private MauTPs host;
 	
-	public CommandTPAccept(Maussentials plugin, MauTPs host) {
+	public CommandTPAccept(Maussentials plugin) {
 		this.plugin = plugin;
-		this.host = host;
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean execute(Player sender, Command cmd, String label, String[] args) {
 		return false;
+	}
+	
+	@Override
+	public void help(Player sender, Command cmd, String label, String[] args) {
+		
 	}
 }
