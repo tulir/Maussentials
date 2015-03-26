@@ -12,30 +12,19 @@ import org.bukkit.entity.Player;
  * @author Tulir293
  * @since 0.1
  */
-public abstract class IngameCommandExecutor implements CommandExecutor {
-	private String error_message = ChatColor.RED + "This command can only be used in-game.";
-	
+public interface IngameCommandExecutor extends CommandExecutor {
 	@Override
-	public final boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public default boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) return onCommand((Player) sender, cmd, label, args);
-		else if (error_message != null) sender.sendMessage(error_message);
+		else if (getErrorMessage() != null) sender.sendMessage(getErrorMessage());
 		return true;
 	}
 	
 	/**
-	 * Set the error message.
-	 * 
-	 * @param message The message to use.
+	 * @return The error message, or null if none wanted.
 	 */
-	public void setErrorMessage(String message) {
-		this.error_message = message;
-	}
-	
-	/**
-	 * @return The error message.
-	 */
-	public String getErrorMessage() {
-		return error_message;
+	public default String getErrorMessage() {
+		return ChatColor.RED + "This command can only be used in-game.";
 	}
 	
 	/**
