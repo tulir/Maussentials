@@ -10,7 +10,7 @@ public class MauTPs implements MauModule {
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-		plugin.getCommand("mautp").setExecutor(new CommandTP(plugin, this));
+		plugin.getCommand("mautp").setExecutor(new CommandTP(plugin));
 		plugin.getCommand("mautprequest").setExecutor(new CommandTPRequest(plugin, this));
 		plugin.getCommand("mautpaccept").setExecutor(new CommandTPAccept(plugin, this));
 		plugin.getCommand("mautpdeny").setExecutor(new CommandTPAccept(plugin, this));
