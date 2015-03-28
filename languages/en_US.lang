@@ -197,3 +197,7 @@ seen.uuid.banned.permanent=Banned by &6{1}&7 for &6{0}&7.
 seen.uuid.banned.temporary=Temporarily (&6{2}&7) banned by &6{1}&7 for &6{0}&7. 
 
 plainsay.spy={0} &7&o({1} PS)
+
+tp.help.player=Usage: /{0} <player/x> [player/y/x] [z/y] [yaw/z] [pitch/yaw] [world/pitch] [world]
+tp.help.console=Usage: /{0} <player> <player/x> [y] [z] [yaw] [pitch] [world]
+tp.request.help=Usage: /{0} <player>

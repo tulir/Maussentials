@@ -41,11 +41,11 @@ public class Maussentials extends JavaPlugin {
 	public void onEnable() {
 		long st = System.currentTimeMillis();
 		
-		this.saveDefaultConfig();
-		this.saveResource("languages/en_US.lang", true);
-		this.saveResource("languages/fi_FI.lang", true);
-		this.saveResource("motd.txt", true);
-		this.saveResource("rules.txt", true);
+		saveDefaultConfig();
+		saveResource("languages/en_US.lang", true);
+		saveResource("languages/fi_FI.lang", true);
+		saveResource("motd.txt", true);
+		saveResource("rules.txt", true);
 		
 		addModule("database", dbh = new DatabaseHandler(), true);
 		addModule("playerdata", pd = new PlayerData(), true);
@@ -92,7 +92,7 @@ public class Maussentials extends JavaPlugin {
 		getLogger().severe(message + ":");
 		error.printStackTrace();
 		getLogger().severe("Maussentials can not continue to function before the error is fixed.");
-		this.getPluginLoader().disablePlugin(this);
+		getPluginLoader().disablePlugin(this);
 	}
 	
 	public Database getDB() {
@@ -117,8 +117,7 @@ public class Maussentials extends JavaPlugin {
 	 * Unload the module with the given name.
 	 * 
 	 * @param name The name of the module to unload.
-	 * @return -1 if the module could not be found. 0 if the module was already unloaded. 1 if the module got
-	 *         successfully unloaded.
+	 * @return -1 if the module could not be found. 0 if the module was already unloaded. 1 if the module got successfully unloaded.
 	 */
 	public byte unloadModule(String name) {
 		MauModule m = getModule(name);
@@ -132,8 +131,7 @@ public class Maussentials extends JavaPlugin {
 	 * Unload the module with the given name.
 	 * 
 	 * @param name The name of the module to unload.
-	 * @return -1 if the module could not be found. 0 if the module was already loaded. 1 if the module got successfully
-	 *         loaded.
+	 * @return -1 if the module could not be found. 0 if the module was already loaded. 1 if the module got successfully loaded.
 	 */
 	public byte loadModule(String name) {
 		MauModule m = getModule(name);
@@ -182,8 +180,7 @@ public class Maussentials extends JavaPlugin {
 	}
 	
 	/**
-	 * Check if the given player has the given permission. If not, send the player an error containing the permission
-	 * node.
+	 * Check if the given player has the given permission. If not, send the player an error containing the permission node.
 	 * 
 	 * @param p The player to check.
 	 * @param permission The permission to check.
