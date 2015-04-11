@@ -147,4 +147,8 @@ public class MauBans implements MauModule {
 			e.printStackTrace();
 		}
 	}
+	
+	public StandardBan getStandardBan(String name) {
+		return sbans.get(name);
+	}
 }
