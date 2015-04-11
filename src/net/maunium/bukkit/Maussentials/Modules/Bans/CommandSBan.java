@@ -24,7 +24,7 @@ public class CommandSBan implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!plugin.checkPerms(sender, "maussentials.bans.ban")) return true;
 		if (args.length == 1) {
-			sender.sendMessage(plugin.translateErr("bans.error.typemissing"));
+			sender.sendMessage(plugin.translateErr("bans.error.stdban.typemissing"));
 			return true;
 		} else if (args.length > 1) {
 			UUID u = null;
