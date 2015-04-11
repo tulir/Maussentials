@@ -52,6 +52,7 @@ public class MauBans implements MauModule {
 		
 		plugin.getServer().getPluginManager().registerEvents(jl = new JoinListener(plugin, this), plugin);
 		plugin.getCommand("mauban").setExecutor(new CommandBan(plugin, this));
+		plugin.getCommand("maustandardban").setExecutor(new CommandSBan(plugin, this));
 		plugin.getCommand("mautempban").setExecutor(new CommandTempBan(plugin, this));
 		plugin.getCommand("mauunban").setExecutor(new CommandUnban(plugin, this));
 		plugin.getCommand("maubanip").setExecutor(new CommandBanIP(plugin, this));
@@ -65,6 +66,7 @@ public class MauBans implements MauModule {
 	public void unload() {
 		HandlerList.unregisterAll(jl);
 		plugin.getCommand("mauban").setExecutor(plugin);
+		plugin.getCommand("maustandardban").setExecutor(plugin);
 		plugin.getCommand("mautempban").setExecutor(plugin);
 		plugin.getCommand("mauunban").setExecutor(plugin);
 		plugin.getCommand("maubanip").setExecutor(plugin);
