@@ -45,10 +45,10 @@ public class StandardBan {
 						else if (s.endsWith("Y")) time += timetemp * 1000 * 60 * 60 * 24 * 365;
 						else if (s.endsWith("D")) time += timetemp * 1000 * 60 * 60 * 24 * 365 * 10;
 						else if (s.endsWith("C")) time += timetemp * 1000 * 60 * 60 * 24 * 365 * 100;
-						else plugin.getServer().getConsoleSender().sendMessage(plugin.translateErr("bans.error.invalidtime.stdban", s));
+						else plugin.getServer().getConsoleSender().sendMessage(plugin.translateErr("bans.error.stdban.invalidtime", s));
 					}
 				} catch (Throwable t) {
-					plugin.getServer().getConsoleSender().sendMessage(plugin.translateErr("bans.error.invalidtime.stdban", s));
+					plugin.getServer().getConsoleSender().sendMessage(plugin.translateErr("bans.error.stdban.invalidtime", s));
 				}
 			}
 		}
