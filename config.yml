@@ -36,3 +36,4 @@ standard-bans:
     reason: Hacks
   spamming:
     timeout: 1W
+    reason: Spamming in the chat
