@@ -3,7 +3,7 @@
 # and the file is located in the language directory. Then put the name
 # of the file without the extension in this field.
 language: en_US
-# SQL settings
+# SQL settings. Maussentials uses SQLibrary and supports all the database types that SQLibrary supports.
 sql:
   # Supported types:
   # MySQL, SQLite, H2, PostgreSQL, MicrosoftSQL, Oracle,
@@ -16,3 +16,23 @@ sql:
   # Hostname and port only required for hostname databases.
   hostname: localhost
   port: 3306
+
+# Standard bans. Used with /sban <player> <default ban name>
+# Set timeout to "permanent" for a permanent ban.
+# Non-permanent timeouts can use any time/date units from milliseconds to years.
+#   ms = milliseconds
+#   s = seconds
+#   m = minutes
+#   h = hours
+#   d = days
+#   W = weeks
+#   M = months
+#   Y = years
+# The units can be combined, for example "6d 4h 51m" = 6 days, 4 hours and 51 minutes.
+# Overflow of units is also allowed. For example, "123m" = 194 minutes = 3 hours and 14 minutes.
+standard-bans:
+  hacks:
+    timeout: permanent
+    reason: Hacks
+  spamming:
+    timeout: 1W
