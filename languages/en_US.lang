@@ -196,8 +196,11 @@ seen.uuid.banned.permanent=Banned by &6{1}&7 for &6{0}&7.
 # 3: Player name
 seen.uuid.banned.temporary=Temporarily (&6{2}&7) banned by &6{1}&7 for &6{0}&7. 
 
+# 0: Message
+# 1: Sender
 plainsay.spy={0} &7&o({1} PS)
 
+# 0: Label
 tp.help.player=Usage: /{0} <player/x> [player/y/x] [z/y] [yaw/z] [pitch/yaw] [world/pitch] [world]
 tp.help.console=Usage: /{0} <player> <player/x> [y] [z] [yaw] [pitch] [world]
 tp.request.help=Usage: /{0} <player>
