@@ -78,24 +78,29 @@ commands:
     description: Deny a teleportation request
     aliases: [tpdeny, mautpno, tpno, mautpn, tpn]
 permissions:
+  # Basic messages
   maussentials.welcomemessage:
     description: Print the welcome message
     default: true
   maussentials.rules:
     description: Print the rules
     default: true
+  # Kill
   maussentials.kill:
     description: Kill a player
     default: OP
+  # UUID data
   maussentials.uuid:
     description: "UUID tools (fetches data from Mojangs' servers)"
     default: OP
+  # God mode
   maussentials.god:
     description: Invincibility
     default: OP
   maussentials.god.others:
     description: Invincibility
     default: OP
+  # Private messaging
   maussentials.message:
     description: Use the private messaging system
     default: true
@@ -111,27 +116,33 @@ permissions:
   maussentials.message.magic:
     description: Magic in private messages
     default: OP
+  # Command spy
   maussentials.commandspy:
     description: Spy player commands
     default: OP
+  # Basic info about a player.
   maussentials.seen:
     description: See info about a player
     default: OP
+  # Plugins, modules and reloading.
   maussentials.plugins:
     description: See the plugin list
     default: true
   maussentials.reload:
     description: Allow reloading plugins and modules.
     default: OP
+  # Plainsay permissions
   maussentials.plainsay:
     description: Allow use of /mauplainsay
     default: OP
   maussentials.plainsay.see:
     description: See when a plain say message is broadcasted.
     default: OP
+  # Playerdata inspect permissions
   maussentials.playerdata:
     description: Inspect the data in the PlayerData system.
     default: OP
+  # Sign editing permissions
   maussentials.sign.edit:
     description: Edit signs
     default: OP
@@ -151,16 +162,17 @@ permissions:
       maussentials.sign.format.color: true
       maussentials.sign.format.style: true
       maussentials.sign.format.magic: true
-  maussentials.bans.ban:
+  # Ban permissions.
+  maussentials.bans.use.ban:
     description: Ban a player
     default: OP
-  maussentials.bans.unban:
+  maussentials.bans.use.unban:
     description: Unban a player
     default: OP
-  maussentials.bans.ipban:
+  maussentials.bans.use.ipban:
     description: Ban an IP
     default: OP
-  maussentials.bans.unipban:
+  maussentials.bans.use.unipban:
     description: Unban an IP
     default: OP
   maussentials.bans.see.ban:
@@ -175,18 +187,36 @@ permissions:
   maussentials.bans.see.unipban:
     description: See when an IP is unbanned
     default: OP
-  maussentials.bans:
-    description: Use the whole MauBans module.
+  maussentials.bans.see:
+    description: See when any kind of a ban/unban is made.
     default: OP
     children:
-      maussentials.bans.ban: true
-      maussentials.bans.unban: true
-      maussentials.bans.ipban: true
-      maussentials.bans.unipban: true
       maussentials.bans.see.ban: true
       maussentials.bans.see.unban: true
       maussentials.bans.see.ipban: true
       maussentials.bans.see.unipban: true
+  maussentials.bans.use:
+    description: Use any ban commands
+    default: OP
+    children:
+      maussentials.bans.use.ban: true
+      maussentials.bans.use.unban: true
+      maussentials.bans.use.ipban: true
+      maussentials.bans.use.unipban: true
+  maussentials.bans:
+    description: Use the whole MauBans module.
+    default: OP
+    children:
+      maussentials.bans.use: true
+      maussentials.bans.see: true
+  # Teleportation permissions
+  maussentials.tp.*:
+    description: Use anything in the tp module
+    default: OP
+    children:
+      maussentials.tp: true
+      maussentials.tp.request: true
+      maussentials.tp.accept: true
   maussentials.tp:
     description: Teleportation. Self -> Player, Self -> Coords, Player -> Player or Player -> Coords
     default: OP
