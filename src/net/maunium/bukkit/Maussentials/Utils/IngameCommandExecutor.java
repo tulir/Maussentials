@@ -36,5 +36,5 @@ public interface IngameCommandExecutor extends CommandExecutor {
 	 * @param args Passed command arguments
 	 * @return true if a valid command, otherwise false
 	 */
-	public abstract boolean onCommand(Player p, Command cmd, String label, String[] args);
+	public boolean onCommand(Player p, Command cmd, String label, String[] args);
 }
