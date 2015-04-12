@@ -18,7 +18,7 @@ public class Language implements I15r, MauModule {
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		try {
-			this.i18n = I18n.createInstance(new File(this.plugin.getDataFolder(), "languages"), this.plugin.getConfig().getString("language"));
+			i18n = I18n.createInstance(new File(this.plugin.getDataFolder(), "languages"), this.plugin.getConfig().getString("language"), "en_US");
 		} catch (IOException e) {
 			plugin.die("Failed to initialize internationalization", e);
 			return;
