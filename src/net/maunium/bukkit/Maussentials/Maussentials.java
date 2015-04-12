@@ -30,11 +30,17 @@ import net.maunium.bukkit.Maussentials.Modules.Commands.CommandUUID;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
 public class Maussentials extends JavaPlugin {
+	// Instances of all modules, including those that have separately saved instances below.
 	private Map<String, MauModule> modules = new HashMap<String, MauModule>();
+	/*
+	 * Instances of modules that need to be accessed from other modules. Other than these, all modules are mostly separate from eachother excluding public
+	 * functionality modules such as the delayed actions system.
+	 */
 	private DatabaseHandler dbh;
 	private Language lang;
 	private MauBans bans;
 	private PlayerData pd;
+	// Singleton instance of this class
 	private static Maussentials instance;
 	
 	@Override
@@ -42,11 +48,14 @@ public class Maussentials extends JavaPlugin {
 		long st = System.currentTimeMillis();
 		
 		saveDefaultConfig();
+		// Save the default language files
 		saveResource("languages/en_US.lang", true);
 		saveResource("languages/fi_FI.lang", true);
+		// Save the default motd and rules
 		saveResource("motd.txt", true);
 		saveResource("rules.txt", true);
 		
+		// Add and enable the modules
 		addModule("database", dbh = new DatabaseHandler(), true);
 		addModule("playerdata", pd = new PlayerData(), true);
 		addModule("bans", bans = new MauBans(), true);
