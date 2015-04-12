@@ -28,7 +28,7 @@ public class I18n {
 	 * @throws IOException Thrown when there's an error creating the streams or loading the properties.
 	 */
 	public static I18n createInstance(File langDir, String language) throws FileNotFoundException, IOException {
-		return new I18n(new File(langDir, language + ".lang"));
+		return new I18n(new File(langDir, language + ".lang"), new File(langDir, "en_US.lang"));
 	}
 	
 	/**
@@ -40,15 +40,43 @@ public class I18n {
 	 * @throws IOException Thrown when there's an error creating the streams or loading the properties.
 	 */
 	public static I18n createInstance(File langFile) throws FileNotFoundException, IOException {
-		return new I18n(langFile);
+		return new I18n(langFile, new File(langFile.getParentFile(), "en_US.lang"));
+	}
+	
+	/**
+	 * Creates an Internationalization instance without a name.<br>
+	 * The created instance can only be used through the non-static method {@link #format(node, replace)}
+	 * 
+	 * @param langDir The directory in which language files are stored.
+	 * @param language The name of the language file without the .lang extension
+	 * @param backup The name of the language to use if the main language couldn't be found. Also without the .lang extension.
+	 * @throws FileNotFoundException Thrown when the language file could not be found.
+	 * @throws IOException Thrown when there's an error creating the streams or loading the properties.
+	 */
+	public static I18n createInstance(File langDir, String language, String backup) throws FileNotFoundException, IOException {
+		return new I18n(new File(langDir, language + ".lang"), new File(langDir, backup + ".lang"));
+	}
+	
+	/**
+	 * Creates an Internationalization instance without a name.<br>
+	 * The created instance can only be used through the non-static method {@link #format(node, replace)}
+	 * 
+	 * @param langFile The language file.
+	 * @param backupFile The file to use if the language file doesn't exist.
+	 * @throws FileNotFoundException Thrown when the language file could not be found.
+	 * @throws IOException Thrown when there's an error creating the streams or loading the properties.
+	 */
+	public static I18n createInstance(File langFile, File backupFile) throws FileNotFoundException, IOException {
+		return new I18n(langFile, backupFile);
 	}
 	
 	/**
 	 * Hey! Don't touch that! It's private!
 	 */
-	private I18n(File f) throws FileNotFoundException, IOException {
+	private I18n(File f, File backup) throws FileNotFoundException, IOException {
 		lang = new Properties();
-		lang.load(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
+		if (f.exists()) lang.load(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
+		else lang.load(new InputStreamReader(new FileInputStream(backup), StandardCharsets.UTF_8));
 	}
 	
 	/**
@@ -66,7 +94,7 @@ public class I18n {
 				String rtrn = ChatFormatter.formatAll(lang.getProperty(node)).replace("<br>", "\n");
 				int i = 0;
 				for (Object o : arguments) {
-					if(o == null) o = "null";
+					if (o == null) o = "null";
 					rtrn = rtrn.replace("{" + i + "}>>nf", o.toString());
 					rtrn = rtrn.replace("{" + i + "}", ChatFormatter.formatAll(o.toString()));
 					i++;
@@ -79,8 +107,8 @@ public class I18n {
 	}
 	
 	/**
-	 * A basic interface that has a method which is usually used to call the {@link #format(node, arguments)} method of
-	 * a specific i18n instance. I15r = Internationalizer
+	 * A basic interface that has a method which is usually used to call the {@link #format(node, arguments)} method of a specific i18n instance. I15r =
+	 * Internationalizer
 	 * 
 	 * @author Tulir293
 	 */
