@@ -126,6 +126,11 @@ bans.ban.temporary=You have been temporarily banned by &6{1}&c!<br>&c{0}<br>&cTh
 
 # No arguments
 bans.error.reasonmissing=You must enter a ban reason!
+bans.error.stdban.typemissing=You must enter a standard ban name.
+# 0: Invalid name
+bans.error.stdban.nosuchkey=There is no standard ban with the name &6{0}&c.
+# 0: Entry name
+bans.error.stdban.entry=Error while processing standard ban entry &6{0}&c.
 # 0: Username
 bans.error.nevervisited.player=The player &6{0}&c has never visited this server.
 # 0: IP
@@ -136,6 +141,7 @@ bans.error.sql=SQL query error: &6{1}
 
 # 0: Label
 bans.help.ban=Usage: /{0} <username> <reason> [silent]
+bans.help.stdban=Usage: /{0} <username> <standard ban name> [silent]
 bans.help.ipban=Usage: /{0} <IP/username> <reason> [silent]
 bans.help.unban=Usage: /{0} <username> [silent]
 bans.help.unipban=Usage: /{0} <IP/username> [silent]
