@@ -1,5 +1,6 @@
 package net.maunium.bukkit.Maussentials;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -48,6 +49,8 @@ public class Maussentials extends JavaPlugin {
 		long st = System.currentTimeMillis();
 		
 		saveDefaultConfig();
+		File f = new File(getDataFolder(), "languages");
+		if (!f.exists()) f.mkdirs();
 		// Save the default language files
 		saveResource("languages/en_US.lang", true);
 		saveResource("languages/fi_FI.lang", true);
