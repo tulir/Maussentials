@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
+import net.maunium.bukkit.Maussentials.Utils.DateUtils;
 
 public class CommandSBan implements CommandExecutor {
 	private Maussentials plugin;
@@ -56,11 +57,23 @@ public class CommandSBan implements CommandExecutor {
 			host.ban(u, sender instanceof Player ? ((Player) sender).getUniqueId().toString() : "CONSOLE", sb.getReason(),
 					sb.isPermanent() ? -1 : System.currentTimeMillis() + sb.getTimeout());
 			
-			if (!silent)
-				plugin.getServer().broadcast(plugin.translatePlain("bans.broadcast.banned", p.getName(), sb.getReason(), sender.getName()),
-						"maussentials.bans.see.ban");
-			
-			if (p.isOnline()) p.getPlayer().kickPlayer(plugin.translatePlain("bans.ban.permanent", sb.getReason(), sender.getName(), p.getUniqueId()));
+			if (sb.isPermanent()) {
+				if (!silent)
+					plugin.getServer().broadcast(plugin.translatePlain("bans.broadcast.banned", p.getName(), sb.getReason(), sender.getName()),
+							"maussentials.bans.see.ban");
+				
+				if (p.isOnline()) p.getPlayer().kickPlayer(plugin.translatePlain("bans.ban.permanent", sb.getReason(), sender.getName(), p.getUniqueId()));
+			} else {
+				if (!silent)
+					plugin.getServer().broadcast(
+							plugin.translatePlain("bans.broadcast.tempbanned", p.getName(), sb.getReason(), sender.getName(),
+									DateUtils.getDurationBreakdown(sb.getTimeout(), DateUtils.MODE_FOR)), "maussentials.bans.see.ban");
+				
+				if (p.isOnline())
+					p.getPlayer().kickPlayer(
+							plugin.translatePlain("bans.ban.temporary", sb.getReason(), sender.getName(),
+									DateUtils.getDurationBreakdown(sb.getTimeout(), DateUtils.MODE_FOR), p.getUniqueId()));
+			}
 			return true;
 		} else {
 			sender.sendMessage(plugin.translateErr("bans.help.ban", label));
