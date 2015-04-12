@@ -49,22 +49,25 @@ commands:
     aliases: [playerdata, maupd, pd]
   mauban:
     description: "Bananize that damn hacker!"
-    aliases: [ban, maubanaani, banaani, maubanana, banana, maubananize, bananize, maubananisoi, bananisoi]
+    aliases: [ban]
+  maustandardban:
+    description: Bananize that damn hacker with a predefined message and time
+    aliases: [standardban, mausban, sban, maudefaultban, defaultban, maudban, dban]
   mautempban:
     description: "Temporarily bananize that damn hacker!"
-    aliases: [tempban, mautempbanaani, tempbanaani, mautempbanana, tempbanana, mautempbananize, tempbananize, mautempbananisoi, tempbananisoi]
+    aliases: [tempban, mautban]
   mauunban:
     description: "Unbananize that innocent player that some retard banned!"
-    aliases: [unban, mauunbanaani, unbanaani, mauunbanana, unbanana, mauunbananize, unbananize, mauunbananisoi, unbananisoi]
+    aliases: [unban]
   maubanip:
     description: "Bananize the IP of that damn hacker and/or ban bypasser!"
-    aliases: [banip, maubanaaniip, banaaniip, maubananaip, bananaip, maubananizeip, bananizeip, maubananisoiip, bananisoiip, ipban, mauipbanaani, ipbanaani, mauipbanana, ipbanana, mauipbananize, ipbananize, mauipbananisoi, ipbananisoi]
+    aliases: [banip, mauipban, ipban, mauiban]
   mautempbanip:
     description: "Temporarily bananize the IP of that damn hacker and/or ban bypasser!"
-    aliases: [tempbanip, mautempbanaaniip, tempbanaaniip, mautempbananaip, tempbananaip, mautempbananizeip, tempbananizeip, mautempbananisoiip, tempbananisoiip, tempipban, mautempipbanaani, tempipbanaani, mautempipbanana, tempipbanana, mautempipbananize, tempipbananize, mautempipbananisoi, tempipbananisoi]
+    aliases: [tempbanip, mautempipban, tempipban]
   mauunbanip:
     description: "Bananize the IP of that damn hacker and/or ban bypasser!"
-    aliases: [unbanip, mauunbanaaniip, unbanaaniip, mauunbananaip, unbananaip, mauunbananizeip, unbananizeip, mauunbananisoiip, unbananisoiip, unipban, mauunipbanaani, unipbanaani, mauunipbanana, unipbanana, mauunipbananize, unipbananize, mauunipbananisoi, unipbananisoi]
+    aliases: [unbanip, unipban, mauunipban]
   mautp:
     description: Teleport to a player
     aliases: [tp, mauteleport, teleport]
