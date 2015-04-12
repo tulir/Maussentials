@@ -49,12 +49,12 @@ public class I18n {
 	 * 
 	 * @param langDir The directory in which language files are stored.
 	 * @param language The name of the language file without the .lang extension
-	 * @param backup The name of the language to use if the main language couldn't be found. Also without the .lang extension.
+	 * @param fallback The name of the language to use if the main language couldn't be found. Also without the .lang extension.
 	 * @throws FileNotFoundException Thrown when the language file could not be found.
 	 * @throws IOException Thrown when there's an error creating the streams or loading the properties.
 	 */
-	public static I18n createInstance(File langDir, String language, String backup) throws FileNotFoundException, IOException {
-		return new I18n(new File(langDir, language + ".lang"), new File(langDir, backup + ".lang"));
+	public static I18n createInstance(File langDir, String language, String fallback) throws FileNotFoundException, IOException {
+		return new I18n(new File(langDir, language + ".lang"), new File(langDir, fallback + ".lang"));
 	}
 	
 	/**
@@ -62,21 +62,21 @@ public class I18n {
 	 * The created instance can only be used through the non-static method {@link #format(node, replace)}
 	 * 
 	 * @param langFile The language file.
-	 * @param backupFile The file to use if the language file doesn't exist.
+	 * @param fallbackFile The file to use if the language file doesn't exist.
 	 * @throws FileNotFoundException Thrown when the language file could not be found.
 	 * @throws IOException Thrown when there's an error creating the streams or loading the properties.
 	 */
-	public static I18n createInstance(File langFile, File backupFile) throws FileNotFoundException, IOException {
-		return new I18n(langFile, backupFile);
+	public static I18n createInstance(File langFile, File fallbackFile) throws FileNotFoundException, IOException {
+		return new I18n(langFile, fallbackFile);
 	}
 	
 	/**
 	 * Hey! Don't touch that! It's private!
 	 */
-	private I18n(File f, File backup) throws FileNotFoundException, IOException {
+	private I18n(File f, File fallback) throws FileNotFoundException, IOException {
 		lang = new Properties();
 		if (f.exists()) lang.load(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
-		else lang.load(new InputStreamReader(new FileInputStream(backup), StandardCharsets.UTF_8));
+		else lang.load(new InputStreamReader(new FileInputStream(fallback), StandardCharsets.UTF_8));
 	}
 	
 	/**
