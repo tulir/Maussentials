@@ -126,6 +126,11 @@ bans.ban.temporary=&6{1}&c on antanut sinulle väliaikaisen porttikiellon!<br>&c
 
 # No arguments
 bans.error.reasonmissing=Sinun on annettava porttikiellolle syy!
+bans.error.stdban.typemissing=Sinun on annettava yleisen porttikiellon nimi!
+# 0: Invalid name
+bans.error.stdban.nosuchkey=Yleistä porttikieltoa nimellä &6{0}&c ei löydetty.
+# 0: Entry name
+bans.error.stdban.entry=Virhe prosessoidessa yleistä porttikieltoa nimellä &6{0}&c.
 # 0: Username
 bans.error.nevervisited.player=Pelaaja &6{0}&c ei ole koskaan käynyt palvelimella.
 # 0: IP
