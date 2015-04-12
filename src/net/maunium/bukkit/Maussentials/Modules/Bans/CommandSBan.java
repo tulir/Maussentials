@@ -76,7 +76,7 @@ public class CommandSBan implements CommandExecutor {
 			}
 			return true;
 		} else {
-			sender.sendMessage(plugin.translateErr("bans.help.ban", label));
+			sender.sendMessage(plugin.translateErr("bans.help.stdban", label));
 			return true;
 		}
 	}
