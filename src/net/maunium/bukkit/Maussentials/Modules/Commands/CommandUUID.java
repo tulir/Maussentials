@@ -73,7 +73,7 @@ public class CommandUUID implements CommandModule {
 			} else if (args[0].equalsIgnoreCase("history")) {
 				String uuid = args[1];
 				if (args.length > 2 && args[1].equalsIgnoreCase("name")) {
-					String name = args[2];
+//					String name = args[2];
 					sender.sendMessage(plugin.translateErr("nyi"));
 					return true;
 				}
