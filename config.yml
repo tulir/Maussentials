@@ -29,7 +29,7 @@ sql:
 #   M = months
 #   Y = years
 # The units can be combined, for example "6d 4h 51m" = 6 days, 4 hours and 51 minutes.
-# Overflow of units is also allowed. For example, "123m" = 194 minutes = 3 hours and 14 minutes.
+# Overflow of units is also allowed. For example, "194m" = 194 minutes = 3 hours and 14 minutes.
 standard-bans:
   hacks:
     timeout: permanent
