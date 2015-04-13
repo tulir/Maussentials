@@ -43,7 +43,7 @@ god.for.on.dmg=Damage Gott-Modus aktiviert und für 6{0}&7.
 god.for.off=Gott-Modus deaktiviert und 6{0}&7.
 god.notfound=konnte nicht gefunden werden den Spieler und 6{0}&c!
 # 0: Label
-god.help=Verbrauch: /{0} [Benutzer / default / Schaden] [default / Schäden / private]
+god.help=Verbrauch: /{0} [user/default/damage] [default/damage/private]
 god.private=&6{0}&c ist mit dem privaten Gott-Modus. Sie können es nicht ändern.
 
 # 0: Aus
@@ -53,61 +53,61 @@ pm.msg.to=&3 [&6{0}&3 -> &6me &3] &f{2}>> nf
 pm.msg.from=&3 [&6me &3 -> &6{1}&3] &f{2}>> nf
 pm.spy.msg=&2 [SPY] und 3 [&6{0}&3 -> &6{1}&3] &f{2}>> nf
 # 0: Label
-pm.help.pm=Verbrauch: /{0}<zu> <message>
-pm.help.reply=Verbrauch: /{0}<message>
-pm.help.socialspy=Verbrauch: /{0}[Spieler]
+pm.help.pm=Verbrauch: /{0} <zu> <nachricht>
+pm.help.reply=Verbrauch: /{0} <nachricht>
+pm.help.socialspy=Verbrauch: /{0} [spieler]
 # Keine Argumente
 pm.msg.nobody=Der Spieler konnte nicht gefunden werden.
 pm.reply.nobody=Sie haben niemanden, zu antworten.
-pm.spy.on=Social Spy aktiviert.
-pm.spy.off=Social Spy deaktiviert.
+pm.spy.on=Soziale Spion aktiviert.
+pm.spy.off=Soziale Spion deaktiviert.
 
 # Keine Argumente
 cmdspy.onlyplayer=Befehl Spionage von der Konsole ist immer an.
 # 0: Benutzername
 # 1: Befehl
-cmdspy.cmd=&6{0}&7 ausgeführten Befehl &3{1}>> nf &7.
+cmdspy.cmd=&6{0}&7 ausgeführten Befehl &3{1}>>nf&7.
 cmdspy.on=Befehl aktiviert Spy.
 cmdspy.off=Befehl spy deaktiviert.
 
 # 0: Label
-signedit.help=Verbrauch: /{0}<Linie 1-4> [text]
+signedit.help=Verbrauch: /{0} <Linie 1-4> [text]
 # Keine Argumente
 signedit.toolong=Die maximale Länge eines Zeichens Zeile 16 Zeichen!
 signedit.click=Klicken Sie auf ein Zeichen, um es zu bearbeiten.
 signedit.edited=Edited erfolgreich anmelden.
 
 # 0: Label
-reloader.help=falsche Verwendung. <br> &c /{0}Plugin <list / Laden / Entladen / Neuladen / Aktivierung / Deaktivierung / Wiederanlauf> <name> Bags &c /{0}Modul <list / Laden / Entladen / laden> <name>
+reloader.help=Falsche verwendung. <br>&c/{0} plugin <list/load/unload/reload/enable/disable/restart> <name><br>&c/{0} module <list/load/unload/reload> <name>
 # 0: Plugin / Modul-Name
 plugin.enabled=Aktiviert Plugin &6{0}&7 erfolgreich.
-plugin.disabled=Deaktiviert Plug &6{0}&7 erfolgreich.
+plugin.disabled=Deaktiviert Plugin &6{0}&7 erfolgreich.
 plugin.restarted=Neustart Plugin &6{0}&7 erfolgreich.
 plugin.notfound=konnte nicht gefunden Plugin &6{0}&c!
 plugin.alreadyenabled=Das Plugin &6{0}&c ist bereits aktiviert!
 plugin.alreadydisabled=Das Plugin &6{0}&c bereits deaktiviert!
-module.loaded=Loaded Module &6{0}&7 erfolgreich.
+module.loaded=Loaded Modul &6{0}&7 erfolgreich.
 module.unloaded=Leermodul und 6{0}&7 erfolgreich.
 module.reloaded=Reloaded Modul &6{0}&7 erfolgreich.
 module.notfound=konnte nicht gefunden werden Modul und 6{0}&c!
 module.alreadyloaded=Das Modul &6{0}&c bereits geladen ist!
 module.alreadyunloaded=Das Modul &6{0}&c ist bereits ausgeladen!
-module.list=&aLoaded Module ({0}) &f - &2Unloaded Module ({1}) &f <br>{2}
+module.list=&aGeladen Modul ({0}) &f - &2Entladen Modul ({1}) &f <br>{2}
 
 # "In" und "Aus" getrennt, da einige Sprachen (wie Finnisch) unterschiedliche Konjugationen für sie.
 # Keine Argumente
-date.in.days=Tage
-date.in.hours=Stunden
-date.in.minutes=Minuten
-date.in.seconds=Sekunden
-date.in.none=weniger als 1 Sekunde
-date.for.days=Tage
-date.for.hours=Stunden
-date.for.minutes=Minuten
-date.for.seconds=Sekunden
-date.for.none=weniger als 1 Sekunde
+date.in.days=tage
+date.in.hours=stunden
+date.in.minutes=minuten
+date.in.seconds=sekunden
+date.in.none=weniger als 1 sekunde
+date.for.days=tage
+date.for.hours=stunden
+date.for.minutes=minuten
+date.for.seconds=sekunden
+date.for.none=weniger als 1 sekunde
 date.and=und
-date.comma =,
+date.comma=,
 
 # 0: Grund
 # 1: durch Gebannt
