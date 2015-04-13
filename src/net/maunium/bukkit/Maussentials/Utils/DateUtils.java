@@ -22,9 +22,9 @@ public class DateUtils {
 	 * Get the breakdown of millis to days, hours, minutes and seconds.
 	 * 
 	 * @param millis The amount of milliseconds to break down.
-	 * @param mode Use {@link #MODE_IN} or {@link #MODE_FOR}. They define which translations to use after the amount of
-	 *            the time unit. Defaults to {@link #MODE_IN}.
-	 * @return
+	 * @param mode Use {@link #MODE_IN} or {@link #MODE_FOR}. They define which translations to use after the amount of the time unit. Defaults to
+	 *            {@link #MODE_IN}.
+	 * @return A string which contains a human-readable duration breakdown/conversion from milliseconds to days, hours, minutes and seconds.
 	 */
 	public static String getDurationBreakdown(long millis, int mode) {
 		Maussentials m = Maussentials.getInstance();
