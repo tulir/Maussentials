@@ -1,7 +1,14 @@
-# Languages available by default: en_US, fi_FI, (Google translated de_DE)
-# If you make your own language file, make sure the extension is lang
-# and the file is located in the language directory. Then put the name
-# of the file without the extension in this field.
+# There are some languages available by default.
+#   Human-translated languages: en_US, fi_FI
+#   Google-translated languages (slighty fixed using common sense): de_DE
+#
+# You can not override the languages available by default. If you want to modify them,
+# rename the edited version to something else. Maussentials will always override all
+# modifications to the default language files.
+#
+# If you make your own language file, make sure the extension is lang and the file is
+# located in the language directory. Then put the name of the file without the extension
+# in this field.
 language: en_US
 # SQL settings. Maussentials uses SQLibrary and supports all the database types that SQLibrary supports.
 sql:
