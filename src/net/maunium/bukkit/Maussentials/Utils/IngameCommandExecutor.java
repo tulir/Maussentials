@@ -14,6 +14,10 @@ import org.bukkit.entity.Player;
  */
 public interface IngameCommandExecutor extends CommandExecutor {
 	@Override
+	@Deprecated
+	/**
+	 * @deprecated DO NOT OVERRIDE
+	 */
 	public default boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) return onCommand((Player) sender, cmd, label, args);
 		else if (getErrorMessage() != null) sender.sendMessage(getErrorMessage());

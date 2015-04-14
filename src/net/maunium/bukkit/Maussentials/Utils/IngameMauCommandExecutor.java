@@ -7,6 +7,10 @@ import org.bukkit.entity.Player;
 
 public interface IngameMauCommandExecutor extends MauCommandExecutor {
 	@Override
+	@Deprecated
+	/**
+	 * @deprecated DO NOT OVERRIDE
+	 */
 	public default boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) if (getErrorMessage() != null) sender.sendMessage(getErrorMessage());
 		else return execute((Player) sender, cmd, label, args);
@@ -14,6 +18,10 @@ public interface IngameMauCommandExecutor extends MauCommandExecutor {
 	}
 	
 	@Override
+	@Deprecated
+	/**
+	 * @deprecated DO NOT OVERRIDE
+	 */
 	public default void help(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) if (getErrorMessage() != null) sender.sendMessage(getErrorMessage());
 		else help((Player) sender, cmd, label, args);

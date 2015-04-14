@@ -6,6 +6,10 @@ import org.bukkit.command.CommandSender;
 
 public interface MauCommandExecutor extends CommandExecutor {
 	@Override
+	@Deprecated
+	/**
+	 * @deprecated DO NOT OVERRIDE
+	 */
 	public default boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!execute(sender, cmd, label, args)) help(sender, cmd, label, args);
 		return true;
