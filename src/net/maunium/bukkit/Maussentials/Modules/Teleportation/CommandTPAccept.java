@@ -29,7 +29,7 @@ public class CommandTPAccept implements IngameMauCommandExecutor {
 				if (p != null && p.isOnline()) {
 					sender.sendMessage(plugin.translateStd("tp.request.accepted.target", p.getName()));
 					
-					DelayedAction da = new DelayedAction(p, host.delay, new Runnable() {
+					DelayedAction da = new DelayedAction(p, p.hasPermission("maussentials.tp.nodelay") ? 0 : host.delay, new Runnable() {
 						// On success
 						@Override
 						public void run() {
@@ -42,12 +42,14 @@ public class CommandTPAccept implements IngameMauCommandExecutor {
 						public void run() {
 							p.sendMessage(plugin.translateErr("tp.request.fail"));
 						}
-					}, host.safeRange, host.safeDelay);
+					}, p.hasPermission("maussentials.tp.nodelay") ? 1 : host.safeRange, p.hasPermission("maussentials.tp.nodelay") ? 0 : host.safeDelay);
 					
 					if (da.start()) {
-						if (host.delay != 0) p.sendMessage(plugin.translateStd("tp.request.accepted.nearby", sender.getName(), host.delay / 20));
+						if (!p.hasPermission("maussentials.tp.nodelay") && host.delay != 0)
+							p.sendMessage(plugin.translateStd("tp.request.accepted.nearby", sender.getName(), host.delay / 20));
 					} else {
-						if (host.safeDelay != 0) p.sendMessage(plugin.translateStd("tp.request.accepted.nonearby", sender.getName(), host.safeDelay / 20));
+						if (!p.hasPermission("maussentials.tp.nodelay") && host.safeDelay != 0)
+							p.sendMessage(plugin.translateStd("tp.request.accepted.nonearby", sender.getName(), host.safeDelay / 20));
 					}
 					
 				} else sender.sendMessage(plugin.translateErr("tp.request.nobody"));
