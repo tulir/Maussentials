@@ -210,3 +210,12 @@ plainsay.spy={0} &7&o({1} PS)
 tp.help.player=Usage: /{0} <player/x> [player/y/x] [z/y] [yaw/z] [pitch/yaw] [world/pitch] [world]
 tp.help.console=Usage: /{0} <player> <player/x> [y] [z] [yaw] [pitch] [world]
 tp.request.help=Usage: /{0} <player>
+
+tp.request.accepted.target=You have accepted &6{0}'s&7 teleport request.
+tp.request.accepted.nearby=&6{0}&7 has accepted your tp request, but someone is nearby. Teleport will commence in &6{1} seconds&7.
+tp.request.accepted.nonearby=&6{0}&7 has accepted your tp request. Teleport will commence in &6{1} seconds&7.
+tp.request.teleporting=Teleporting now...
+tp.request.fail=Teleportation cancelled.
+tp.request.nobody=You have no requests waiting!
+tp.request.denied.target=You have denied &6{0}'s&7 teleport request.
+tp.request.denied.requester=&6{0}&7 has denied your tp request.
