@@ -54,7 +54,7 @@ public class Maussentials extends JavaPlugin {
 		// Save the default language files
 		saveResource("languages/en_US.lang", true);
 		saveResource("languages/fi_FI.lang", true);
-		saveResource("languages/de-DE.lang", true);
+		saveResource("languages/de_DE.lang", true);
 		// Save the default motd and rules
 		saveResource("motd.txt", true);
 		saveResource("rules.txt", true);
