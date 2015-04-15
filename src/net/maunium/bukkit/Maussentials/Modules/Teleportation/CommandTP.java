@@ -71,22 +71,22 @@ public class CommandTP implements MauCommandExecutor {
 				float yaw = p.getLocation().getYaw(), pitch = p.getLocation().getPitch();
 				World w = null;
 				try {
-					x = Double.parseDouble(args[1]);
-					y = Double.parseDouble(args[2]);
-					z = Double.parseDouble(args[3]);
+					x = Double.parseDouble(args[0]);
+					y = Double.parseDouble(args[1]);
+					z = Double.parseDouble(args[2]);
 				} catch (NumberFormatException e) {
 					return false;
 				}
-				if (args.length > 4) {
+				if (args.length > 3) {
 					try {
-						yaw = Float.parseFloat(args[4]);
+						yaw = Float.parseFloat(args[3]);
 					} catch (NumberFormatException e) {}
-					if (args.length > 5) {
+					if (args.length > 4) {
 						try {
-							pitch = Float.parseFloat(args[5]);
+							pitch = Float.parseFloat(args[4]);
 						} catch (NumberFormatException e) {}
 						
-						if (args.length > 6) w = plugin.getServer().getWorld(args[6]);
+						if (args.length > 5) w = plugin.getServer().getWorld(args[5]);
 					}
 				}
 				if (w == null) w = p.getWorld();
