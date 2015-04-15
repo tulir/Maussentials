@@ -91,8 +91,10 @@ public class DelayedAction {
 	/**
 	 * Starts the delay of the delayed teleport. The checking for nearby players is done at this point, and after this only moving, hitting or taking damage can
 	 * cancel the teleportation during the wait period
+	 * 
+	 * @return true if the action will be run after {@link #delay} ticks. False if the action will be run after {@link #safeDelay} ticks.
 	 */
-	public void start() {
+	public boolean start() {
 		MetadataUtils.setFixedMetadata(p, DELAYED_ACTION_META, this, plugin);
 		
 		if (safeRange > 0 && safeDelay != -1 && safeDelay != delay) {
@@ -102,11 +104,13 @@ public class DelayedAction {
 					if (x.getUniqueId().equals(p.getUniqueId())) continue;
 					if (noCancel != null && noCancel.contains(x.getUniqueId())) continue;
 					Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, delay);
-					return;
+					return true;
 				}
 			}
 			Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, safeDelay);
+			return false;
 		} else Bukkit.getServer().getScheduler().runTaskLater(plugin, delayer, delay);
+		return true;
 	}
 	
 	private Runnable delayer = new Runnable() {
