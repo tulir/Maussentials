@@ -27,7 +27,7 @@ public class CommandTP implements MauCommandExecutor {
 					Player p2 = plugin.getServer().getPlayer(args[1]);
 					if (p2 != null) {
 						p.teleport(p2);
-						p2.sendMessage(plugin.translateStd("tp.teleported.other", p.getName(), p2.getName()));
+						p2.sendMessage(plugin.translateStd("tp.teleported.other.toplayer", p.getName(), p2.getName()));
 						return true;
 					} else if (args.length > 3) {
 						double x, y, z;
@@ -56,13 +56,13 @@ public class CommandTP implements MauCommandExecutor {
 						
 						Location l = new Location(w, x, y, z, yaw, pitch);
 						p.teleport(l);
-						sender.sendMessage(plugin.translateStd("tp.teleported.other", p.getName(), new SerializableLocation(l).toReadableString()));
+						sender.sendMessage(plugin.translateStd("tp.teleported.other.tolocation", p.getName(), new SerializableLocation(l).toReadableString()));
 						return true;
 					}
 				} else if (sender instanceof Player) {
 					Player p2 = (Player) sender;
 					p2.teleport(p);
-					sender.sendMessage(plugin.translateStd("tp.teleported.self", p.getName()));
+					sender.sendMessage(plugin.translateStd("tp.teleported.self.toplayer", p.getName()));
 					return true;
 				}
 			} else if (sender instanceof Player) {
@@ -93,7 +93,7 @@ public class CommandTP implements MauCommandExecutor {
 				
 				Location l = new Location(w, x, y, z, yaw, pitch);
 				p.teleport(l);
-				sender.sendMessage(plugin.translateStd("tp.teleported.self", new SerializableLocation(l).toReadableString()));
+				sender.sendMessage(plugin.translateStd("tp.teleported.self.tolocation", new SerializableLocation(l).toReadableString()));
 				return true;
 			}
 		}
