@@ -28,6 +28,7 @@ import net.maunium.bukkit.Maussentials.Modules.Commands.CommandReload;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSeen;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSpy;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandUUID;
+import net.maunium.bukkit.Maussentials.Modules.Teleportation.MauTPs;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
 public class Maussentials extends JavaPlugin {
@@ -63,6 +64,7 @@ public class Maussentials extends JavaPlugin {
 		addModule("database", dbh = new DatabaseHandler(), true);
 		addModule("playerdata", pd = new PlayerData(), true);
 		addModule("bans", bans = new MauBans(), true);
+		addModule("teleportation", new MauTPs(), true);
 		addModule("basic-messages", new BasicMessages(), true);
 		addModule("command-uuid", new CommandUUID(), true);
 		addModule("command-kill", new CommandKill(), true);
