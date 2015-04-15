@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -71,12 +72,27 @@ public class I18n {
 	}
 	
 	/**
+	 * For those who just want me to eat whatever the stream gives.
+	 * 
+	 * @param is The inputstream to eat.
+	 * @return The I18n instance that comes as a result of eating the inputstream.
+	 */
+	public static I18n createInstance(InputStream is) throws IOException {
+		return new I18n(is);
+	}
+	
+	/**
 	 * Hey! Don't touch that! It's private!
 	 */
 	private I18n(File f, File fallback) throws FileNotFoundException, IOException {
 		lang = new Properties();
 		if (f.exists()) lang.load(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
 		else lang.load(new InputStreamReader(new FileInputStream(fallback), StandardCharsets.UTF_8));
+	}
+	
+	private I18n(InputStream is) throws IOException {
+		lang = new Properties();
+		lang.load(is);
 	}
 	
 	/**
