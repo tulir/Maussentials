@@ -44,3 +44,8 @@ standard-bans:
   spamming:
     timeout: 1W
     reason: Spamming in the chat
+# Delay before teleporting
+teleport:
+  delay: 100
+  saferange: 10
+  safedelay: 0
