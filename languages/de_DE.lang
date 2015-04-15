@@ -134,3 +134,20 @@ plainsay.spy={0} &7&o({1}PS)
 tp.help.player=Verbrauch: /{0} <spieler/x> [spieler/y/x] [z/y] [gieren/z] [pech/gieren] [welt/pech] [welt]
 tp.help.console=Verbrauch: /{0} <spieler> <spieler/x> [y] [z] [gieren] [pech] [welt]
 tp.request.help=Verbrauch: /{0} <spieler>
+
+tp.teleported.other.toplayer=Teleported &6{0}&7 to the player &6{1}&7.
+tp.teleported.other.tolocation=Teleported &6{0}&7 to &6{1}&7.
+tp.teleported.self.toplayer=Teleported to the player &6{0}&7.
+tp.teleported.self.tolocation=Teleported to &6{0}&7.
+
+tp.request.from=&6{0}&7 has requested to teleport to you.<br>&7Use /tpaccept to accept or /tpdeny to deny.
+tp.request.accepted.target=You have accepted &6{0}'s&7 teleport request.
+tp.request.denied.target=You have denied &6{0}'s&7 teleport request.
+tp.request.playernotfound=Couldn't find the player &6{0}&7.
+tp.request.to=Sent teleportation request to &6{0}&7.
+tp.request.denied.requester=&6{0}&7 has denied your tp request.
+tp.request.accepted.nearby=&6{0}&7 has accepted your tp request, but someone is nearby. Teleport will commence in &6{1} seconds&7.
+tp.request.accepted.nonearby=&6{0}&7 has accepted your tp request. Teleport will commence in &6{1} seconds&7.
+tp.request.teleporting=Teleporting now...
+tp.request.fail=Teleportation cancelled.
+tp.request.nobody=You have no requests waiting!
