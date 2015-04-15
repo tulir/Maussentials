@@ -25,8 +25,7 @@ public class CommandTPRequest implements IngameMauCommandExecutor {
 				sender.sendMessage(plugin.translateStd("tp.request.to", p.getName()));
 			} else sender.sendMessage(plugin.translateErr("tp.request.playernotfound", args[0]));
 			return true;
-		}
-		return false;
+		} else return false;
 	}
 	
 	@Override
