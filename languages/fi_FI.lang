@@ -206,6 +206,30 @@ seen.uuid.banned.temporary=Pelaajan &6{1}&7 antama väliaikainen (&6{2}&7) portt
 plainsay.spy={0} &7&o({1} PS)
 
 # 0: Label
-tp.help.player=Usage: /{0} <player/x> [player/y/x] [z/y] [yaw/z] [pitch/yaw] [world/pitch] [world]
-tp.help.console=Usage: /{0} <player> <player/x> [y] [z] [yaw] [pitch] [world]
-tp.request.help=Usage: /{0} <player>
+tp.help.player=Käyttäminen: /{0} <pelaaja/x> [pelaaja/y/x] [z/y] [yaw/z] [pitch/yaw] [maailma/pitch] [maailma]
+tp.help.console=Käyttäminen: /{0} <pelaaja> <pelaaja/x> [y] [z] [yaw] [pitch] [maailma]
+tp.request.help=Käyttäminen: /{0} <pelaaja>
+
+# 0: The user who is teleported
+# 1: The user or location to which the user who is teleported is teleported to.
+tp.teleported.other.toplayer=Teleportattiin &6{0}&7 pelaajan &6{1}&7 luo.
+tp.teleported.other.tolocation=Teleportattiin &6{0}&7 sijaintiin &6{1}&7.
+# 0: The user or location to which the sender is teleported to.
+tp.teleported.self.toplayer=Teleportattiin pelaajan &6{0}&7 luo.
+tp.teleported.self.tolocation=Teleportattiin sijaintiin &6{0}&7.
+
+# 0: TP Requester
+tp.request.from=&6{0}&7 on pyytänyt teleportata luoksesi.<br>&7Käytä komentoa /tpaccept hyväksyäksesi pyynnön tai /tpdeny evätäksesi sen.
+tp.request.accepted.target=Hyväksyit pelaajan &6{0}&7 teleportaatio pyynnön.
+tp.request.denied.target=Eväsit pelaajan &6{0}&7 teleportaatio pyynnön.
+# 0: TP Target
+tp.request.playernotfound=Pelaajaa &6{0}&7 ei löydetty.
+tp.request.to=Teleportaatiopyyntö lähetetty pelaajalle &6{0}&7.
+tp.request.denied.requester=&6{0}&7 on hylännyt teleportaatiopyyntösi.
+# 1: Time to TP
+tp.request.accepted.nearby=&6{0}&7 on hyväksynyt teleportaatiopyyntösi, mutta joku on lähellä. Teleportaatio tapahtuu &6{1} sekunnin kuluttua&7.
+tp.request.accepted.nonearby=&6{0}&7 on hyväksynyt teleportaatiopyyntösi. Teleportaatio tapahtuu &6{1} sekunnin kuluttua&7.
+# No arguments
+tp.request.teleporting=Teleportataan nyt...
+tp.request.fail=Teleportaatio peruttu.
+tp.request.nobody=Sinulla ei ole yhtään teleportaatiopyyntöä odottamassa
