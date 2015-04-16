@@ -53,7 +53,7 @@ public class Maussentials extends JavaPlugin {
 		long st = System.currentTimeMillis();
 		
 		try {
-			fallbackLang = I18n.createInstance(Maussentials.class.getClassLoader().getResourceAsStream("languages/en_US.lang"));
+			fallbackLang = I18n.createInstance(getResource("languages/en_US.lang"));
 		} catch (Throwable t) {
 			getLogger().warning("Couldn't load fallback language. This can cause problems if Language module is unloaded.");
 			t.printStackTrace();
