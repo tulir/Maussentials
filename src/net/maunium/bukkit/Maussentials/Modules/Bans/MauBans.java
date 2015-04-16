@@ -38,7 +38,7 @@ public class MauBans implements MauModule {
 		} catch (SQLException e) {}
 		
 		sbans = new HashMap<String, StandardBan>();
-		for (Entry<String, Object> e : plugin.getConfig().getConfigurationSection("standard-bans").getValues(true).entrySet()) {
+		for (Entry<String, Object> e : plugin.getConfig().getConfigurationSection("standard-bans").getValues(false).entrySet()) {
 			if (e.getValue() instanceof Map) {
 				Map<?, ?> m = (Map<?, ?>) e.getValue();
 				if (m.containsKey("reason") && m.containsKey("timeout")) {
