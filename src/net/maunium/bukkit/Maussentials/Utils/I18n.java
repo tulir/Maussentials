@@ -90,6 +90,9 @@ public class I18n {
 		else lang.load(new InputStreamReader(new FileInputStream(fallback), StandardCharsets.UTF_8));
 	}
 	
+	/**
+	 * Hey! Don't touch that! It's private!
+	 */
 	private I18n(InputStream is) throws IOException {
 		lang = new Properties();
 		lang.load(is);
