@@ -15,7 +15,7 @@ import net.maunium.bukkit.Maussentials.Maussentials;
  * @since 0.1
  */
 public class DateUtils {
-	private static final SimpleDateFormat def = new SimpleDateFormat("dd.MM.yyyy ss:mm:HH");
+	private static final SimpleDateFormat def = new SimpleDateFormat("ss:mm:HH dd.MM.yyyy");
 	public static final int MODE_IN = 0, MODE_FOR = 1;
 	
 	/**
