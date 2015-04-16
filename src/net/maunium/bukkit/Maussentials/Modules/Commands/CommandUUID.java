@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -70,12 +72,50 @@ public class CommandUUID implements CommandModule {
 					e1.printStackTrace();
 				}
 				return true;
-			} else if (args[0].equalsIgnoreCase("history")) {
-				String uuid = args[1];
-				if (args.length > 2 && args[1].equalsIgnoreCase("name")) {
-//					String name = args[2];
-					sender.sendMessage(plugin.translateErr("nyi"));
-					return true;
+			} else if (args[0].equalsIgnoreCase("history") && args.length > 1) {
+				String uuid = "";
+				if (args.length > 2 && args[1].equalsIgnoreCase("by-uuid")) uuid = args[2].replace("-", "");
+				else {
+					try {
+						if (args.length > 2 && args[2].equalsIgnoreCase("nocache")) {
+							try {
+								long timestamp = System.currentTimeMillis();
+								if (args.length > 3) timestamp = Long.parseLong(args[3]);
+								BufferedReader br = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/"
+										+ args[1] + "?at=" + timestamp).openStream()));
+								
+								String in = "", s;
+								while ((s = br.readLine()) != null)
+									in += s;
+								
+								if (in.isEmpty()) {
+									sender.sendMessage(plugin.translateErr("uuid.history.notfound.server", args[1]));
+									return true;
+								}
+								
+								JsonObject jo = new JsonParser().parse(in).getAsJsonObject();
+								if (jo.has("error")) {
+									sender.sendMessage(plugin.translateErr("uuid.history.notfound.server", args[1]));
+									return true;
+								} else if (jo.has("id")) uuid = jo.get("id").getAsString();
+							} catch (Throwable e) {
+								sender.sendMessage(plugin.translateErr("uuid.history.notfound.server", args[1]));
+								return true;
+							}
+						} else {
+							UUID uuidt = plugin.getPlayerData().getUUIDByName(args[1]);
+							if (uuidt != null) uuid = uuidt.toString().replace("-", "");
+							else {
+								sender.sendMessage(plugin.translateErr("uuid.history.notfound.cache", args[1]));
+								return true;
+							}
+						}
+					} catch (SQLException e) {
+						sender.sendMessage(plugin.translateErr("uuid.error", e.getMessage()));
+						plugin.getLogger().severe("Error while fetching UUID from name (from cache, for name history): ");
+						e.printStackTrace();
+						return true;
+					}
 				}
 				
 				try {
@@ -127,7 +167,6 @@ public class CommandUUID implements CommandModule {
 					e1.printStackTrace();
 				}
 				return true;
-				
 			}
 		}
 		return false;
