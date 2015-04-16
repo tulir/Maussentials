@@ -21,13 +21,15 @@ uuid.get.name=Current Name: &6{0}&7.
 # 0: UUID
 uuid.get.uuid=UUID: &6{0}&7.
 uuid.history.invalid=Failed to get history of &6{0}&c.
+uuid.history.notfound.cache=Couldn't find the player &6{0}&c in the UUID cache. Try /uuid get or /uuid history <name> nocache?
+uuid.history.notfound.server=Couldn't find the player &6{0}&c. Try another timestamp (0 = original owner of name)?
 uuid.history=Name History of UUID &6{0}&f:
 # 0: Username
 uuid.history.original=&7 - &6{0}&7 (Original Name)
 uuid.history.new=&7 - &6{0}&7 (Changed to at &6{1}&7).
 # 0: Label
 uuid.help.get=Usage: /{0} get <username> [timestamp]
-uuid.help.history=Usage: /{0} history <uuid>
+uuid.help.history=Usage: /{0} history <name/by-uuid> [nocache/uuid] [timestamp]
 
 # 0: Username
 kill.ed=Killed &6{0}&7.
