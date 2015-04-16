@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.event.HandlerList;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
@@ -39,9 +40,9 @@ public class MauBans implements MauModule {
 		
 		sbans = new HashMap<String, StandardBan>();
 		for (Entry<String, Object> e : plugin.getConfig().getConfigurationSection("standard-bans").getValues(false).entrySet()) {
-			if (e.getValue() instanceof Map) {
-				Map<?, ?> m = (Map<?, ?>) e.getValue();
-				if (m.containsKey("reason") && m.containsKey("timeout")) {
+			if (e.getValue() instanceof MemorySection) {
+				MemorySection m = (MemorySection) e.getValue();
+				if (m.contains("reason") && m.contains("timeout")) {
 					Object reason = m.get("reason"), timeout = m.get("timeout");
 					if (reason != null && timeout != null && reason instanceof String && timeout instanceof String) sbans.put(e.getKey(),
 							StandardBan.create((String) reason, (String) timeout));
