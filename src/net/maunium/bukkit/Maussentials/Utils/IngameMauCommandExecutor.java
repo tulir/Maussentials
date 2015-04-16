@@ -12,8 +12,9 @@ public interface IngameMauCommandExecutor extends MauCommandExecutor {
 	 * @deprecated DO NOT OVERRIDE
 	 */
 	public default boolean execute(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player)) if (getErrorMessage() != null) sender.sendMessage(getErrorMessage());
-		else return execute((Player) sender, cmd, label, args);
+		if (!(sender instanceof Player)) {
+			if (getErrorMessage() != null) sender.sendMessage(getErrorMessage());
+		} else return execute((Player) sender, cmd, label, args);
 		return true;
 	}
 	
@@ -23,8 +24,9 @@ public interface IngameMauCommandExecutor extends MauCommandExecutor {
 	 * @deprecated DO NOT OVERRIDE
 	 */
 	public default void help(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!(sender instanceof Player)) if (getErrorMessage() != null) sender.sendMessage(getErrorMessage());
-		else help((Player) sender, cmd, label, args);
+		if (!(sender instanceof Player)) {
+			if (getErrorMessage() != null) sender.sendMessage(getErrorMessage());
+		} else help((Player) sender, cmd, label, args);
 	}
 	
 	/**
