@@ -2,16 +2,19 @@ package net.maunium.bukkit.Maussentials.Modules;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+
+import org.bukkit.ChatColor;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.I18n;
-import net.maunium.bukkit.Maussentials.Utils.I18n.I15r;
 
-public class Language implements I15r, MauModule {
+public class Language implements MauModule {
 	private Maussentials plugin;
 	private String stag, errtag;
 	private I18n i18n;
+	private static I18n fallback = null;
 	private boolean loaded = false;
 	
 	@Override
@@ -23,9 +26,19 @@ public class Language implements I15r, MauModule {
 			plugin.die("Failed to initialize internationalization", e);
 			return;
 		}
+		
 		stag = i18n.translate("stag");
 		errtag = i18n.translate("errtag");
 		loaded = true;
+	}
+	
+	public static void reloadFallback(Maussentials plugin) {
+		try {
+			fallback = I18n.createInstance(plugin.getResource("languages/en_US.lang"));
+		} catch (Throwable t) {
+			plugin.getLogger().warning("Couldn't load fallback language. This can cause problems if Language module is unloaded.");
+			t.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -39,19 +52,66 @@ public class Language implements I15r, MauModule {
 		return loaded;
 	}
 	
-	@Override
-	public String translate(String node, Object... replace) {
+	public String translate(String node, String prefix, Object... replace) {
 		if (loaded) return i18n.translate(node, replace);
 		else return null;
 	}
 	
-	public String translateStd(String node, Object... replace) {
-		if (loaded) return stag + translate(node, replace);
-		else return null;
+	public static String translateStd(Language lang, String node, Object... replace) {
+		if (lang != null && lang.isLoaded()) {
+			String s = lang.translate(node, lang.stag, replace);
+			if (s != null) return s;
+		}
+		if (fallback != null) {
+			String stag = fallback.translate("stag");
+			String s = fallback.translate(node, replace);
+			if (stag != null && s != null) return stag + s;
+			else if (s != null) return ChatColor.GRAY + s;
+			else {
+				System.out.println("[Maussentials] Couldn't find translation for " + node + " anywhere. (Arguments: " + Arrays.toString(replace) + ")");
+				return node;
+			}
+		} else {
+			System.out.println("[Maussentials] Couldn't find translation for " + node + " anywhere. (Arguments: " + Arrays.toString(replace) + ")");
+			return node;
+		}
 	}
 	
-	public String translateErr(String node, Object... replace) {
-		if (loaded) return errtag + translate(node, replace);
-		else return null;
+	public static String translateErr(Language lang, String node, Object... replace) {
+		if (lang != null && lang.isLoaded()) {
+			String s = lang.translate(node, lang.errtag, replace);
+			if (s != null) return s;
+		}
+		if (fallback != null) {
+			String errtag = fallback.translate("errtag");
+			String s = fallback.translate(node, replace);
+			if (errtag != null && s != null) return errtag + s;
+			else if (s != null) return ChatColor.RED + s;
+			else {
+				System.out.println("[Maussentials] Couldn't find translation for " + node + " anywhere. (Arguments: " + Arrays.toString(replace) + ")");
+				return node;
+			}
+		} else {
+			System.out.println("[Maussentials] Couldn't find translation for " + node + " anywhere. (Arguments: " + Arrays.toString(replace) + ")");
+			return node;
+		}
+	}
+	
+	public static String translatePlain(Language lang, String node, Object... replace) {
+		if (lang != null && lang.isLoaded()) {
+			String s = lang.translate(node, "", replace);
+			if (s != null) return s;
+		}
+		if (fallback != null) {
+			String s = fallback.translate(node, replace);
+			if (s != null) return s;
+			else {
+				System.out.println("[Maussentials] Couldn't find translation for " + node + " anywhere. (Arguments: " + Arrays.toString(replace) + ")");
+				return node;
+			}
+		} else {
+			System.out.println("[Maussentials] Couldn't find translation for " + node + " anywhere. (Arguments: " + Arrays.toString(replace) + ")");
+			return node;
+		}
 	}
 }

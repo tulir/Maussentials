@@ -1,7 +1,6 @@
 package net.maunium.bukkit.Maussentials;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,7 +30,6 @@ import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSpy;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandUUID;
 import net.maunium.bukkit.Maussentials.Modules.Teleportation.MauTPs;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
-import net.maunium.bukkit.Maussentials.Utils.I18n;
 
 public class Maussentials extends JavaPlugin {
 	// Instances of all modules, including those that have separately saved instances below.
@@ -42,7 +40,6 @@ public class Maussentials extends JavaPlugin {
 	 */
 	private DatabaseHandler dbh;
 	private Language lang;
-	private I18n fallbackLang = null;
 	private MauBans bans;
 	private PlayerData pd;
 	// Singleton instance of this class
@@ -52,12 +49,7 @@ public class Maussentials extends JavaPlugin {
 	public void onEnable() {
 		long st = System.currentTimeMillis();
 		
-		try {
-			fallbackLang = I18n.createInstance(getResource("languages/en_US.lang"));
-		} catch (Throwable t) {
-			getLogger().warning("Couldn't load fallback language. This can cause problems if Language module is unloaded.");
-			t.printStackTrace();
-		}
+		Language.reloadFallback(this);
 		
 		saveDefaultConfig();
 		File f = new File(getDataFolder(), "languages");
@@ -108,12 +100,7 @@ public class Maussentials extends JavaPlugin {
 	}
 	
 	public void fullReload() {
-		try {
-			fallbackLang = I18n.createInstance(getResource("languages/en_US.lang"));
-		} catch (Throwable t) {
-			getLogger().warning("Couldn't load fallback language. This can cause problems if Language module is unloaded.");
-			t.printStackTrace();
-		}
+		Language.reloadFallback(this);
 		
 		saveDefaultConfig();
 		File f = new File(getDataFolder(), "languages");
@@ -221,50 +208,6 @@ public class Maussentials extends JavaPlugin {
 		return pd;
 	}
 	
-	private long lastWarning = 0;
-	
-	public String translateStd(String node, Object... replace) {
-		if (lang != null && lang.isLoaded()) {
-			String s = lang.translateStd(node, replace);
-			if (s != null) return s;
-		}
-		if (fallbackLang != null) {
-			if (System.currentTimeMillis() - lastWarning >= 5000) {
-				getLogger().severe("Language module not loaded. Using fallback translation!");
-				lastWarning = System.currentTimeMillis();
-			}
-			return fallbackLang.translate("stag") + fallbackLang.translate(node, replace);
-		} else return node + (replace.length != 0 ? " (" + Arrays.toString(replace) + ")" : "");
-	}
-	
-	public String translateErr(String node, Object... replace) {
-		if (lang != null && lang.isLoaded()) {
-			String s = lang.translateErr(node, replace);
-			if (s != null) return s;
-		}
-		if (fallbackLang != null) {
-			if (System.currentTimeMillis() - lastWarning >= 5000) {
-				getLogger().severe("Language module not loaded. Using fallback translation!");
-				lastWarning = System.currentTimeMillis();
-			}
-			return fallbackLang.translate("errtag") + fallbackLang.translate(node, replace);
-		} else return node + (replace.length != 0 ? " (" + Arrays.toString(replace) + ")" : "");
-	}
-	
-	public String translatePlain(String node, Object... replace) {
-		if (lang != null && lang.isLoaded()) {
-			String s = lang.translate(node, replace);
-			if (s != null) return s;
-		}
-		if (fallbackLang != null) {
-			if (System.currentTimeMillis() - lastWarning >= 5000) {
-				getLogger().severe("Language module not loaded. Using fallback translation!");
-				lastWarning = System.currentTimeMillis();
-			}
-			return fallbackLang.translate(node, replace);
-		} else return node + (replace.length != 0 ? " (" + Arrays.toString(replace) + ")" : "");
-	}
-	
 	/**
 	 * Check if the given player has the given permission. If not, send the player an error containing the permission node.
 	 * 
@@ -296,5 +239,17 @@ public class Maussentials extends JavaPlugin {
 		}
 		
 		sender.sendMessage(translateStd("module.list", en, dis, sb.toString()));
+	}
+	
+	public String translateStd(String node, Object... replace) {
+		return Language.translateStd(lang, node, replace);
+	}
+	
+	public String translateErr(String node, Object... replace) {
+		return Language.translateErr(lang, node, replace);
+	}
+	
+	public String translatePlain(String node, Object... replace) {
+		return Language.translatePlain(lang, node, replace);
 	}
 }
