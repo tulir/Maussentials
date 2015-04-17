@@ -37,7 +37,7 @@ commands:
     aliases: [seen, maulastseen, lastseen, mauplayerinfo, playerinfo]
   maureload:
     description: Reload a plugin or a module
-    aliases: [reloader, maureloader, maurl, rl, mauplug, plug, mauplugin, plugin]
+    aliases: [maurel, rel, reloader, plugman, maussentials]
   mauplainsay:
     description: Plain broadcast (no prefixes).
     aliases: [plainsay, maupsay, psay, maups, ps, mauplainbroadcast, plainbroadcast, maupb, pb]
