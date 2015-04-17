@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Properties;
 
 /**
@@ -119,9 +118,9 @@ public class I18n {
 					i++;
 				}
 				return rtrn;
-			} else return node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
+			} else return null;
 		} catch (Throwable t) {
-			return node + (arguments.length != 0 ? " (" + Arrays.toString(arguments) + ")" : "");
+			return null;
 		}
 	}
 	

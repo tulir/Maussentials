@@ -41,7 +41,8 @@ public class Language implements I15r, MauModule {
 	
 	@Override
 	public String translate(String node, Object... replace) {
-		return i18n.translate(node, replace);
+		if (loaded) return i18n.translate(node, replace);
+		else return null;
 	}
 	
 	public String translateStd(String node, Object... replace) {
