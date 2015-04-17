@@ -2,6 +2,7 @@
 stag=&2[&aMaussentials&2] &7
 errtag=&4[&cMaussentials&4] &c
 nyi=That feature has not yet been implemented 3:
+config.reloaded=Maussentials configuration reloaded. You may need to reload specific modules in order to see the effect.
 
 # 0: Permission node
 permission-error=You do not have access to &6{0}&c.
@@ -88,6 +89,7 @@ plugin.restarted=Restarted plugin &6{0}&7 successfully.
 plugin.notfound=Could not find plugin &6{0}&c!
 plugin.alreadyenabled=The plugin &6{0}&c is already enabled!
 plugin.alreadydisabled=The plugin &6{0}&c is already disabled!
+plugin.disable.self=I'm afraid I can't disable myself.
 module.loaded=Loaded module &6{0}&7 successfully.
 module.unloaded=Unloaded module &6{0}&7 successfully.
 module.reloaded=Reloaded module &6{0}&7 successfully.
