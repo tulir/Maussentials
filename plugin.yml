@@ -2,7 +2,7 @@ name: Maussentials
 author: Tulir293
 main: net.maunium.bukkit.Maussentials.Maussentials
 website: http://maunium.net
-version: 0.1
+version: 0.2
 depend: [SQLibrary]
 commands:
   mauwelcomemessage:
