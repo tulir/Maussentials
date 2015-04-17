@@ -107,6 +107,35 @@ public class Maussentials extends JavaPlugin {
 		getLogger().info("Maussentials v" + getDescription().getVersion() + " by Tulir293 disabled in " + et + "ms.");
 	}
 	
+	public void fullReload() {
+		try {
+			fallbackLang = I18n.createInstance(getResource("languages/en_US.lang"));
+		} catch (Throwable t) {
+			getLogger().warning("Couldn't load fallback language. This can cause problems if Language module is unloaded.");
+			t.printStackTrace();
+		}
+		
+		saveDefaultConfig();
+		File f = new File(getDataFolder(), "languages");
+		if (!f.exists()) f.mkdirs();
+		// Save the default language files
+		saveResource("languages/en_US.lang", true);
+		saveResource("languages/fi_FI.lang", true);
+		saveResource("languages/de_DE.lang", true);
+		// Save the default motd and rules
+		saveResource("motd.txt", true);
+		saveResource("rules.txt", true);
+		
+		reloadConfig();
+		
+		for (MauModule m : modules.values()) {
+			if (m.isLoaded()) {
+				m.unload();
+				m.load(this);
+			}
+		}
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		sender.sendMessage(translateErr("commandnotloaded", label));

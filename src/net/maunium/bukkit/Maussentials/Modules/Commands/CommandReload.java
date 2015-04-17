@@ -22,6 +22,11 @@ public class CommandReload implements CommandModule {
 	@Override
 	public boolean execute(CommandSender sender, Command command, String label, String[] args) {
 		if (!plugin.checkPerms(sender, "maussentials.reload")) return true;
+		if (label.equalsIgnoreCase("maussentials")) {
+			plugin.fullReload();
+			sender.sendMessage(plugin.translateStd("plugin.restarted", plugin.getName()));
+			return true;
+		}
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("module") && args[1].equalsIgnoreCase("list")) plugin.modules(sender);
 			else if (args[0].equalsIgnoreCase("plugin") && args[1].equalsIgnoreCase("list")) CommandPlugins.plugins(plugin, sender);
@@ -44,6 +49,10 @@ public class CommandReload implements CommandModule {
 					else sender.sendMessage(plugin.translateErr("module.notfound", args[2]));
 				} else return false;
 				return true;
+			} else if (args[0].equalsIgnoreCase("config")) {
+				plugin.reloadConfig();
+				sender.sendMessage(plugin.translateStd("config.reloaded"));
+				return true;
 			} else if (args[0].equalsIgnoreCase("plugin")) {
 				if (args[1].equalsIgnoreCase("load")) {
 					sender.sendMessage(plugin.translateErr("nyi"));
@@ -52,24 +61,31 @@ public class CommandReload implements CommandModule {
 				} else if (args[1].equalsIgnoreCase("reload")) {
 					sender.sendMessage(plugin.translateErr("nyi"));
 				} else if (args[1].equalsIgnoreCase("enable")) {
-					Plugin p = getLoadedPlugin(args[1]);
-					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[1]));
+					Plugin p = getLoadedPlugin(args[2]);
+					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[2]));
 					if (!p.isEnabled()) {
 						pm.enablePlugin(p);
 						sender.sendMessage(plugin.translateStd("plugin.enabled", p.getName()));
 					} else sender.sendMessage(plugin.translateErr("plugin.alreadyenabled"));
 				} else if (args[1].equalsIgnoreCase("disable")) {
-					Plugin p = getLoadedPlugin(args[1]);
-					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[1]));
+					Plugin p = getLoadedPlugin(args[2]);
+					if (p == plugin) {
+						sender.sendMessage(plugin.translateErr("plugin.disable.self"));
+						return true;
+					}
+					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[2]));
 					if (p.isEnabled()) {
 						pm.disablePlugin(p);
 						sender.sendMessage(plugin.translateStd("plugin.disabled", p.getName()));
 					} else sender.sendMessage(plugin.translateErr("plugin.alreadydisabled"));
 				} else if (args[1].equalsIgnoreCase("restart")) {
-					Plugin p = getLoadedPlugin(args[1]);
-					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[1]));
-					if (p.isEnabled()) pm.disablePlugin(p);
-					pm.enablePlugin(p);
+					Plugin p = getLoadedPlugin(args[2]);
+					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[2]));
+					if (p == plugin) plugin.fullReload();
+					else {
+						if (p.isEnabled()) pm.disablePlugin(p);
+						pm.enablePlugin(p);
+					}
 					sender.sendMessage(plugin.translateStd("plugin.restarted", p.getName()));
 				} else return false;
 				return true;
