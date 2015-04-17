@@ -158,12 +158,12 @@ bans.broadcast.ipbanned.byname=&6{2}&c antoi porttikiellon IPlle &6{0}&c (Pelaaj
 bans.broadcast.tempbanned=&6{2}&c antoi pelaajalle &6{0}&c väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
 bans.broadcast.tempipbanned=&6{2}&c antoi IPlle &6{0}&c väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
 # 4: The player whose name was used in the command.
-bans.broadcast.tempipbanned.byname=&6{2}&c antoi IPlle &6{0}&c (Pelaajan &6{3}&c IP) väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
+bans.broadcast.tempipbanned.byname=&6{2}&c antoi IPlle &6{0}&c (Pelaajan &6{4}&c IP) väliaikaisen (&6{3}&c) porttikiellon syyllä "&6{1}&c".
 
 # 0: Username/IP
 # 1: Unbanner
-bans.broadcast.unbanned=&6{0}&7 poisti pelaajan &6{0}&7 porttikiellon.
-bans.broadcast.unipbanned=&6{0}&7 poisti IPn &6{0}&7 porttikiellon.
+bans.broadcast.unbanned=&6{1}&7 poisti pelaajan &6{0}&7 porttikiellon.
+bans.broadcast.unipbanned=&6{1}&7 poisti IPn &6{0}&7 porttikiellon.
 
 # 0: IP
 # 1: List of players (colors hardcoded)
