@@ -71,9 +71,24 @@ public class CommandReload implements CommandModule {
 				if (args[1].equalsIgnoreCase("load")) {
 					sender.sendMessage(plugin.translateErr("nyi"));
 				} else if (args[1].equalsIgnoreCase("unload")) {
-					sender.sendMessage(plugin.translateErr("nyi"));
+					Plugin p = getLoadedPlugin(args[2]);
+					if (p == plugin) {
+						sender.sendMessage(plugin.translateErr("plugin.unload.self"));
+						return true;
+					}
+					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[2]));
+					String s = p.getName();
+					if (unload(p)) sender.sendMessage(plugin.translateStd("plugin.unloaded", s));
+					else sender.sendMessage(plugin.translateErr("plugin.unload.failed", s));
 				} else if (args[1].equalsIgnoreCase("reload")) {
-					sender.sendMessage(plugin.translateErr("nyi"));
+					Plugin p = getLoadedPlugin(args[2]);
+					if (p == plugin) {
+						sender.sendMessage(plugin.translateErr("plugin.unload.self"));
+						return true;
+					}
+					if (p != null) unload(p);
+					if (load(args[2])) sender.sendMessage(plugin.translateStd("plugin.reloaded", args[2]));
+					else sender.sendMessage(plugin.translateErr("plugin.reload.failed", args[2]));
 				} else if (args[1].equalsIgnoreCase("enable")) {
 					Plugin p = getLoadedPlugin(args[2]);
 					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[2]));
