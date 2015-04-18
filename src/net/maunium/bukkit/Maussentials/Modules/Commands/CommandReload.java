@@ -30,7 +30,6 @@ import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
  */
 public class CommandReload implements CommandModule {
 	private Maussentials plugin;
-	private PluginManager pm;
 	private boolean loaded = false;
 	
 	@Override
@@ -93,7 +92,7 @@ public class CommandReload implements CommandModule {
 					Plugin p = getLoadedPlugin(args[2]);
 					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[2]));
 					if (!p.isEnabled()) {
-						pm.enablePlugin(p);
+						plugin.getServer().getPluginManager().enablePlugin(p);
 						sender.sendMessage(plugin.translateStd("plugin.enabled", p.getName()));
 					} else sender.sendMessage(plugin.translateErr("plugin.alreadyenabled"));
 				} else if (args[1].equalsIgnoreCase("disable")) {
@@ -104,7 +103,7 @@ public class CommandReload implements CommandModule {
 					}
 					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[2]));
 					if (p.isEnabled()) {
-						pm.disablePlugin(p);
+						plugin.getServer().getPluginManager().disablePlugin(p);
 						sender.sendMessage(plugin.translateStd("plugin.disabled", p.getName()));
 					} else sender.sendMessage(plugin.translateErr("plugin.alreadydisabled"));
 				} else if (args[1].equalsIgnoreCase("restart")) {
@@ -112,8 +111,8 @@ public class CommandReload implements CommandModule {
 					if (p == null) sender.sendMessage(plugin.translateErr("plugin.notfound", args[2]));
 					if (p == plugin) plugin.fullReload();
 					else {
-						if (p.isEnabled()) pm.disablePlugin(p);
-						pm.enablePlugin(p);
+						if (p.isEnabled()) plugin.getServer().getPluginManager().disablePlugin(p);
+						plugin.getServer().getPluginManager().enablePlugin(p);
 					}
 					sender.sendMessage(plugin.translateStd("plugin.restarted", p.getName()));
 				} else return false;
@@ -132,7 +131,6 @@ public class CommandReload implements CommandModule {
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
 		plugin.getCommand("maureload").setExecutor(this);
-		pm = plugin.getServer().getPluginManager();
 		loaded = true;
 	}
 	
@@ -140,7 +138,6 @@ public class CommandReload implements CommandModule {
 	public void unload() {
 		plugin.getCommand("maureload").setExecutor(plugin);
 		plugin = null;
-		pm = null;
 		loaded = false;
 	}
 	
@@ -203,9 +200,7 @@ public class CommandReload implements CommandModule {
 		boolean reloadlisteners = true;
 		
 		if (pluginManager != null) {
-			
 			try {
-				
 				Field pluginsField = Bukkit.getPluginManager().getClass().getDeclaredField("plugins");
 				pluginsField.setAccessible(true);
 				plugins = (List<Plugin>) pluginsField.get(pluginManager);
@@ -229,7 +224,6 @@ public class CommandReload implements CommandModule {
 				Field knownCommandsField = SimpleCommandMap.class.getDeclaredField("knownCommands");
 				knownCommandsField.setAccessible(true);
 				commands = (Map<String, Command>) knownCommandsField.get(commandMap);
-				
 			} catch (Throwable t) {
 				return false;
 			}
@@ -261,7 +255,6 @@ public class CommandReload implements CommandModule {
 		}
 		
 		ClassLoader cl = plugin.getClass().getClassLoader();
-		
 		if (cl instanceof URLClassLoader) {
 			try {
 				((URLClassLoader) cl).close();
@@ -272,6 +265,5 @@ public class CommandReload implements CommandModule {
 		
 		System.gc();
 		return true;
-		
 	}
 }
