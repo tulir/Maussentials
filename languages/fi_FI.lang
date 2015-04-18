@@ -51,7 +51,7 @@ god.private=Pelaaja &6{0}&c käyttää yksityistä jumalamuotoa. Et voi vaikutta
 # 2: Message
 pm.msg.to=&3[&6{0}&3 -> &6minä&3] &f{2}>>nf
 pm.msg.from=&3[&6minä&3 -> &6{1}&3] &f{2}>>nf
-pm.spy.msg=&2[SPY] &3[&6{0}&3 -> &6{1}&3] &f{2}>>nf
+pm.spy.msg=&2[VAKOOJA] &2[&e{0}&2 -> &e{1}&2] &f{2}>>nf
 # 0: Label
 pm.help.pm=Käyttäminen: /{0} <kohde> <viesti>
 pm.help.reply=Käyttäminen: /{0} <viesti>
@@ -151,7 +151,7 @@ bans.help.tempipban=Käyttäminen: /{0} <IP/käyttäjänimi> <time> <syy> [silen
 # 1: Reason
 # 2: Banner
 bans.broadcast.banned=&6{2}&c antoi porttikiellon pelaajalle &6{0}&c syyllä "&6{1}&c".
-bans.broadcast.banned=&6{2}&c antoi porttikiellon IPlle &6{0}&c syyllä "&6{1}&c".
+bans.broadcast.ipbanned=&6{2}&c antoi porttikiellon IPlle &6{0}&c syyllä "&6{1}&c".
 # 3: The player whose name was used in the command.
 bans.broadcast.ipbanned.byname=&6{2}&c antoi porttikiellon IPlle &6{0}&c (Pelaajan &6{3}&c IP) syyllä "&6{1}&c".
 # 3: Ban expiry
