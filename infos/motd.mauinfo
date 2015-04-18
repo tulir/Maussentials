@@ -1,0 +1,4 @@
+#!alias messageoftheday, maumotd, maumessageoftheday
+#!permission maussentials.motd
+&6Hello, &e{PLAYER}&6. There are &e{ONLINE} / {MAXPLAYERS}&6 players online.
+Quotation not required unless string contains special characters.
