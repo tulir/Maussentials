@@ -117,7 +117,11 @@ public class CommandReload implements CommandModule {
 	
 	@Override
 	public void help(CommandSender sender, Command command, String label, String[] args) {
-		sender.sendMessage(plugin.translateErr("reloader.help", label));
+		if (args.length > 0) {
+			if (args[0].equalsIgnoreCase("plugin")) sender.sendMessage(plugin.translateErr("reloader.plugin.help", label));
+			else if (args[0].equalsIgnoreCase("module")) sender.sendMessage(plugin.translateErr("reloader.module.help", label));
+			else sender.sendMessage(plugin.translateErr("reloader.help", label));
+		} else sender.sendMessage(plugin.translateErr("reloader.help", label));
 	}
 	
 	@Override
