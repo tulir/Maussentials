@@ -1,0 +1,15 @@
+The MauInfo system helps you make commands that print messages.
+They can contain colors (& + code), text and some variables.
+Allowed variables:
+{&rNAME} = Player name
+{&rDISPLAYNAME} = Player display name
+{&rONLINE} = Player count
+{&rMAXPLAYERS} = Max player count
+
+Lines starting with a hashtag (#) are ignored by the system,
+unless they are followed by ! (#!) and some flag. Allowed
+flags are currently #!alias and #!permission. The #!alias
+flag is used to define alias commands that can be used to
+display the message. The #!permission tag is used to 
+restrict displaying the file to those who have the given
+permission.
