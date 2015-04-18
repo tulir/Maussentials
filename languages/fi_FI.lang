@@ -78,7 +78,9 @@ signedit.click=Napsauta kylttiä muokataksesi sitä.
 signedit.edited=Kyltti muokattu onnistuneesti.
 
 # 0: Label
-reloader.help=Väärä käyttötapa.<br>&c/{0} plugin <list/load/unload/reload/enable/disable/restart> <name><br>&c/{0} module <list/load/unload/reload> <name>
+reloader.help=Käyttö: /{0} <module/plugin> <action> [nimi]
+reloader.plugin.help=Käyttö: /{0} plugin <list/load/unload/reload/enable/disable/restart> [nimi]
+reloader.module.help=Käyttö: /{0} module <list/load/unload/reload> [nimi]
 # 0: Plugin/Module name
 plugin.enabled=Aktivoitiin plugin &6{0}&7 onnistuneesti.
 plugin.disabled=Deaktivoitiin plugin &6{0}&7 onnistuneesti.
@@ -165,6 +167,7 @@ bans.broadcast.tempipbanned.byname=&6{2}&c antoi IPlle &6{0}&c (Pelaajan &6{4}&c
 bans.broadcast.unbanned=&6{1}&7 poisti pelaajan &6{0}&7 porttikiellon.
 bans.broadcast.unipbanned=&6{1}&7 poisti IPn &6{0}&7 porttikiellon.
 
+seen.help=Käyttö: /{0} <käyttäjänimi/IP>
 # 0: IP
 # 1: List of players (colors hardcoded)
 seen.ip.done=Seuraavat pelaajat ovat kirjautuneet sisään IPstä &6{0}&7:<br>{1}.

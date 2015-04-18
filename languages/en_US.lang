@@ -172,6 +172,7 @@ bans.broadcast.tempipbanned.byname=&cThe IP &6{0}&c (IP of &6{4}&c) has been tem
 bans.broadcast.unbanned=&7The player &6{0}&7 has been unbanned by &6{1}&7.
 bans.broadcast.unipbanned=&7The IP &6{0}&7 has been unbanned by &6{1}&7.
 
+seen.help=Usage: /{0} <username/IP>
 # 0: IP
 seen.ip.done=The following players have logged in from &6{0}&7:<br>{1}.
 # 1: List of players (colors hardcoded)

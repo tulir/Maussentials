@@ -52,8 +52,11 @@ signedit.toolong=Die maximale Länge eines Zeichens Zeile 16 Zeichen!
 signedit.click=Klicken Sie auf ein Zeichen, um es zu bearbeiten.
 signedit.edited=Edited erfolgreich anmelden.
 
-reloader.help=Falsche verwendung. <br>&c/{0} plugin <list/load/unload/reload/enable/disable/restart> <name><br>&c/{0} module <list/load/unload/reload> <name>
-plugin.enabled=Aktiviert Plugin &6{0}&7 erfolgreich.
+
+reloader.help=Verbrauch: /{0} <module/plugin> <action> [name]
+reloader.plugin.help=Verbrauch: /{0} plugin <list/load/unload/reload/enable/disable/restart> [name]
+reloader.module.help=Verbrauch: /{0} module <list/load/unload/reload> [name]
+plugin.enabled=Aktiviert Plugin &6{0}&7 erfolgreich.plugin.enabled=Aktiviert Plugin &6{0}&7 erfolgreich.
 plugin.disabled=Deaktiviert Plugin &6{0}&7 erfolgreich.
 plugin.restarted=Neustart Plugin &6{0}&7 erfolgreich.
 plugin.notfound=konnte nicht gefunden Plugin &6{0}&c!
@@ -111,6 +114,7 @@ bans.broadcast.tempipbanned.byname=&cDie IP &6{0}&c (IP von &6{4}&c) hat vorübe
 bans.broadcast.unbanned=&7Die Player &6{0}&7 wurde von &entbannt wurden 6{1}&7.
 bans.broadcast.unipbanned=&7Die IP &6{0}&7 wurde von &entbannt wurden 6{1}&7.
 
+seen.help=Verbrauch: /{0} <spieler/IP>
 seen.ip.done=Folgende Spieler standen in der von loggt &6{0}&7: <br>{1}.
 seen.ip.empty=Es gibt keine angemeldet Logins von &6{0}&c!
 seen.error=Ausnahme beim Umgang Befehl: &6{0}&c
