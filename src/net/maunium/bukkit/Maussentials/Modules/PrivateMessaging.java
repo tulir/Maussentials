@@ -33,9 +33,9 @@ public class PrivateMessaging implements CommandModule {
 	
 	@Override
 	public void unload() {
-		this.plugin.getCommand("maumessage").setExecutor(plugin);
-		this.plugin.getCommand("maureply").setExecutor(plugin);
-		this.plugin.getCommand("mausocialspy").setExecutor(plugin);
+		plugin.getCommand("maumessage").setExecutor(plugin);
+		plugin.getCommand("maureply").setExecutor(plugin);
+		plugin.getCommand("mausocialspy").setExecutor(plugin);
 		plugin = null;
 		loaded = false;
 	}
@@ -144,7 +144,7 @@ public class PrivateMessaging implements CommandModule {
 		
 		String spymsg = plugin.translatePlain("pm.spy.msg", s.getName(), t.getName(), message);
 		for (Player spy : plugin.getServer().getOnlinePlayers())
-			if (spy.hasMetadata(MSGSPY_META) && spy.hasPermission("maussentials.message.spy")) spy.sendMessage(spymsg);
+			if (spy.hasMetadata(MSGSPY_META) && spy != s && spy != t && spy.hasPermission("maussentials.message.spy")) spy.sendMessage(spymsg);
 		if (CONSOLE_SPY) plugin.getServer().getConsoleSender().sendMessage(spymsg);
 	}
 	
