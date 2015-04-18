@@ -12,7 +12,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.maunium.bukkit.Maussentials.Modules.BasicMessages;
 import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
 import net.maunium.bukkit.Maussentials.Modules.DelayedActionListeners;
 import net.maunium.bukkit.Maussentials.Modules.Godmode;
@@ -28,6 +27,7 @@ import net.maunium.bukkit.Maussentials.Modules.Commands.CommandReload;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSeen;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSpy;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandUUID;
+import net.maunium.bukkit.Maussentials.Modules.MauInfo.MauInfo;
 import net.maunium.bukkit.Maussentials.Modules.Teleportation.MauTPs;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
@@ -59,15 +59,15 @@ public class Maussentials extends JavaPlugin {
 		saveResource("languages/fi_FI.lang", true);
 		saveResource("languages/de_DE.lang", true);
 		// Save the default motd and rules
-		saveResource("motd.txt", true);
-		saveResource("rules.txt", true);
+		saveResource("infos/motd.mauinfo", false);
+		saveResource("infos/rules.mauinfo", false);
 		
 		// Add and enable the modules
 		addModule("database", dbh = new DatabaseHandler(), true);
 		addModule("playerdata", pd = new PlayerData(), true);
 		addModule("bans", bans = new MauBans(), true);
 		addModule("teleportation", new MauTPs(), true);
-		addModule("basic-messages", new BasicMessages(), true);
+		addModule("mauinfo", new MauInfo(), true);
 		addModule("command-uuid", new CommandUUID(), true);
 		addModule("command-kill", new CommandKill(), true);
 		addModule("command-seen", new CommandSeen(), true);
