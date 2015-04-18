@@ -5,12 +5,6 @@ website: http://maunium.net
 version: 0.2
 depend: [SQLibrary]
 commands:
-  mauwelcomemessage:
-    description: Print the welcome message
-    aliases: [welcomemessage, mauwm, wm, mauwelcomemsg, welcomemsg, mauwelcome, welcome, maumotd, motd]
-  maurules:
-    description: Print the rules
-    aliases: [rules, rls, maurls]
   maukill:
     description: Kill a player
     aliases: [kill, mauslay, slay]
@@ -81,13 +75,6 @@ commands:
     description: Deny a teleportation request
     aliases: [tpdeny, mautpno, tpno, mautpn, tpn]
 permissions:
-  # Basic messages
-  maussentials.welcomemessage:
-    description: Print the welcome message
-    default: true
-  maussentials.rules:
-    description: Print the rules
-    default: true
   # Kill
   maussentials.kill:
     description: Kill a player
