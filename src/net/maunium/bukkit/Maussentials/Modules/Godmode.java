@@ -19,7 +19,7 @@ import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
  */
 public class Godmode implements PlayerCommandModule, Listener {
 	private Maussentials plugin;
-	private static final String DEFAULT_GOD = "MaussentialsGodDefault", PRIVATE_GOD = "MaussentialsGodPrivatized", DAMAGE_GOD = "MaussentialsGodDamage";
+	public static final String DEFAULT_GOD = "MaussentialsGodDefault", PRIVATE_GOD = "MaussentialsGodPrivatized", DAMAGE_GOD = "MaussentialsGodDamage";
 	private boolean loaded = false;
 	
 	@Override
@@ -32,7 +32,7 @@ public class Godmode implements PlayerCommandModule, Listener {
 	
 	@Override
 	public void unload() {
-		this.plugin.getCommand("maugod").setExecutor(plugin);
+		plugin.getCommand("maugod").setExecutor(plugin);
 		HandlerList.unregisterAll(this);
 		plugin = null;
 		loaded = false;
