@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
+import net.maunium.bukkit.Maussentials.Modules.Godmode;
 import net.maunium.bukkit.Maussentials.Modules.Util.CommandModule;
 
 /**
@@ -23,8 +24,12 @@ public class CommandKill implements CommandModule {
 		if (args.length > 0) {
 			Player p = plugin.getServer().getPlayer(args[0]);
 			if (p != null) {
-				p.setHealth(0);
-				sender.sendMessage(plugin.translateStd("kill.ed", p.getName()));
+				if (p.hasMetadata(Godmode.DAMAGE_GOD) || p.hasMetadata(Godmode.DEFAULT_GOD)) sender
+						.sendMessage(plugin.translateErr("kill.godmode", p.getName()));
+				else {
+					p.setHealth(0);
+					sender.sendMessage(plugin.translateStd("kill.ed", p.getName()));
+				}
 			} else sender.sendMessage(plugin.translateErr("kill.notfound", args[0]));
 			return true;
 		}
