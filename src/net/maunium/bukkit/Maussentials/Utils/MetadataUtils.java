@@ -1,6 +1,9 @@
 package net.maunium.bukkit.Maussentials.Utils;
 
+import java.util.concurrent.Callable;
+
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.metadata.Metadatable;
 import org.bukkit.plugin.Plugin;
@@ -36,6 +39,23 @@ public class MetadataUtils {
 	 */
 	public static void setFixedMetadata(Metadatable m, String tag, Object value, Plugin owner) {
 		m.setMetadata(tag, new FixedMetadataValue(owner, value));
+	}
+	
+	/**
+	 * Set lazy (weak reference) metadata for given metadatable with given tag, value and owner
+	 * 
+	 * @param m The metadatable to set the given metadata value to.
+	 * @param tag The tag to set the metadata value under.
+	 * @param value The value to set to the tag.
+	 * @param owner The owner of the metadata value.
+	 */
+	public static void setLazyMetadata(Metadatable m, String tag, Object value, Plugin owner) {
+		m.setMetadata(tag, new LazyMetadataValue(owner, new Callable<Object>() {
+			@Override
+			public Object call() throws Exception {
+				return value;
+			}
+		}));
 	}
 	
 	/**
