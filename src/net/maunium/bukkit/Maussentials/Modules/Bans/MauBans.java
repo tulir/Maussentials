@@ -15,9 +15,9 @@ import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
 public class MauBans implements MauModule {
 	private Maussentials plugin;
-	public static final String TABLE_BANS = "Bans";
+	public static final String TABLE_BANS = "Bans", TABLE_HISTORY = "BanHistory";
 	public static final String COLUMN_BANNED = "Banned", COLUMN_TYPE = "BanType", COLUMN_REASON = "Reason", COLUMN_BANNEDBY = "BannedBy",
-			COLUMN_EXPIRE = "ExpireAt", TYPE_IP = "IP", TYPE_UUID = "UUID";
+			COLUMN_EXPIRE = "ExpireAt", COLUMN_BANNEDAT = "AppliedAt", TYPE_IP = "IP", TYPE_UUID = "UUID";
 	private Map<String, StandardBan> sbans;
 	private JoinListener jl;
 	private boolean loaded = false;
@@ -27,7 +27,7 @@ public class MauBans implements MauModule {
 		this.plugin = plugin;
 		try {
 			// @mauformat=off
-			// Create the table Players
+			// Create the table Bans
 			plugin.getDB().query("CREATE TABLE " + TABLE_BANS + " ("
 					+ COLUMN_BANNED + " varchar(25) NOT NULL,"
 					+ COLUMN_TYPE + " varchar(8) NOT NULL,"
@@ -35,6 +35,15 @@ public class MauBans implements MauModule {
 					+ COLUMN_BANNEDBY + " varchar(25) NOT NULL,"
 					+ COLUMN_EXPIRE + " INTEGER NOT NULL,"
 					+ "PRIMARY KEY (" + COLUMN_BANNED + ", " + COLUMN_TYPE + "));");
+			// Create the table BanHistory
+			plugin.getDB().query("CREATE TABLE " + TABLE_BANS + " ("
+					+ COLUMN_BANNED + " varchar(25) NOT NULL,"
+					+ COLUMN_BANNEDAT + " INTEGER NOT NULL,"
+					+ COLUMN_TYPE + " varchar(8) NOT NULL,"
+					+ COLUMN_REASON + " TEXT NOT NULL,"
+					+ COLUMN_BANNEDBY + " varchar(25) NOT NULL,"
+					+ COLUMN_EXPIRE + " INTEGER NOT NULL,"
+					+ "PRIMARY KEY (" + COLUMN_BANNED + ", " + COLUMN_BANNEDAT + ", " + COLUMN_TYPE + "));");
 			// @mauformat=on
 		} catch (SQLException e) {}
 		
@@ -53,6 +62,7 @@ public class MauBans implements MauModule {
 		
 		plugin.getServer().getPluginManager().registerEvents(jl = new JoinListener(plugin, this), plugin);
 		plugin.getCommand("mauban").setExecutor(new CommandBan(plugin, this));
+//		plugin.getCommand("maubanhistory").setExecutor(new CommandBanHistory(plugin, this));
 		plugin.getCommand("maustandardban").setExecutor(new CommandSBan(plugin, this));
 		plugin.getCommand("mautempban").setExecutor(new CommandTempBan(plugin, this));
 		plugin.getCommand("mauunban").setExecutor(new CommandUnban(plugin, this));
@@ -67,6 +77,7 @@ public class MauBans implements MauModule {
 	public void unload() {
 		HandlerList.unregisterAll(jl);
 		plugin.getCommand("mauban").setExecutor(plugin);
+		plugin.getCommand("maubanhistory").setExecutor(plugin);
 		plugin.getCommand("maustandardban").setExecutor(plugin);
 		plugin.getCommand("mautempban").setExecutor(plugin);
 		plugin.getCommand("mauunban").setExecutor(plugin);
@@ -82,6 +93,16 @@ public class MauBans implements MauModule {
 	@Override
 	public boolean isLoaded() {
 		return loaded;
+	}
+	
+	public ResultSet getBanHistory(String banned, String type, long from, long to) throws SQLException {
+		// @mauformat=off
+		return plugin.getDB().query("SELECT * FROM " + TABLE_HISTORY
+				+ " WHERE " + COLUMN_BANNED   + "='" + banned + "'"
+				+ " AND "   + COLUMN_TYPE     + "='" + type   + "'"
+				+ " AND "   + COLUMN_BANNEDAT + " BETWEEN " + from + " AND " + to
+				+ ";");
+		// @mauformat=on
 	}
 	
 	public ResultSet getBanData(String banned, String type) throws SQLException {
@@ -108,6 +129,14 @@ public class MauBans implements MauModule {
 					+ banner + "','"
 					+ timeout
 					+ "');");
+			plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
+					+ uuid.toString() + "','"
+					+ System.currentTimeMillis() + "','"
+					+ TYPE_UUID + "','"
+					+ reason + "','"
+					+ banner + "','"
+					+ timeout
+					+ "');");
 			// @mauformat=on
 		} catch (SQLException e) {
 			plugin.getLogger().severe("Failed to add ban entry for " + uuid + ":");
@@ -121,6 +150,14 @@ public class MauBans implements MauModule {
 			plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_BANS + " VALUES ('"
 					+ ip + "','"
 					+ TYPE_IP + "','"
+					+ reason + "','"
+					+ banner + "','"
+					+ timeout
+					+ "');");
+			plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
+					+ ip + "','"
+					+ System.currentTimeMillis() + "','"
+					+ TYPE_UUID + "','"
 					+ reason + "','"
 					+ banner + "','"
 					+ timeout
