@@ -22,6 +22,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
@@ -53,7 +54,7 @@ public class PlayerData implements Listener, MauModule {
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 		try {
-			// °FormatOff°
+			// @mauformat=off
 			// Create the table Players
 			plugin.getDB().query("CREATE TABLE " + TABLE_PLAYERS + " ("
 					+ COLUMN_UUID + " varchar(25) NOT NULL,"
@@ -73,7 +74,7 @@ public class PlayerData implements Listener, MauModule {
 					+ COLUMN_IP + " varchar(16) NOT NULL,"
 					+ COLUMN_LASTUSED + " INTEGER NOT NULL,"
 					+ "PRIMARY KEY (" + COLUMN_UUID + ", " + COLUMN_IP + "));");
-			// °FormatOn°
+			// @mauformat=on
 		} catch (SQLException e) {}
 		loaded = true;
 	}
@@ -91,41 +92,42 @@ public class PlayerData implements Listener, MauModule {
 	}
 	
 	/*
-	 * Listeners for prelogin, join and quit.
+	 * Listeners for prelogin, login, join and quit.
 	 */
-	
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent evt) {
-		if (evt.getAddress() != null && evt.getUniqueId() != null && evt.getName() != null) {
-			SerializableLocation loc = new SerializableLocation(0, 0, 0, plugin.getServer().getWorlds().get(0));
+		if (evt.getAddress() != null && evt.getUniqueId() != null && evt.getName() != null
+				&& evt.getLoginResult().equals(AsyncPlayerPreLoginEvent.Result.ALLOWED)) {
 			try {
 				ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + evt.getUniqueId() + "';");
 				if (rs.next()) {
 					String old = rs.getString(COLUMN_USERNAME);
 					if (!old.equals(evt.getName())) updateNameHistory(evt.getUniqueId());
-					
-					loc = SerializableLocation.fromString(rs.getString(COLUMN_LOCATION));
 				} else updateNameHistory(evt.getUniqueId());
+				
+				String ia = evt.getAddress().getHostAddress();
+				try {
+					setIPs(evt.getUniqueId(), ia);
+					plugin.getLogger().fine("Updated IP history. New entry: " + evt.getUniqueId() + ", " + ia);
+				} catch (SQLException e) {
+					plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getUniqueId() + ", " + ia);
+					e.printStackTrace();
+				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			
-			try {
-				setEntry(evt.getUniqueId(), evt.getName(), loc);
-				plugin.getLogger().fine("Updated database. New entry: " + evt.getUniqueId() + ", " + evt.getName());
-			} catch (SQLException e) {
-				plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getUniqueId() + ", " + evt.getName());
-				e.printStackTrace();
-			}
-			
-			String ia = evt.getAddress().getHostAddress();
-			try {
-				setIPs(evt.getUniqueId(), ia);
-				plugin.getLogger().fine("Updated IP history. New entry: " + evt.getUniqueId() + ", " + ia);
-			} catch (SQLException e) {
-				plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getUniqueId() + ", " + ia);
-				e.printStackTrace();
-			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onPlayerLogin(PlayerLoginEvent evt) {
+		if (!evt.getResult().equals(PlayerLoginEvent.Result.ALLOWED)) return;
+		try {
+			setEntry(evt.getPlayer().getUniqueId(), evt.getPlayer().getName(), new SerializableLocation(evt.getPlayer().getLocation()));
+			plugin.getLogger().fine("Updated database. New entry: " + evt.getPlayer().getUniqueId() + ", " + evt.getPlayer().getName());
+		} catch (SQLException e) {
+			plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getPlayer().getUniqueId() + ", " + evt.getPlayer().getName());
+			e.printStackTrace();
 		}
 	}
 	
@@ -159,8 +161,8 @@ public class PlayerData implements Listener, MauModule {
 	}
 	
 	/**
-	 * Method to update name history for the specific UUID from Mojang's servers. Called when the database system
-	 * notices that an UUID logs in with an unidentified username.
+	 * Method to update name history for the specific UUID from Mojang's servers. Called when the database system notices that an UUID logs in with an
+	 * unidentified username.
 	 */
 	private void updateNameHistory(UUID uuid) {
 		try {
@@ -184,10 +186,9 @@ public class PlayerData implements Listener, MauModule {
 				String name = jo.get("name").getAsString();
 				try {
 					// °FormatOff°
-					ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_HISTORY
-							+ " WHERE " + COLUMN_UUID + " = '" + uuid.toString() + "'"
-							+ " AND " + COLUMN_USERNAME + " = '" + name + "'"
-							+ ";");
+					ResultSet rs = plugin.getDB().query(
+							"SELECT * FROM " + TABLE_HISTORY + " WHERE " + COLUMN_UUID + " = '" + uuid.toString() + "'" + " AND " + COLUMN_USERNAME + " = '"
+									+ name + "'" + ";");
 					// °FormatOn°
 					
 					if (!rs.next()) {
@@ -211,41 +212,31 @@ public class PlayerData implements Listener, MauModule {
 	
 	// °FormatOff°
 	public ResultSet setEntry(UUID uuid, String username, SerializableLocation l) throws SQLException {
-		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES ("
-				+ "'" + uuid.toString() + "','"
-				+ username + "','"
-				+ System.currentTimeMillis() + "','"
-				+ l.toString()
-				+ "');");
+		return plugin.getDB().query(
+				"INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES (" + "'" + uuid.toString() + "','" + username + "','" + System.currentTimeMillis() + "','"
+						+ l.toString() + "');");
 	}
 	
 	public ResultSet setTime(UUID uuid) throws SQLException {
-		return plugin.getDB().query("UPDATE " + TABLE_PLAYERS
-				+ " SET " + COLUMN_LASTLOGIN + "='" + System.currentTimeMillis()+ "'"
-				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
+		return plugin.getDB().query(
+				"UPDATE " + TABLE_PLAYERS + " SET " + COLUMN_LASTLOGIN + "='" + System.currentTimeMillis() + "'" + " WHERE " + COLUMN_UUID + "='"
+						+ uuid.toString() + "';");
 	}
 	
 	public ResultSet setLocation(UUID uuid, SerializableLocation l) throws SQLException {
-		return plugin.getDB().query("UPDATE " + TABLE_PLAYERS
-				+ " SET " + COLUMN_LOCATION + "='" + l.toString() + "'"
-				+ " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
+		return plugin.getDB().query(
+				"UPDATE " + TABLE_PLAYERS + " SET " + COLUMN_LOCATION + "='" + l.toString() + "'" + " WHERE " + COLUMN_UUID + "='" + uuid.toString() + "';");
 	}
 	
 	public ResultSet setHistory(UUID uuid, String username, long changedTo) throws SQLException {
-		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
-				+ uuid.toString() + "','"
-				+ username + "','"
-				+ changedTo
-				+ "');");
+		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('" + uuid.toString() + "','" + username + "','" + changedTo + "');");
 	}
 	
 	public ResultSet setIPs(UUID uuid, String ip) throws SQLException {
-		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_IPLOGS + " VALUES ('"
-				+ uuid.toString() + "','"
-				+ ip + "','"
-				+ System.currentTimeMillis()
-				+ "');");
+		return plugin.getDB().query(
+				"INSERT OR REPLACE INTO " + TABLE_IPLOGS + " VALUES ('" + uuid.toString() + "','" + ip + "','" + System.currentTimeMillis() + "');");
 	}
+	
 	// °FormatOn°
 	
 	/*
@@ -282,8 +273,8 @@ public class PlayerData implements Listener, MauModule {
 	}
 	
 	/**
-	 * Get the latest IP of the given UUID. The IP may be currently being used (if the player is logged in currently).
-	 * The IP may also be null, if the given UUID has never logged in.
+	 * Get the latest IP of the given UUID. The IP may be currently being used (if the player is logged in currently). The IP may also be null, if the given
+	 * UUID has never logged in.
 	 * 
 	 * @param uuid The UUID to search.
 	 * @return The latest known IP of the UUID, or null if the UUID has never logged in.
@@ -341,13 +332,11 @@ public class PlayerData implements Listener, MauModule {
 	}
 	
 	/**
-	 * Get the latest UUID who has owned the given name. The name may still be in use by the returned UUID. If a player
-	 * with the given name is online, the UUID will be fetched directly from the player instance.. The UUID will be null
-	 * if the name could not be found in the database.
+	 * Get the latest UUID who has owned the given name. The name may still be in use by the returned UUID. If a player with the given name is online, the UUID
+	 * will be fetched directly from the player instance.. The UUID will be null if the name could not be found in the database.
 	 * 
 	 * @param username The username to search.
-	 * @return The UUID who has previously used or is using the given name, or null if the nobody has ever logged in
-	 *         using the given name.
+	 * @return The UUID who has previously used or is using the given name, or null if the nobody has ever logged in using the given name.
 	 * @throws SQLException If database querying or resultset getting throws something.
 	 */
 	public UUID getLatestUUIDByName(String username) throws SQLException {
