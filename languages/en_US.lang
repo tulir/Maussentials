@@ -23,7 +23,7 @@ uuid.get.name=Current Name: &6{0}&7.
 uuid.get.uuid=UUID: &6{0}&7.
 uuid.history.invalid=Failed to get history of &6{0}&c.
 uuid.history.notfound.cache=Couldn't find the player &6{0}&c in the UUID cache. Try /uuid get or /uuid history <name> nocache?
-uuid.history.notfound.server=Couldn't find the player &6{0}&c. Try another timestamp (0 = original owner of name)?
+uuid.history.notfound.server=Couldn't find the player &6{0}&c from Mojangs database. Try another timestamp (0 = original owner of name)?
 uuid.history=Name History of UUID &6{0}&f:
 # 0: Username
 uuid.history.original=&7 - &6{0}&7 (Original Name)
@@ -35,6 +35,7 @@ uuid.help.history=Usage: /{0} history <name/by-uuid> [nocache/uuid] [timestamp]
 # 0: Username
 kill.ed=Killed &6{0}&7.
 kill.notfound=Couldn't find the player &6{0}&c!
+kill.godmode=The player &6{0}&7 has godmode enabled. You really shouldn't kill gods.
 
 # No arguments
 god.off=God mode disabled.
@@ -174,8 +175,8 @@ bans.broadcast.unipbanned=&7The IP &6{0}&7 has been unbanned by &6{1}&7.
 
 seen.help=Usage: /{0} <username/IP>
 # 0: IP
-seen.ip.done=The following players have logged in from &6{0}&7:<br>{1}.
 # 1: List of players (colors hardcoded)
+seen.ip.done=The following players have logged in from &6{0}&7:<br>{1}.
 seen.ip.empty=There are no logged logins from &6{0}&c!
 seen.error=Exception while handling command: &6{0}&c
 # 0: Reason
@@ -204,10 +205,10 @@ seen.uuid.location=&7Location: &6{0}&7.
 # 0: Reason
 # 1: Banner
 # 2: Player name
-seen.uuid.banned.permanent=Banned by &6{1}&7 for &6{0}&7. 
+seen.uuid.banned.permanent=&7Banned by &6{1}&7 for &6{0}&7. 
 # 2: Expiry
 # 3: Player name
-seen.uuid.banned.temporary=Temporarily (&6{2}&7) banned by &6{1}&7 for &6{0}&7. 
+seen.uuid.banned.temporary=&7Temporarily (&6{2}&7) banned by &6{1}&7 for &6{0}&7. 
 
 # 0: Message
 # 1: Sender
@@ -241,3 +242,5 @@ tp.request.accepted.nonearby=&6{0}&7 has accepted your tp request. Teleport will
 tp.request.teleporting=Teleporting now...
 tp.request.fail=Teleportation cancelled.
 tp.request.nobody=You have no requests waiting!
+
+mauinfo.noperms=You don't have the permissions to view that info page.

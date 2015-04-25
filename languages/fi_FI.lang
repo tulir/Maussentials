@@ -2,6 +2,7 @@
 stag=&2[&aMaussentials&2] &7
 errtag=&4[&cMaussentials&4] &c
 nyi=Tuota ominaisuutta ei ole vielä lisätty 3:
+config.reloaded=Maussentials configuration reloaded. You may need to reload specific modules in order to see the effect.
 
 # 0: Permission node
 permission-error=Sinulla ei ole lupaa &6{0}&c.
@@ -21,6 +22,8 @@ uuid.get.name=Nykyinen nimi: &6{0}&7.
 # 0: UUID
 uuid.get.uuid=UUID: &6{0}&7.
 uuid.history.invalid=UUID:n &6{0}&c nimihistoriaa ei voitu hakea.
+uuid.history.notfound.cache=Pelaajan &6{0}&c UUIDta ei löydetty palvelimen tietokannasta. Kokeile /uuid get tai /uuid history <nimi> nocache?
+uuid.history.notfound.server=Pelaajan &6{0}&c UUIDta ei löydetty Mojangin tietokannasta. Kokeile eri aikamerkintää (0 = nimen alkuperäinen omistaja)?
 uuid.history=UUID:n &6{0}&f nimihistoria:
 # 0: Username
 uuid.history.original=&7 - &6{0}&7 (Alkuperäinen Nimi)
@@ -32,6 +35,7 @@ uuid.help.history=Käyttäminen: /{0} history <uuid>
 # 0: Username
 kill.ed=Tapettiin pelaaja &6{0}&7.
 kill.notfound=Pelaajaa &6{0}&c ei löydetty!
+kill.godmode=Pelaajalla &6{0}&7 on jumalamuoto käytössä. Eihän jumalia kannata tappaa?
 
 # No arguments
 god.off=Jumalamuoto deaktivoitu.
@@ -82,19 +86,20 @@ reloader.help=Käyttö: /{0} <module/plugin> <action> [nimi]
 reloader.plugin.help=Käyttö: /{0} plugin <list/load/unload/reload/enable/disable/restart> [nimi]
 reloader.module.help=Käyttö: /{0} module <list/load/unload/reload> [nimi]
 # 0: Plugin/Module name
-plugin.enabled=Aktivoitiin plugin &6{0}&7 onnistuneesti.
-plugin.disabled=Deaktivoitiin plugin &6{0}&7 onnistuneesti.
-plugin.restarted=Käynnistettiin plugin &6{0}&7 uudelleen onnistuneesti.
-plugin.notfound=Pluginia &6{0}&c ei löydetty!
-plugin.alreadyenabled=Plugin &6{0}&c on jo aktivoitu!
-plugin.alreadydisabled=Plugin &6{0}&c on jo deaktivoitu!
-module.loaded=Aktivoitiin moduuli &6{0}&7 onnistuneesti.
-module.unloaded=Deaktivoitiin moduuli &6{0}&7 onnistuneesti.
-module.reloaded=Käynnistettiin moduuli &6{0}&7 uudelleen onnistuneesti.
-module.notfound=Moduulia &6{0}&c ei löydetty!
-module.alreadyloaded=Moduuli &6{0}&c on jo aktivoitu!
-module.alreadyunloaded=Moduuli &6{0}&c on jo deaktivoitu!
-module.list=&aAktivoitu Moduuli ({0})&f - &2Deaktivoitu Moduuli ({1})&f<br>{2}
+reloader.plugin.enabled=Aktivoitiin plugin &6{0}&7 onnistuneesti.
+reloader.plugin.disabled=Deaktivoitiin plugin &6{0}&7 onnistuneesti.
+reloader.plugin.restarted=Käynnistettiin plugin &6{0}&7 uudelleen onnistuneesti.
+reloader.plugin.notfound=Pluginia &6{0}&c ei löydetty!
+reloader.plugin.alreadyenabled=Plugin &6{0}&c on jo aktivoitu!
+reloader.plugin.alreadydisabled=Plugin &6{0}&c on jo deaktivoitu!
+reloader.plugin.disable.self=Olen pahoillani, mutta en voi deaktivoida itseäni.
+reloader.module.loaded=Aktivoitiin moduuli &6{0}&7 onnistuneesti.
+reloader.module.unloaded=Deaktivoitiin moduuli &6{0}&7 onnistuneesti.
+reloader.module.reloaded=Käynnistettiin moduuli &6{0}&7 uudelleen onnistuneesti.
+reloader.module.notfound=Moduulia &6{0}&c ei löydetty!
+reloader.module.alreadyloaded=Moduuli &6{0}&c on jo aktivoitu!
+reloader.module.alreadyunloaded=Moduuli &6{0}&c on jo deaktivoitu!
+reloader.module.list=&aAktivoitu Moduuli ({0})&f - &2Deaktivoitu Moduuli ({1})&f<br>{2}
 
 # "In" and "For" separated, as some languages (such as Finnish) have different conjugations for them.
 # No arguments
@@ -143,6 +148,7 @@ bans.error.sql=SQL query virhe: &6{1}
 
 # 0: Label
 bans.help.ban=Käyttäminen: /{0} <käyttäjänimi> <syy> [silent]
+bans.help.stdban=Käyttäminen: /{0} <käyttäjänimi> <yleisen bannin nimi> [silent]
 bans.help.ipban=Käyttäminen: /{0} <IP/käyttäjänimi> <syy> [silent]
 bans.help.unban=Käyttäminen: /{0} <käyttäjänimi> [silent]
 bans.help.unipban=Käyttäminen: /{0} <IP/käyttäjänimi> [silent]
@@ -199,10 +205,10 @@ seen.uuid.location=&7Sijainti: &6{0}&7.
 # 0: Reason
 # 1: Banner
 # 2: Player name
-seen.uuid.banned.permanent=Pelaajan &6{1}&7 antama porttikielto syyllä &6{0}&7. 
+seen.uuid.banned.permanent=&7Pelaajan &6{1}&7 antama porttikielto syyllä &6{0}&7. 
 # 2: Expiry
 # 3: Player name
-seen.uuid.banned.temporary=Pelaajan &6{1}&7 antama väliaikainen (&6{2}&7) porttikielto syyllä &6{0}&7. 
+seen.uuid.banned.temporary=&7Pelaajan &6{1}&7 antama väliaikainen (&6{2}&7) porttikielto syyllä &6{0}&7. 
 
 # 0: Message
 # 1: Sender
@@ -236,3 +242,5 @@ tp.request.accepted.nonearby=&6{0}&7 on hyväksynyt teleportaatiopyyntösi. Tele
 tp.request.teleporting=Teleportataan nyt...
 tp.request.fail=Teleportaatio peruttu.
 tp.request.nobody=Sinulla ei ole yhtään teleportaatiopyyntöä odottamassa
+
+mauinfo.noperms=Sinulla ei ole lupaa nähdä tuota infosivua.
