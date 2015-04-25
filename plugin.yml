@@ -62,6 +62,9 @@ commands:
   mauunbanip:
     description: "Bananize the IP of that damn hacker and/or ban bypasser!"
     aliases: [unbanip, unipban, mauunipban]
+  maubanhistory:
+    description: "See how many times you've bananized that damn hacker!"
+    aliases: [banhistory, maubanh, banh]
   mautp:
     description: Teleport to a player
     aliases: [tp, mauteleport, teleport]
