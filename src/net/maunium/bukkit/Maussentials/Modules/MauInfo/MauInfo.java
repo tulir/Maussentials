@@ -56,8 +56,10 @@ public class MauInfo implements MauModule, Listener {
 		String msg = evt.getMessage().substring(1);
 		for (InfoEntry e : infos.values()) {
 			if (e.isAlias(msg)) {
-				e.sendMessage(evt.getPlayer());
-				evt.setCancelled(true);
+				if (e.hasPermission(evt.getPlayer())) {
+					e.sendMessage(evt.getPlayer());
+					evt.setCancelled(true);
+				} else evt.getPlayer().sendMessage("mauinfo.noperms");
 				return;
 			}
 		}
