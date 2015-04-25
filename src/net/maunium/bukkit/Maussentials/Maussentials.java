@@ -2,6 +2,8 @@ package net.maunium.bukkit.Maussentials;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -31,11 +33,18 @@ import net.maunium.bukkit.Maussentials.Modules.MauInfo.MauInfo;
 import net.maunium.bukkit.Maussentials.Modules.Teleportation.MauTPs;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
+/**
+ * The main class of Maussentials
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class Maussentials extends JavaPlugin {
 	// Instances of all modules, including those that have separately saved instances below.
 	private Map<String, MauModule> modules = new HashMap<String, MauModule>();
+	private List<String> disabled;
 	/*
-	 * Instances of modules that need to be accessed from other modules. Other than these, all modules are mostly separate from eachother excluding public
+	 * Instances of modules that need to be accessed from other modules. Other than these, all modules are mostly separate from each other excluding public
 	 * functionality modules such as the delayed actions system.
 	 */
 	private DatabaseHandler dbh;
@@ -62,24 +71,26 @@ public class Maussentials extends JavaPlugin {
 		saveResource("infos/motd.mauinfo", false);
 		saveResource("infos/rules.mauinfo", false);
 		
+		disabled = getConfig().getStringList("disable-on-startup");
+		
 		// Add and enable the modules
-		addModule("database", dbh = new DatabaseHandler(), true);
-		addModule("playerdata", pd = new PlayerData(), true);
-		addModule("bans", bans = new MauBans(), true);
-		addModule("teleportation", new MauTPs(), true);
-		addModule("mauinfo", new MauInfo(), true);
-		addModule("command-uuid", new CommandUUID(), true);
-		addModule("command-kill", new CommandKill(), true);
-		addModule("command-seen", new CommandSeen(), true);
-		addModule("command-plugins", new CommandPlugins(), true);
-		addModule("command-plugin", new CommandReload(), true);
-		addModule("command-psay", new CommandPlainSay(), true);
-		addModule("godmode", new Godmode(), true);
-		addModule("language", lang = new Language(), true);
-		addModule("signeditor", new SignEditor(), true);
-		addModule("privatemessaging", new PrivateMessaging(), true);
-		addModule("commandspy", new CommandSpy(), true);
-		addModule("delayed-teleports", new DelayedActionListeners(), true);
+		addModule("database", dbh = new DatabaseHandler());
+		addModule("playerdata", pd = new PlayerData());
+		addModule("bans", bans = new MauBans());
+		addModule("teleportation", new MauTPs());
+		addModule("mauinfo", new MauInfo());
+		addModule("uuidtools", new CommandUUID());
+		addModule("command-kill", new CommandKill());
+		addModule("command-seen", new CommandSeen());
+		addModule("command-plugins", new CommandPlugins());
+		addModule("command-reloader", new CommandReload());
+		addModule("command-psay", new CommandPlainSay());
+		addModule("godmode", new Godmode());
+		addModule("language", lang = new Language());
+		addModule("signeditor", new SignEditor());
+		addModule("privatemessaging", new PrivateMessaging());
+		addModule("commandspy", new CommandSpy());
+		addModule("delayed-actions", new DelayedActionListeners());
 		
 		instance = this;
 		
@@ -99,6 +110,9 @@ public class Maussentials extends JavaPlugin {
 		getLogger().info("Maussentials v" + getDescription().getVersion() + " by Tulir293 disabled in " + et + "ms.");
 	}
 	
+	/**
+	 * Execute a full reload of Maussentials including all modules.
+	 */
 	public void fullReload() {
 		Language.reloadFallback(this);
 		
@@ -110,8 +124,8 @@ public class Maussentials extends JavaPlugin {
 		saveResource("languages/fi_FI.lang", true);
 		saveResource("languages/de_DE.lang", true);
 		// Save the default motd and rules
-		saveResource("motd.txt", true);
-		saveResource("rules.txt", true);
+		saveResource("motd.txt", false);
+		saveResource("rules.txt", false);
 		
 		reloadConfig();
 		
@@ -123,17 +137,25 @@ public class Maussentials extends JavaPlugin {
 		}
 	}
 	
+	/**
+	 * The default onCommand method. Returns an error saying that the command is not loaded or implemented.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		sender.sendMessage(translateErr("commandnotloaded", label));
 		return true;
 	}
 	
+	/**
+	 * Very severe error which results in Maussentials not being able to continue operating.
+	 */
 	public void die(String message, Throwable error) {
 		getLogger().severe(message + ":");
 		error.printStackTrace();
 		getLogger().severe("Maussentials can not continue to function before the error is fixed.");
-		getPluginLoader().disablePlugin(this);
+		try {
+			getPluginLoader().disablePlugin(this);
+		} catch (Throwable t) {}
 	}
 	
 	public Database getDB() {
@@ -147,6 +169,7 @@ public class Maussentials extends JavaPlugin {
 	 * @return True if the module was reloaded. False if the module was not found.
 	 */
 	public boolean reloadModule(String name) {
+		name = name.toLowerCase(Locale.ENGLISH);
 		MauModule m = getModule(name);
 		if (m == null) return false;
 		if (m.isLoaded()) m.unload();
@@ -161,6 +184,7 @@ public class Maussentials extends JavaPlugin {
 	 * @return -1 if the module could not be found. 0 if the module was already unloaded. 1 if the module got successfully unloaded.
 	 */
 	public byte unloadModule(String name) {
+		name = name.toLowerCase(Locale.ENGLISH);
 		MauModule m = getModule(name);
 		if (m == null) return -1;
 		if (m.isLoaded()) m.unload();
@@ -175,6 +199,7 @@ public class Maussentials extends JavaPlugin {
 	 * @return -1 if the module could not be found. 0 if the module was already loaded. 1 if the module got successfully loaded.
 	 */
 	public byte loadModule(String name) {
+		name = name.toLowerCase(Locale.ENGLISH);
 		MauModule m = getModule(name);
 		if (m == null) return -1;
 		if (!m.isLoaded()) m.load(this);
@@ -182,11 +207,23 @@ public class Maussentials extends JavaPlugin {
 		return 1;
 	}
 	
-	public void addModule(String name, MauModule m, boolean load) {
+	/**
+	 * Add a module.
+	 * 
+	 * @param name The name of the module.
+	 * @param m An instance of the module.
+	 */
+	public void addModule(String name, MauModule m) {
+		name = name.toLowerCase(Locale.ENGLISH);
 		modules.put(name, m);
-		if (load) m.load(this);
+		if (!disabled.contains(name)) m.load(this);
 	}
 	
+	/**
+	 * Get an instance of the module with the given name.
+	 * 
+	 * @return The instance of the module, or null if not found.
+	 */
 	public MauModule getModule(String name) {
 		return modules.get(name);
 	}
@@ -200,10 +237,16 @@ public class Maussentials extends JavaPlugin {
 		return instance;
 	}
 	
+	/**
+	 * @return The instance of MauBans connected to this instance of Maussentials.
+	 */
 	public MauBans getBans() {
 		return bans;
 	}
 	
+	/**
+	 * @return The instance of PlayerData connected to this instance of Maussentials.
+	 */
 	public PlayerData getPlayerData() {
 		return pd;
 	}
@@ -222,6 +265,9 @@ public class Maussentials extends JavaPlugin {
 		} else return true;
 	}
 	
+	/**
+	 * Print the list of modules to the given CommandSender.
+	 */
 	public void modules(CommandSender sender) {
 		int en = 0, dis = 0;
 		StringBuffer sb = new StringBuffer();
@@ -241,14 +287,23 @@ public class Maussentials extends JavaPlugin {
 		sender.sendMessage(translateStd("module.list", en, dis, sb.toString()));
 	}
 	
+	/**
+	 * Internationalization method. This should not be used from other plugins.
+	 */
 	public String translateStd(String node, Object... replace) {
 		return Language.translateStd(lang, node, replace);
 	}
 	
+	/**
+	 * Internationalization method. This should not be used from other plugins.
+	 */
 	public String translateErr(String node, Object... replace) {
 		return Language.translateErr(lang, node, replace);
 	}
 	
+	/**
+	 * Internationalization method. This should not be used from other plugins.
+	 */
 	public String translatePlain(String node, Object... replace) {
 		return Language.translatePlain(lang, node, replace);
 	}
