@@ -49,3 +49,5 @@ teleport:
   delay: 100
   saferange: 10
   safedelay: 0
+# A list of modules which shouldn't be enabled on startup.
+disable-on-startup: []
