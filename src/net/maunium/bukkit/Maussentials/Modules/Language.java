@@ -53,7 +53,7 @@ public class Language implements MauModule {
 	}
 	
 	public String translate(String node, String prefix, Object... replace) {
-		if (loaded) return i18n.translate(node, replace);
+		if (loaded) return prefix + i18n.translate(node, replace);
 		else return null;
 	}
 	

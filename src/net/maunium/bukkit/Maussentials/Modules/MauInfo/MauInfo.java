@@ -2,6 +2,7 @@ package net.maunium.bukkit.Maussentials.Modules.MauInfo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
 public class MauInfo implements MauModule, Listener {
-	private Map<String, InfoEntry> infos;
+	private Map<String, InfoEntry> infos = new HashMap<String, InfoEntry>();
 	private boolean loaded;
 	
 	@Override

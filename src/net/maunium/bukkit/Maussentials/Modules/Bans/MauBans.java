@@ -17,7 +17,7 @@ public class MauBans implements MauModule {
 	private Maussentials plugin;
 	public static final String TABLE_BANS = "Bans", TABLE_HISTORY = "BanHistory";
 	public static final String COLUMN_BANNED = "Banned", COLUMN_TYPE = "BanType", COLUMN_REASON = "Reason", COLUMN_BANNEDBY = "BannedBy",
-			COLUMN_EXPIRE = "ExpireAt", COLUMN_BANNEDAT = "AppliedAt", TYPE_IP = "IP", TYPE_UUID = "UUID";
+			COLUMN_EXPIRE = "ExpireAt", COLUMN_BANNEDAT = "AppliedAt", TYPE_IP = "IP", TYPE_UUID = "UUID", TYPE_UNBAN = "Unban";
 	private Map<String, StandardBan> sbans;
 	private JoinListener jl;
 	private boolean loaded = false;
@@ -36,7 +36,7 @@ public class MauBans implements MauModule {
 					+ COLUMN_EXPIRE + " INTEGER NOT NULL,"
 					+ "PRIMARY KEY (" + COLUMN_BANNED + ", " + COLUMN_TYPE + "));");
 			// Create the table BanHistory
-			plugin.getDB().query("CREATE TABLE " + TABLE_BANS + " ("
+			plugin.getDB().query("CREATE TABLE " + TABLE_HISTORY + " ("
 					+ COLUMN_BANNED + " varchar(25) NOT NULL,"
 					+ COLUMN_BANNEDAT + " INTEGER NOT NULL,"
 					+ COLUMN_TYPE + " varchar(8) NOT NULL,"
@@ -62,7 +62,7 @@ public class MauBans implements MauModule {
 		
 		plugin.getServer().getPluginManager().registerEvents(jl = new JoinListener(plugin, this), plugin);
 		plugin.getCommand("mauban").setExecutor(new CommandBan(plugin, this));
-//		plugin.getCommand("maubanhistory").setExecutor(new CommandBanHistory(plugin, this));
+		plugin.getCommand("maubanhistory").setExecutor(new CommandBanHistory(plugin, this));
 		plugin.getCommand("maustandardban").setExecutor(new CommandSBan(plugin, this));
 		plugin.getCommand("mautempban").setExecutor(new CommandTempBan(plugin, this));
 		plugin.getCommand("mauunban").setExecutor(new CommandUnban(plugin, this));
@@ -98,9 +98,9 @@ public class MauBans implements MauModule {
 	public ResultSet getBanHistory(String banned, String type, long from, long to) throws SQLException {
 		// @mauformat=off
 		return plugin.getDB().query("SELECT * FROM " + TABLE_HISTORY
-				+ " WHERE " + COLUMN_BANNED   + "='" + banned + "'"
-				+ " AND "   + COLUMN_TYPE     + "='" + type   + "'"
-				+ " AND "   + COLUMN_BANNEDAT + " BETWEEN " + from + " AND " + to
+				+ " WHERE " + COLUMN_BANNED + "='" + banned + "'"
+				+ (type != null ?			" AND "	+ COLUMN_TYPE		+ "='" 			+ type + "'"			: "")
+				+ (from != -1 && to != -1 ?	" AND "	+ COLUMN_BANNEDAT	+ " BETWEEN "	+ from + " AND " + to	: "")
 				+ ";");
 		// @mauformat=on
 	}
@@ -114,6 +114,16 @@ public class MauBans implements MauModule {
 			if (expire > 0 && expire <= System.currentTimeMillis()) {
 				plugin.getLogger().info("Unbanning " + banned + " (" + type + " ban) as the ban has expired.");
 				plugin.getDB().query("DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + banned + "' AND " + COLUMN_TYPE + "='" + type + "';");
+				// @mauformat=off
+				plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
+						+ banned + "','"
+						+ System.currentTimeMillis() + "','"
+						+ TYPE_UNBAN + "','"
+						+ type + "','"
+						+ "Automatic" + "','"
+						+ -1
+						+ "');");
+				// @mauformat=on
 				return null;
 			} else return rs;
 		} else return null;
@@ -169,19 +179,39 @@ public class MauBans implements MauModule {
 		}
 	}
 	
-	public void unban(UUID u) {
+	public void unban(String unbanner, UUID u) {
 		try {
 			plugin.getDB().query(
 					"DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + u.toString() + "' AND " + COLUMN_TYPE + "='" + TYPE_UUID + "';");
+			// @mauformat=off
+			plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
+					+ u + "','"
+					+ System.currentTimeMillis() + "','"
+					+ TYPE_UNBAN + "','"
+					+ TYPE_UUID + "','"
+					+ unbanner + "','"
+					+ -1
+					+ "');");
+			// @mauformat=on
 		} catch (SQLException e) {
 			plugin.getLogger().severe("Failed to unban " + u + ":");
 			e.printStackTrace();
 		}
 	}
 	
-	public void unbanip(String ip) {
+	public void unbanip(String unbanner, String ip) {
 		try {
 			plugin.getDB().query("DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + ip + "' AND " + COLUMN_TYPE + "='" + TYPE_IP + "';");
+			// @mauformat=off
+			plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
+					+ ip + "','"
+					+ System.currentTimeMillis() + "','"
+					+ TYPE_UNBAN + "','"
+					+ TYPE_IP + "','"
+					+ unbanner + "','"
+					+ -1
+					+ "');");
+			// @mauformat=on
 		} catch (SQLException e) {
 			plugin.getLogger().severe("Failed to unban " + ip + ":");
 			e.printStackTrace();

@@ -96,12 +96,19 @@ public class CommandTempBanIP implements CommandExecutor {
 			}
 			sb.deleteCharAt(sb.length() - 1);
 			String reason = sb.toString();
-			host.ipban(ip, (sender instanceof Player) ? ((Player) sender).getUniqueId().toString() : "CONSOLE", reason, System.currentTimeMillis() + time);
+			host.ipban(ip, sender instanceof Player ? ((Player) sender).getUniqueId().toString() : "CONSOLE", reason, System.currentTimeMillis() + time);
 			
 			if (!silent)
 				plugin.getServer().broadcast(
 						plugin.translatePlain("bans.broadcast.tempipbanned" + (username != null ? ".byname" : ""), ip, reason, sender.getName(),
 								DateUtils.getDurationBreakdown(time, DateUtils.MODE_FOR), username), "maussentials.bans.see.ipban");
+			
+			for (Player p : plugin.getServer().getOnlinePlayers())
+				if (p.getAddress().getAddress().getHostAddress().equals(ip))
+					p.getPlayer()
+							.kickPlayer(
+									plugin.translatePlain("bans.ipban.temporary", reason, sender.getName(),
+											DateUtils.getDurationBreakdown(time, DateUtils.MODE_IN), ip));
 			return true;
 		} else {
 			sender.sendMessage(plugin.translateErr("bans.help.tempipban", label));

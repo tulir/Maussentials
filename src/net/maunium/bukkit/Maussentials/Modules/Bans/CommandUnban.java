@@ -7,6 +7,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 
@@ -39,7 +40,7 @@ public class CommandUnban implements CommandExecutor {
 			
 			OfflinePlayer p = plugin.getServer().getOfflinePlayer(u);
 			
-			host.unban(u);
+			host.unban(sender instanceof Player ? ((Player) sender).getUniqueId().toString() : "CONSOLE", u);
 			
 			if (args.length > 1 && args[1].equalsIgnoreCase("silent")) return true;
 			plugin.getServer().broadcast(plugin.translatePlain("bans.broadcast.unbanned", p.getName(), sender.getName()), "maussentials.bans.see.unban");

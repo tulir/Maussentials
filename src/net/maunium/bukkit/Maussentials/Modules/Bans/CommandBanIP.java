@@ -65,12 +65,16 @@ public class CommandBanIP implements CommandExecutor {
 			sb.deleteCharAt(sb.length() - 1);
 			String reason = sb.toString();
 			
-			host.ipban(ip, (sender instanceof Player) ? ((Player) sender).getUniqueId().toString() : "CONSOLE", reason, -1);
+			host.ipban(ip, sender instanceof Player ? ((Player) sender).getUniqueId().toString() : "CONSOLE", reason, -1);
 			
 			if (!silent)
 				plugin.getServer().broadcast(
 						plugin.translatePlain("bans.broadcast.ipbanned" + (username != null ? ".byname" : ""), ip, reason, sender.getName(), username),
 						"maussentials.bans.see.ipban");
+			
+			for (Player p : plugin.getServer().getOnlinePlayers())
+				if (p.getAddress().getAddress().getHostAddress().equals(ip))
+					p.getPlayer().kickPlayer(plugin.translatePlain("bans.ipban.permanent", reason, sender.getName(), ip));
 			return true;
 		} else {
 			sender.sendMessage(plugin.translateErr("bans.help.ipban", label));
