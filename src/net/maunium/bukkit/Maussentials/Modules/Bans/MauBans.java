@@ -218,6 +218,10 @@ public class MauBans implements MauModule {
 		}
 	}
 	
+	public void warn(UUID uuid, String banner, String reason, long timeout) {
+		
+	}
+	
 	public StandardBan getStandardBan(String name) {
 		return sbans.get(name);
 	}

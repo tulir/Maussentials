@@ -2,7 +2,7 @@ name: Maussentials
 author: Tulir293
 main: net.maunium.bukkit.Maussentials.Maussentials
 website: http://maunium.net
-version: 0.2
+version: 0.3
 depend: [SQLibrary]
 commands:
   maukill:
@@ -44,6 +44,9 @@ commands:
   mauban:
     description: "Bananize that damn hacker!"
     aliases: [ban]
+  mauwarn:
+    description: "Warn that damn hacker!"
+    aliases: [warn]
   maustandardban:
     description: Bananize that damn hacker with a predefined message and time
     aliases: [standardban, mausban, sban, maudefaultban, defaultban, maudban, dban]
@@ -77,7 +80,67 @@ commands:
   mautpdeny:
     description: Deny a teleportation request
     aliases: [tpdeny, mautpno, tpno, mautpn, tpn]
+  # TODO START
+  maunick:
+    description: Set a players nick
+    aliases: [nick, maunickname, nickname]
+  mauchannel:
+    description: Move to a chat channel
+    aliases: [channel, mauch, ch, mauc, c]
+  mauchanneladmin:
+    description: Manage chat channels
+    aliases: [channeladmin, maucha, cha, mauchadmin, chadmin, mauca, ca]
+  mauchatformat:
+    description: Set the chat format of a group or an user.
+    aliases: [chatformat, maucf, cf]
+  # TODO BREAK
 permissions:
+  maussentials.chat.nick:
+    description: Set your own nickname.
+    default: OP
+  maussentials.chat.nick.others:
+    description: Set the nickname of another player.
+    default: OP
+  maussentials.chat.nick.*:
+    description: All nickname-related things.
+    default: OP
+    children:
+      maussentials.chat.nick: true
+      maussentials.chat.nick.others: true
+  maussentials.chat.format:
+    description: Set chat format.
+    default: OP
+  maussentials.chat.format.others:
+    description: Set chat format of other players.
+    default: OP
+  maussentials.chat.format.*:
+    description: All chatformat-related things.
+    default: OP
+    children:
+      maussentials.chat.format: true
+      maussentials.chat.format.others: true
+  maussentials.chat.color:
+    description: Use colors in chat
+    default: OP
+  maussentials.chat.style:
+    description: Use style formatting in chat
+    default: OP
+  maussentials.chat.magic:
+    description: Use magic formatting in chat
+    default: OP
+  maussentials.chat.channel:
+    description: Allow switching channels
+    default: OP
+  maussentials.chat:
+    description: Use all chat-related things.
+    default: OP
+    children:
+      maussentials.chat.format.*: true
+      maussentials.chat.nick.*: true
+      maussentials.chat.color: true
+      maussentials.chat.style: true
+      maussentials.chat.magic: true
+  # TODO END
   # Kill
   maussentials.kill:
     description: Kill a player
