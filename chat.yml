@@ -1,0 +1,8 @@
+group-formats:
+  default: "&f[&8Default&f] &7{DISPLAYNAME}&f: &7{MESSAGE}"
+  mod: "&c[&dMod&c] &d{DISPLAYNAME}&f: {MESSAGE}"
+  admin: "&c[&4Admin&c] &4{DISPLAYNAME}&f: {MESSAGE}"
+  owner: "&c[&6Owner&c] &6{DISPLAYNAME}&f: &6{MESSAGE}"
+player-formats:
+  1f97b709-4c25-4feb-a7ee-71343ddbbc26: "&b[&a&lMau&b] &2{DISPLAYNAME}&f: &2{MESSAGE}"
+channels: []
