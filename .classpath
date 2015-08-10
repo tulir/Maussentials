@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SQLibrary"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Spigot API"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Vault API"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
