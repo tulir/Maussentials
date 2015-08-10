@@ -3,7 +3,7 @@ author: Tulir293
 main: net.maunium.bukkit.Maussentials.Maussentials
 website: http://maunium.net
 version: 0.3
-depend: [SQLibrary]
+depend: [SQLibrary, Vault]
 commands:
   maukill:
     description: Kill a player

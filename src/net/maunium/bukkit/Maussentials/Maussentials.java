@@ -7,8 +7,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import lib.PatPeter.SQLibrary.Database;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,6 +19,7 @@ import net.maunium.bukkit.Maussentials.Modules.Language;
 import net.maunium.bukkit.Maussentials.Modules.PrivateMessaging;
 import net.maunium.bukkit.Maussentials.Modules.SignEditor;
 import net.maunium.bukkit.Maussentials.Modules.Bans.MauBans;
+import net.maunium.bukkit.Maussentials.Modules.Chat.MauChat;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandKill;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandPlainSay;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandPlugins;
@@ -32,6 +31,8 @@ import net.maunium.bukkit.Maussentials.Modules.MauInfo.MauInfo;
 import net.maunium.bukkit.Maussentials.Modules.PlayerData.PlayerData;
 import net.maunium.bukkit.Maussentials.Modules.Teleportation.MauTPs;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
+
+import lib.PatPeter.SQLibrary.Database;
 
 /**
  * The main class of Maussentials
@@ -77,6 +78,7 @@ public class Maussentials extends JavaPlugin {
 		addModule("database", dbh = new DatabaseHandler());
 		addModule("playerdata", pd = new PlayerData());
 		addModule("bans", bans = new MauBans());
+		addModule("chat", new MauChat());
 		addModule("teleportation", new MauTPs());
 		addModule("mauinfo", new MauInfo());
 		addModule("uuidtools", new CommandUUID());
@@ -105,7 +107,7 @@ public class Maussentials extends JavaPlugin {
 		if (instance == this) instance = null;
 		for (MauModule m : modules.values())
 			m.unload();
-		
+			
 		int et = (int) (System.currentTimeMillis() - st);
 		getLogger().info("Maussentials v" + getDescription().getVersion() + " by Tulir293 disabled in " + et + "ms.");
 	}
