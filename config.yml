@@ -44,14 +44,6 @@ standard-bans:
   spamming:
     timeout: 1W
     reason: Spamming in the chat
-# All variables are enclosed in {curly brackets} and are all-caps
-# Allowed variables: NAME, DISPLAYNAME, MESSAGE, GROUP, WORLD, SWORLD, TEAMNAME, TEAMDISPLAYNAME, TEAMPREFIX, TEAMSUFFIX
-chat-format:
-  # The chat format used for the groups/users that don't have a specific chat format below.
-  default: "<{DISPLAYNAME}> {MESSAGE}"
-  # The group-specific chat formats.
-  groups:
-    default: "<&8Default&7 {DISPLAYNAME}&r>&7 {MESSAGE}"
 # Delay before teleporting
 teleport:
   delay: 100

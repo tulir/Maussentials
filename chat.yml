@@ -1,3 +1,5 @@
+# All variables are enclosed in {curly brackets} and are all-caps
+# Allowed variables: NAME, DISPLAYNAME, MESSAGE, GROUP, WORLD, SWORLD, TEAMNAME, TEAMDISPLAYNAME, TEAMPREFIX, TEAMSUFFIX
 group-formats:
   default: "&f[&8Default&f] &7{DISPLAYNAME}&f: &7{MESSAGE}"
   mod: "&c[&dMod&c] &d{DISPLAYNAME}&f: {MESSAGE}"
