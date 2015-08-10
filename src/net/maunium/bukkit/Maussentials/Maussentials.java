@@ -18,7 +18,6 @@ import net.maunium.bukkit.Maussentials.Modules.DatabaseHandler;
 import net.maunium.bukkit.Maussentials.Modules.DelayedActionListeners;
 import net.maunium.bukkit.Maussentials.Modules.Godmode;
 import net.maunium.bukkit.Maussentials.Modules.Language;
-import net.maunium.bukkit.Maussentials.Modules.PlayerData;
 import net.maunium.bukkit.Maussentials.Modules.PrivateMessaging;
 import net.maunium.bukkit.Maussentials.Modules.SignEditor;
 import net.maunium.bukkit.Maussentials.Modules.Bans.MauBans;
@@ -30,6 +29,7 @@ import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSeen;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandSpy;
 import net.maunium.bukkit.Maussentials.Modules.Commands.CommandUUID;
 import net.maunium.bukkit.Maussentials.Modules.MauInfo.MauInfo;
+import net.maunium.bukkit.Maussentials.Modules.PlayerData.PlayerData;
 import net.maunium.bukkit.Maussentials.Modules.Teleportation.MauTPs;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 

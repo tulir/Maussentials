@@ -1,4 +1,4 @@
-package net.maunium.bukkit.Maussentials.Modules;
+package net.maunium.bukkit.Maussentials.Modules.PlayerData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,14 +16,8 @@ import org.bukkit.craftbukkit.libs.com.google.gson.JsonArray;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonObject;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParser;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
@@ -52,7 +46,7 @@ public class PlayerData implements Listener, MauModule {
 	@Override
 	public void load(Maussentials plugin) {
 		this.plugin = plugin;
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		plugin.getServer().getPluginManager().registerEvents(new PDListeners(plugin, this), plugin);
 		try {
 			// @mauformat=off
 			// Create the table Players
@@ -91,90 +85,21 @@ public class PlayerData implements Listener, MauModule {
 		return loaded;
 	}
 	
-	/*
-	 * Listeners for prelogin, login, join and quit.
-	 */
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent evt) {
-		if (evt.getAddress() != null && evt.getUniqueId() != null && evt.getName() != null
-				&& evt.getLoginResult().equals(AsyncPlayerPreLoginEvent.Result.ALLOWED)) {
-			try {
-				ResultSet rs = plugin.getDB().query("SELECT * FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + evt.getUniqueId() + "';");
-				if (rs.next()) {
-					String old = rs.getString(COLUMN_USERNAME);
-					if (!old.equals(evt.getName())) updateNameHistory(evt.getUniqueId());
-				} else updateNameHistory(evt.getUniqueId());
-				
-				String ia = evt.getAddress().getHostAddress();
-				try {
-					setIPs(evt.getUniqueId(), ia);
-					plugin.getLogger().fine("Updated IP history. New entry: " + evt.getUniqueId() + ", " + ia);
-				} catch (SQLException e) {
-					plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getUniqueId() + ", " + ia);
-					e.printStackTrace();
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPlayerLogin(PlayerLoginEvent evt) {
-		if (!evt.getResult().equals(PlayerLoginEvent.Result.ALLOWED)) return;
-		try {
-			setEntry(evt.getPlayer().getUniqueId(), evt.getPlayer().getName(), new SerializableLocation(evt.getPlayer().getLocation()));
-			plugin.getLogger().fine("Updated database. New entry: " + evt.getPlayer().getUniqueId() + ", " + evt.getPlayer().getName());
-		} catch (SQLException e) {
-			plugin.getLogger().severe("Failed attempt to add new entry: " + evt.getPlayer().getUniqueId() + ", " + evt.getPlayer().getName());
-			e.printStackTrace();
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerJoin(PlayerJoinEvent evt) {
-		try {
-			setLocation(evt.getPlayer().getUniqueId(), new SerializableLocation(evt.getPlayer().getLocation()));
-			plugin.getLogger().fine("Updated Location for " + evt.getPlayer().getName());
-		} catch (SQLException e) {
-			plugin.getLogger().severe("Failed to update Location for " + evt.getPlayer().getName());
-			e.printStackTrace();
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerQuit(PlayerQuitEvent evt) {
-		try {
-			setTime(evt.getPlayer().getUniqueId());
-			plugin.getLogger().fine("Updated LastLogin time for " + evt.getPlayer().getName());
-		} catch (SQLException e) {
-			plugin.getLogger().severe("Failed to update LastLogin time for " + evt.getPlayer().getName());
-			e.printStackTrace();
-		}
-		try {
-			setLocation(evt.getPlayer().getUniqueId(), new SerializableLocation(evt.getPlayer().getLocation()));
-			plugin.getLogger().fine("Updated Location for " + evt.getPlayer().getName());
-		} catch (SQLException e) {
-			plugin.getLogger().severe("Failed to update Location for " + evt.getPlayer().getName());
-			e.printStackTrace();
-		}
-	}
-	
 	/**
 	 * Method to update name history for the specific UUID from Mojang's servers. Called when the database system notices that an UUID logs in with an
 	 * unidentified username.
 	 */
-	private void updateNameHistory(UUID uuid) {
+	public void updateNameHistory(UUID uuid) {
 		try {
 			// Request the name history of the UUID.
-			BufferedReader br = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/user/profiles/" + uuid.toString().replace("-", "")
-					+ "/names").openStream()));
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(new URL("https://api.mojang.com/user/profiles/" + uuid.toString().replace("-", "") + "/names").openStream()));
 			String in = "";
 			String s;
 			// Read the response
 			while ((s = br.readLine()) != null)
 				in += s;
-			
+				
 			// Make sure that it isn't empty.
 			if (in.isEmpty()) throw new RuntimeException("Failed to process name change: Mojang API returned empty name history.");
 			
@@ -185,11 +110,11 @@ public class PlayerData implements Listener, MauModule {
 				JsonObject jo = ja.get(i).getAsJsonObject();
 				String name = jo.get("name").getAsString();
 				try {
-					// °FormatOff°
+					// @mauformat=off
 					ResultSet rs = plugin.getDB().query(
 							"SELECT * FROM " + TABLE_HISTORY + " WHERE " + COLUMN_UUID + " = '" + uuid.toString() + "'" + " AND " + COLUMN_USERNAME + " = '"
 									+ name + "'" + ";");
-					// °FormatOn°
+					// @mauformat=on
 					
 					if (!rs.next()) {
 						if (jo.has("changedToAt")) {
@@ -210,7 +135,7 @@ public class PlayerData implements Listener, MauModule {
 	 * Methods for updating the values of the database.
 	 */
 	
-	// °FormatOff°
+	// @mauformat=off
 	public ResultSet setEntry(UUID uuid, String username, SerializableLocation l) throws SQLException {
 		return plugin.getDB().query(
 				"INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES (" + "'" + uuid.toString() + "','" + username + "','" + System.currentTimeMillis() + "','"
@@ -237,7 +162,7 @@ public class PlayerData implements Listener, MauModule {
 				"INSERT OR REPLACE INTO " + TABLE_IPLOGS + " VALUES ('" + uuid.toString() + "','" + ip + "','" + System.currentTimeMillis() + "');");
 	}
 	
-	// °FormatOn°
+	// @mauformat=on
 	
 	/*
 	 * Getting data from the IP Log
@@ -292,7 +217,7 @@ public class PlayerData implements Listener, MauModule {
 		// Loop through the query result IPs and find the one with the biggest used at timestamp.
 		for (Entry<String, Long> ip : ips.entrySet())
 			if (latest == null || latest.getValue() < ip.getValue()) latest = ip;
-		
+			
 		// Return the IP from the IP log table, or null if there weren't any entries.
 		return latest != null ? latest.getKey() : null;
 	}
@@ -356,7 +281,7 @@ public class PlayerData implements Listener, MauModule {
 		Entry<UUID, Long> latest = null;
 		for (Entry<UUID, Long> uuid : uuids.entrySet())
 			if (latest == null || latest.getValue() < uuid.getValue()) latest = uuid;
-		
+			
 		// Return the UUID from the history table, or null if there weren't any entries.
 		return latest != null ? latest.getKey() : null;
 	}
