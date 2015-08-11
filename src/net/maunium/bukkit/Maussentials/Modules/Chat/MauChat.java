@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -32,10 +33,10 @@ public class MauChat implements MauModule {
 	private File confFile;
 	private YamlConfiguration conf;
 	
-	private Map<String, String> groupFormats;
-	private Map<UUID, String> playerFormats;
-	private String defaultFormat;
-	private List<Replaceable> replace;
+	private Map<String, String> groupFormats = new HashMap<String, String>();
+	private Map<UUID, String> playerFormats = new HashMap<UUID, String>();
+	private String defaultFormat = "<{DISPLAYNAME}> {MESSAGE}";
+	private List<Replaceable> replace = new ArrayList<Replaceable>();
 	
 	private boolean loaded = false;
 	
@@ -67,7 +68,6 @@ public class MauChat implements MauModule {
 			
 		// Get chat replace objects from configuration.
 		List<?> list1 = conf.getList("chat-replace");
-		replace = new ArrayList<Replaceable>();
 		for (Object o : list1)
 			if (o instanceof Replaceable) replace.add((Replaceable) o);
 		Collections.sort(replace);
@@ -76,6 +76,7 @@ public class MauChat implements MauModule {
 		defaultFormat = conf.getString("chat-format.default");
 		
 		plugin.getServer().getPluginManager().registerEvents(new ChatListener(this), plugin);
+		plugin.getCommand("mauchatformat").setExecutor(new CommandFormat(plugin, this));
 		
 		loaded = true;
 	}

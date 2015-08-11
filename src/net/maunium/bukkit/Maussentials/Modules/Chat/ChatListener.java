@@ -10,6 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scoreboard.Team;
 
+import net.maunium.bukkit.Maussentials.Utils.ChatFormatter;
+
 /**
  * Chat listener for Maussentials Chat
  * 
@@ -37,19 +39,19 @@ public class ChatListener implements Listener {
 		String world = evt.getPlayer().getWorld().getName();
 		// Format the message.
 		// @mauformat=off
-		evt.setFormat(
+		evt.setFormat(ChatFormatter.formatAll(
 				host.getPlayerFormat(evt.getPlayer())
-				.replace("{DISPLAYNAME}", "$1")
-				.replace("{MESSAGE}", "$2")
+				.replace("{DISPLAYNAME}", "%s")
+				.replace("{MESSAGE}", "%s")
 				.replace("{GROUP}", g)
 				.replace("{NAME}", evt.getPlayer().getName())
 				.replace("{WORLD}", world)
 				.replace("{SWORLD}", world.substring(0, 1))
-				.replace("{TEAMPREFIX}", t.getPrefix())
-				.replace("{TEAMSUFFIX}", t.getSuffix())
-				.replace("{TEAMNAME}", t.getName())
-				.replace("{TEAMDISPLAYNAME}", t.getDisplayName())
-			);
+				.replace("{TEAMPREFIX}", t != null ? t.getPrefix() : "")
+				.replace("{TEAMSUFFIX}", t != null ? t.getSuffix() : "")
+				.replace("{TEAMNAME}", t != null ? t.getName() : "")
+				.replace("{TEAMDISPLAYNAME}", t != null ? t.getDisplayName() : "")
+			));
 		// @mauformat=on
 	}
 	
@@ -68,9 +70,10 @@ public class ChatListener implements Listener {
 				break;
 			}
 		}
+		if (rec == null) return;
 		// Remove PlayerName from the default message recipents.
 		evt.getRecipients().remove(rec);
 		// Send the highlighted version to PlayerName.
-		rec.sendMessage(String.format(evt.getFormat(), evt.getPlayer().getDisplayName(), ChatColor.RED + evt.getMessage()));
+		rec.sendMessage(String.format(evt.getFormat(), evt.getPlayer().getDisplayName(), ChatColor.DARK_RED + evt.getMessage()));
 	}
 }
