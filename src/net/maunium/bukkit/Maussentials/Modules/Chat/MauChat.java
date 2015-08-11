@@ -32,7 +32,7 @@ public class MauChat implements MauModule {
 	private File confFile;
 	private YamlConfiguration conf;
 	
-	private Map<String, String> formats;
+	private Map<String, String> groupFormats;
 	private Map<UUID, String> playerFormats;
 	private String defaultFormat;
 	private List<Replaceable> replace;
@@ -58,7 +58,7 @@ public class MauChat implements MauModule {
 		// Get group formats from configuration.
 		Map<String, Object> map1 = conf.getConfigurationSection("group-formats").getValues(false);
 		for (Entry<String, Object> e : map1.entrySet())
-			formats.put(e.getKey().toLowerCase(Locale.ENGLISH), e.getValue().toString());
+			groupFormats.put(e.getKey().toLowerCase(Locale.ENGLISH), e.getValue().toString());
 			
 		// Get player formats from configuration.
 		Map<String, Object> map2 = conf.getConfigurationSection("player-formats").getValues(false);
@@ -82,8 +82,11 @@ public class MauChat implements MauModule {
 	
 	@Override
 	public void unload() {
-		for (Entry<String, String> e : formats.entrySet())
-			conf.set("format-groups." + e.getKey().toLowerCase(Locale.ENGLISH), e.getValue());
+		for (Entry<String, String> e : groupFormats.entrySet())
+			conf.set("groups-formats." + e.getKey().toLowerCase(Locale.ENGLISH), e.getValue());
+			
+		for (Entry<UUID, String> e : playerFormats.entrySet())
+			conf.set("player-formats." + e.getKey().toString(), e.getValue());
 			
 		Collections.sort(replace);
 		conf.set("chat-replace", replace);
@@ -96,8 +99,10 @@ public class MauChat implements MauModule {
 		
 		ConfigurationSerialization.unregisterClass(Replaceable.class);
 		defaultFormat = null;
-		formats.clear();
-		formats = null;
+		groupFormats.clear();
+		groupFormats = null;
+		playerFormats.clear();
+		playerFormats = null;
 		vault = null;
 		conf = null;
 //		plugin = null;
@@ -112,13 +117,21 @@ public class MauChat implements MauModule {
 	 */
 	public String getGroupFormat(String group) {
 		group = group.toLowerCase(Locale.ENGLISH);
-		if (formats.containsKey(group)) return formats.get(group);
+		if (groupFormats.containsKey(group)) return groupFormats.get(group);
 		else return defaultFormat;
 	}
 	
 	public String getPlayerFormat(Player p) {
 		if (playerFormats.containsKey(p.getUniqueId())) return playerFormats.get(p.getUniqueId());
 		else return getGroupFormat(vault.getPrimaryGroup(p));
+	}
+	
+	public void setGroupFormat(String group, String format) {
+		groupFormats.put(group, format);
+	}
+	
+	public void setPlayerFormat(UUID u, String format) {
+		playerFormats.put(u, format);
 	}
 	
 	/**
