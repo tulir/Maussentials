@@ -27,23 +27,20 @@ import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
  * @since 0.3
  */
 public class MauChat implements MauModule {
-//	private Maussentials plugin;
 	protected Permission vault;
 	
 	private File confFile;
 	private YamlConfiguration conf;
 	
-	private Map<String, String> groupFormats = new HashMap<String, String>();
-	private Map<UUID, String> playerFormats = new HashMap<UUID, String>();
-	private String defaultFormat = "<{DISPLAYNAME}> {MESSAGE}";
-	private List<Replaceable> replace = new ArrayList<Replaceable>();
+	private Map<String, String> groupFormats;
+	private Map<UUID, String> playerFormats;
+	private String defaultFormat;
+	private List<Replaceable> replace;
 	
 	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
-//		this.plugin = plugin;
-		
 		// Register Replaceable as a thing that can be de/serialized from/to config.
 		ConfigurationSerialization.registerClass(Replaceable.class);
 		
@@ -57,23 +54,26 @@ public class MauChat implements MauModule {
 		vault = plugin.getServer().getServicesManager().getRegistration(Permission.class).getProvider();
 		
 		// Get group formats from configuration.
+		groupFormats = new HashMap<String, String>();
 		Map<String, Object> map1 = conf.getConfigurationSection("group-formats").getValues(false);
 		for (Entry<String, Object> e : map1.entrySet())
 			groupFormats.put(e.getKey().toLowerCase(Locale.ENGLISH), e.getValue().toString());
 			
 		// Get player formats from configuration.
+		playerFormats = new HashMap<UUID, String>();
 		Map<String, Object> map2 = conf.getConfigurationSection("player-formats").getValues(false);
 		for (Entry<String, Object> e : map2.entrySet())
 			playerFormats.put(UUID.fromString(e.getKey()), e.getValue().toString());
 			
 		// Get chat replace objects from configuration.
+		replace = new ArrayList<Replaceable>();
 		List<?> list1 = conf.getList("chat-replace");
 		for (Object o : list1)
 			if (o instanceof Replaceable) replace.add((Replaceable) o);
 		Collections.sort(replace);
 		
 		// Get the default config.
-		defaultFormat = conf.getString("chat-format.default");
+		defaultFormat = conf.getString("chat-format.default", "<{DISPLAYNAME}> {MESSAGE}");
 		
 		plugin.getServer().getPluginManager().registerEvents(new ChatListener(this), plugin);
 		plugin.getCommand("mauchatformat").setExecutor(new CommandFormat(plugin, this));
@@ -106,7 +106,6 @@ public class MauChat implements MauModule {
 		playerFormats = null;
 		vault = null;
 		conf = null;
-//		plugin = null;
 		loaded = false;
 	}
 	
