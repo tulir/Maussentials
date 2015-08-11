@@ -1,101 +1,153 @@
 package net.maunium.bukkit.Maussentials.Modules.Chat;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.entity.Player;
 
 import net.milkbowl.vault.permission.Permission;
 
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 
+/**
+ * Chat manager for Maussentials.
+ * 
+ * @author Tulir293
+ * @since 0.3
+ */
 public class MauChat implements MauModule {
-	public static final String CURRENT_CHANNEL = "MaussentialsChatCurrentChannel";
+//	private Maussentials plugin;
 	protected Permission vault;
-	private File channelsFile;
+	
+	private File confFile;
 	private YamlConfiguration conf;
-	private Maussentials plugin;
-	private Map<String, MauChannel> channels;
+	
 	private Map<String, String> formats;
+	private Map<UUID, String> playerFormats;
 	private String defaultFormat;
+	private List<Replaceable> replace;
+	
 	private boolean loaded = false;
 	
 	@Override
 	public void load(Maussentials plugin) {
-		this.plugin = plugin;
+//		this.plugin = plugin;
 		
-		channelsFile = new File(plugin.getDataFolder(), "channels.yml");
-		ConfigurationSerialization.registerClass(MauChannel.class);
-		try {
-			conf = YamlConfiguration.loadConfiguration(channelsFile);
-			for (Entry<String, Object> e : conf.getConfigurationSection("channels").getValues(true).entrySet()) {
-				try {
-					if (e.getValue() instanceof MauChannel) channels.put(e.getKey(), (MauChannel) e.getValue());
-					else plugin.getLogger().severe("Failed to load channel " + e.getKey());
-				} catch (Throwable t) {
-					plugin.getLogger().severe("Failed to load channel " + e.getKey());
-					t.printStackTrace();
-				}
-			}
-		} catch (Throwable t) {
-			plugin.getLogger().severe("Failed to load channels");
-			t.printStackTrace();
-		}
+		// Register Replaceable as a thing that can be de/serialized from/to config.
+		ConfigurationSerialization.registerClass(Replaceable.class);
 		
+		// Save default config
+		plugin.saveResource("chat.yml", false);
+		// Load config
+		confFile = new File(plugin.getDataFolder(), "chat.yml");
+		conf = YamlConfiguration.loadConfiguration(confFile);
+		
+		// Load vault permissions.
 		vault = plugin.getServer().getServicesManager().getRegistration(Permission.class).getProvider();
 		
-		Map<String, Object> frmts = plugin.getConfig().getConfigurationSection("chat-format.groups").getValues(false);
-		for (Entry<String, Object> e : frmts.entrySet())
+		// Get group formats from configuration.
+		Map<String, Object> map1 = conf.getConfigurationSection("group-formats").getValues(false);
+		for (Entry<String, Object> e : map1.entrySet())
 			formats.put(e.getKey().toLowerCase(Locale.ENGLISH), e.getValue().toString());
-		defaultFormat = plugin.getConfig().getString("chat-format.default");
+			
+		// Get player formats from configuration.
+		Map<String, Object> map2 = conf.getConfigurationSection("player-formats").getValues(false);
+		for (Entry<String, Object> e : map2.entrySet())
+			playerFormats.put(UUID.fromString(e.getKey()), e.getValue().toString());
+			
+		// Get chat replace objects from configuration.
+		List<?> list1 = conf.getList("chat-replace");
+		replace = new ArrayList<Replaceable>();
+		for (Object o : list1)
+			if (o instanceof Replaceable) replace.add((Replaceable) o);
+		Collections.sort(replace);
+		
+		// Get the default config.
+		defaultFormat = conf.getString("chat-format.default");
+		
+		plugin.getServer().getPluginManager().registerEvents(new ChatListener(this), plugin);
 		
 		loaded = true;
 	}
 	
 	@Override
 	public void unload() {
-		try {
-			for (Entry<String, MauChannel> e : channels.entrySet()) {
-				try {
-					conf.set(e.getKey(), e.getValue());
-				} catch (Throwable t) {
-					plugin.getLogger().severe("Failed to save channel " + e.getKey());
-					t.printStackTrace();
-				}
-			}
-			conf.save(channelsFile);
-		} catch (Throwable t) {
-			plugin.getLogger().severe("Failed to save channels");
-			t.printStackTrace();
-		}
-		ConfigurationSerialization.unregisterClass(MauChannel.class);
+		for (Entry<String, String> e : formats.entrySet())
+			conf.set("format-groups." + e.getKey().toLowerCase(Locale.ENGLISH), e.getValue());
+			
+		Collections.sort(replace);
+		conf.set("chat-replace", replace);
 		
-		formats.clear();
-		channels.clear();
+		try {
+			conf.save(confFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		ConfigurationSerialization.unregisterClass(Replaceable.class);
 		defaultFormat = null;
+		formats.clear();
+		formats = null;
 		vault = null;
 		conf = null;
-		channels = null;
-		plugin = null;
+//		plugin = null;
 		loaded = false;
 	}
 	
+	/**
+	 * Get the chat foramt for the given group.
+	 * 
+	 * @return The format for the group, or {@link #defaultFormat} if no specific format found for
+	 *         the group.
+	 */
 	public String getGroupFormat(String group) {
 		group = group.toLowerCase(Locale.ENGLISH);
 		if (formats.containsKey(group)) return formats.get(group);
 		else return defaultFormat;
 	}
 	
-	public boolean containsChannel(String name) {
-		return channels.containsKey(name.toLowerCase(Locale.ENGLISH));
+	public String getPlayerFormat(Player p) {
+		if (playerFormats.containsKey(p.getUniqueId())) return playerFormats.get(p.getUniqueId());
+		else return getGroupFormat(vault.getPrimaryGroup(p));
 	}
 	
-	public MauChannel getChannel(String name) {
-		return channels.get(name.toLowerCase(Locale.ENGLISH));
+	/**
+	 * Add the given Replaceable to the list and then sort the list.
+	 */
+	public void addReplaceable(Replaceable r) {
+		replace.add(r);
+		Collections.sort(replace);
+	}
+	
+	/**
+	 * Remove the Replaceable in the given index.
+	 */
+	public void removeReplaceable(int i) {
+		replace.remove(i);
+		Collections.sort(replace);
+	}
+	
+	/**
+	 * Filter the message by calling the {@link Replaceable#replaceIn(String)} method for each
+	 * Replaceable in the list.
+	 * 
+	 * @param message The message to filter.
+	 * @return The filtered message.
+	 */
+	public String filter(String message) {
+		for (Replaceable r : replace)
+			message = r.replaceIn(message);
+		return message;
 	}
 	
 	@Override

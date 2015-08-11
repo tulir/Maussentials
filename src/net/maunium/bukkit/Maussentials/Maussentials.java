@@ -31,6 +31,7 @@ import net.maunium.bukkit.Maussentials.Modules.MauInfo.MauInfo;
 import net.maunium.bukkit.Maussentials.Modules.PlayerData.PlayerData;
 import net.maunium.bukkit.Maussentials.Modules.Teleportation.MauTPs;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
+import net.maunium.bukkit.Maussentials.Utils.Deserialization.DeserializationException;
 
 import lib.PatPeter.SQLibrary.Database;
 
@@ -45,8 +46,9 @@ public class Maussentials extends JavaPlugin {
 	private Map<String, MauModule> modules = new HashMap<String, MauModule>();
 	private List<String> disabled;
 	/*
-	 * Instances of modules that need to be accessed from other modules. Other than these, all modules are mostly separate from each other excluding public
-	 * functionality modules such as the delayed actions system.
+	 * Instances of modules that need to be accessed from other modules. Other than these, all
+	 * modules are mostly separate from each other excluding public functionality modules such as
+	 * the delayed actions system.
 	 */
 	private DatabaseHandler dbh;
 	private Language lang;
@@ -68,11 +70,9 @@ public class Maussentials extends JavaPlugin {
 		saveResource("languages/en_US.lang", true);
 		saveResource("languages/fi_FI.lang", true);
 		saveResource("languages/de_DE.lang", true);
-		// Save the default motd and rules
-		saveResource("infos/motd.mauinfo", false);
-		saveResource("infos/rules.mauinfo", false);
 		
 		disabled = getConfig().getStringList("disable-on-startup");
+		DeserializationException.debug = getConfig().getBoolean("deserialization-debug");
 		
 		// Add and enable the modules
 		addModule("database", dbh = new DatabaseHandler());
@@ -140,7 +140,8 @@ public class Maussentials extends JavaPlugin {
 	}
 	
 	/**
-	 * The default onCommand method. Returns an error saying that the command is not loaded or implemented.
+	 * The default onCommand method. Returns an error saying that the command is not loaded or
+	 * implemented.
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -183,7 +184,8 @@ public class Maussentials extends JavaPlugin {
 	 * Unload the module with the given name.
 	 * 
 	 * @param name The name of the module to unload.
-	 * @return -1 if the module could not be found. 0 if the module was already unloaded. 1 if the module got successfully unloaded.
+	 * @return -1 if the module could not be found. 0 if the module was already unloaded. 1 if the
+	 *         module got successfully unloaded.
 	 */
 	public byte unloadModule(String name) {
 		name = name.toLowerCase(Locale.ENGLISH);
@@ -198,7 +200,8 @@ public class Maussentials extends JavaPlugin {
 	 * Unload the module with the given name.
 	 * 
 	 * @param name The name of the module to unload.
-	 * @return -1 if the module could not be found. 0 if the module was already loaded. 1 if the module got successfully loaded.
+	 * @return -1 if the module could not be found. 0 if the module was already loaded. 1 if the
+	 *         module got successfully loaded.
 	 */
 	public byte loadModule(String name) {
 		name = name.toLowerCase(Locale.ENGLISH);
@@ -254,7 +257,8 @@ public class Maussentials extends JavaPlugin {
 	}
 	
 	/**
-	 * Check if the given player has the given permission. If not, send the player an error containing the permission node.
+	 * Check if the given player has the given permission. If not, send the player an error
+	 * containing the permission node.
 	 * 
 	 * @param p The player to check.
 	 * @param permission The permission to check.

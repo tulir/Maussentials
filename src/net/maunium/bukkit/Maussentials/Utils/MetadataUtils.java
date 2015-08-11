@@ -25,7 +25,7 @@ public class MetadataUtils {
 	 */
 	public static MetadataValue getMetadata(Metadatable m, String tag, Plugin owner) {
 		for (MetadataValue mv : m.getMetadata(tag))
-			if (mv.getOwningPlugin().equals(owner)) return mv;
+			if (mv != null && mv.getOwningPlugin().equals(owner)) return mv;
 		return null;
 	}
 	
@@ -56,6 +56,18 @@ public class MetadataUtils {
 				return value;
 			}
 		}));
+	}
+	
+	/**
+	 * Set lazy (weak reference) metadata for given metadatable with given tag, value and owner
+	 * 
+	 * @param m The metadatable to set the given metadata value to.
+	 * @param tag The tag to set the metadata value under.
+	 * @param value The value to set to the tag.
+	 * @param owner The owner of the metadata value.
+	 */
+	public static void setLazyMetadata(Metadatable m, String tag, Callable<Object> value, Plugin owner) {
+		m.setMetadata(tag, new LazyMetadataValue(owner, value));
 	}
 	
 	/**

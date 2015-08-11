@@ -1,4 +1,4 @@
-# All variables are enclosed in {curly brackets} and are all-caps
+# All variables are enclosed in {CURLY BRACKETS} and are ALL-CAPS
 # Allowed variables: NAME, DISPLAYNAME, MESSAGE, GROUP, WORLD, SWORLD, TEAMNAME, TEAMDISPLAYNAME, TEAMPREFIX, TEAMSUFFIX
 group-formats:
   default: "&f[&8Default&f] &7{DISPLAYNAME}&f: &7{MESSAGE}"
@@ -7,4 +7,4 @@ group-formats:
   owner: "&c[&6Owner&c] &6{DISPLAYNAME}&f: &6{MESSAGE}"
 player-formats:
   1f97b709-4c25-4feb-a7ee-71343ddbbc26: "&b[&a&lMau&b] &2{DISPLAYNAME}&f: &2{MESSAGE}"
-channels: []
+chat-replace: []

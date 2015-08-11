@@ -1,36 +1,44 @@
 package net.maunium.bukkit.Maussentials.Modules.Chat;
 
-import java.util.UUID;
+import java.util.Locale;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scoreboard.Team;
 
-import net.maunium.bukkit.Maussentials.Maussentials;
-import net.maunium.bukkit.Maussentials.Utils.MetadataUtils;
-
+/**
+ * Chat listener for Maussentials Chat
+ * 
+ * @author Tulir293
+ * @since 0.3
+ */
 public class ChatListener implements Listener {
-	private Maussentials plugin;
+	public static final String PREV_MSG_META = "MaussentialsChatPreviousMessage", SPAM_COUNT_META = "MaussentialsChatSpamCount";
 	private MauChat host;
 	
-	public ChatListener(Maussentials plugin, MauChat host) {
-		this.plugin = plugin;
+	public ChatListener(MauChat host) {
 		this.host = host;
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onChat(AsyncPlayerChatEvent evt) {
-		String g = host.vault.getPrimaryGroup(evt.getPlayer());
+		// Filter the message.
+		evt.setMessage(host.filter(evt.getMessage()));
 		
+		// Get the player group.
+		String g = host.vault.getPrimaryGroup(evt.getPlayer());
+		// Get the player team.
 		Team t = evt.getPlayer().getScoreboard().getPlayerTeam(evt.getPlayer());
+		// Get the player world.
 		String world = evt.getPlayer().getWorld().getName();
+		// Format the message.
 		// @mauformat=off
 		evt.setFormat(
-				host.getGroupFormat(g)
+				host.getPlayerFormat(evt.getPlayer())
 				.replace("{DISPLAYNAME}", "$1")
 				.replace("{MESSAGE}", "$2")
 				.replace("{GROUP}", g)
@@ -43,19 +51,26 @@ public class ChatListener implements Listener {
 				.replace("{TEAMDISPLAYNAME}", t.getDisplayName())
 			);
 		// @mauformat=on
-		
-		if (evt.getPlayer().hasMetadata(MauChat.CURRENT_CHANNEL)) {
-			MetadataValue mv = MetadataUtils.getMetadata(evt.getPlayer(), MauChat.CURRENT_CHANNEL, plugin);
-			MauChannel ch;
-			if (mv != null && mv.value() != null && mv.value() instanceof MauChannel) ch = (MauChannel) mv.value();
-			else return;
-			evt.getRecipients().clear();
-			for (UUID u : ch.getPlayers()) {
-				Player p = plugin.getServer().getPlayer(u);
-				if (p.isOnline()) evt.getRecipients().add(p);
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onChatLater(AsyncPlayerChatEvent evt) {
+		// Get the lowercase message.
+		String msg = evt.getMessage().toLowerCase(Locale.ENGLISH);
+		// Make sure it contains @ chars
+		if (!msg.contains("@")) return;
+		Player rec = null;
+		// Loop through the recipents.
+		for (Player p : evt.getRecipients()) {
+			// If the message contains @PlayerName, highlight the message for the player PlayerName
+			if (msg.contains("@" + p.getName().toLowerCase(Locale.ENGLISH))) {
+				rec = p;
+				break;
 			}
-			if (evt.getFormat().contains("{CHANNEL}")) evt.setFormat(evt.getFormat().replace("{CHANNEL}", ch.getName()));
-			else evt.setFormat(plugin.translatePlain("channel.prefix", ch.getName()) + evt.getFormat());
 		}
+		// Remove PlayerName from the default message recipents.
+		evt.getRecipients().remove(rec);
+		// Send the highlighted version to PlayerName.
+		rec.sendMessage(String.format(evt.getFormat(), evt.getPlayer().getDisplayName(), ChatColor.RED + evt.getMessage()));
 	}
 }

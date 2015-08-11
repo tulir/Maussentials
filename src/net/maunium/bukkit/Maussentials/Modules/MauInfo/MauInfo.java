@@ -21,6 +21,8 @@ public class MauInfo implements MauModule, Listener {
 	
 	@Override
 	public void load(Maussentials plugin) {
+		plugin.saveResource("infos/motd.mauinfo", false);
+		plugin.saveResource("infos/rules.mauinfo", false);
 		File f = new File(plugin.getDataFolder(), "infos");
 		for (File ff : f.listFiles()) {
 			if (ff.getName().endsWith(".mauinfo")) try {

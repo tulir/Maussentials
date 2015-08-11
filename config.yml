@@ -51,3 +51,5 @@ teleport:
   safedelay: 0
 # A list of modules which shouldn't be enabled on startup.
 disable-on-startup: []
+# Enable or disable deserialization error debug messages
+deserialization-debug: false
