@@ -168,4 +168,9 @@ public class MauChat implements MauModule {
 	public boolean isLoaded() {
 		return loaded;
 	}
+	
+	@Override
+	public String[] getDependencies() {
+		return new String[] { "playerdata" };
+	}
 }

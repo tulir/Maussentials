@@ -53,8 +53,8 @@ public class MauBans implements MauModule {
 				MemorySection m = (MemorySection) e.getValue();
 				if (m.contains("reason") && m.contains("timeout")) {
 					Object reason = m.get("reason"), timeout = m.get("timeout");
-					if (reason != null && timeout != null && reason instanceof String && timeout instanceof String) sbans.put(e.getKey(),
-							StandardBan.create((String) reason, (String) timeout));
+					if (reason != null && timeout != null && reason instanceof String && timeout instanceof String)
+						sbans.put(e.getKey(), StandardBan.create((String) reason, (String) timeout));
 					else plugin.getServer().getConsoleSender().sendMessage(plugin.translateErr("bans.error.stdban.entry", e.getKey()));
 				} else plugin.getServer().getConsoleSender().sendMessage(plugin.translateErr("bans.error.stdban.entry", e.getKey()));
 			} else plugin.getServer().getConsoleSender().sendMessage(plugin.translateErr("bans.error.stdban.entry", e.getKey()));
@@ -106,9 +106,9 @@ public class MauBans implements MauModule {
 	}
 	
 	public ResultSet getBanData(String banned, String type) throws SQLException {
-		ResultSet rs = plugin.getDB().query(
-				"SELECT * FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + banned + "' AND " + COLUMN_TYPE + "='" + type + "';");
-		
+		ResultSet rs = plugin.getDB()
+				.query("SELECT * FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + banned + "' AND " + COLUMN_TYPE + "='" + type + "';");
+				
 		if (rs.next()) {
 			long expire = rs.getLong(COLUMN_EXPIRE);
 			if (expire > 0 && expire <= System.currentTimeMillis()) {
@@ -181,8 +181,8 @@ public class MauBans implements MauModule {
 	
 	public void unban(String unbanner, UUID u) {
 		try {
-			plugin.getDB().query(
-					"DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + u.toString() + "' AND " + COLUMN_TYPE + "='" + TYPE_UUID + "';");
+			plugin.getDB()
+					.query("DELETE FROM " + TABLE_BANS + " WHERE " + COLUMN_BANNED + "='" + u.toString() + "' AND " + COLUMN_TYPE + "='" + TYPE_UUID + "';");
 			// @mauformat=off
 			plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('"
 					+ u + "','"
@@ -219,10 +219,15 @@ public class MauBans implements MauModule {
 	}
 	
 	public void warn(UUID uuid, String banner, String reason, long timeout) {
-		
+	
 	}
 	
 	public StandardBan getStandardBan(String name) {
 		return sbans.get(name);
+	}
+	
+	@Override
+	public String[] getDependencies() {
+		return new String[] { "playerdata" };
 	}
 }

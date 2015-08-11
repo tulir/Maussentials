@@ -36,4 +36,9 @@ public class MauTPs implements MauModule {
 	public boolean isLoaded() {
 		return loaded;
 	}
+	
+	@Override
+	public String[] getDependencies() {
+		return new String[] { "delayed-actions" };
+	}
 }

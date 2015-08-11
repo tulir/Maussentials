@@ -10,7 +10,8 @@ import net.maunium.bukkit.Maussentials.Maussentials;
  */
 public interface MauModule {
 	/**
-	 * Initializes the module and loads all the configurations and everything else that needs to be loaded.
+	 * Initializes the module and loads all the configurations and everything else that needs to be
+	 * loaded.
 	 * 
 	 * @param plugin The hosting instance of Maussentials.
 	 */
@@ -25,4 +26,11 @@ public interface MauModule {
 	 * @return True, if the module is loaded. False otherwise.
 	 */
 	public boolean isLoaded();
+	
+	/**
+	 * Get the list of module names that this module depends on.
+	 */
+	public default String[] getDependencies() {
+		return new String[0];
+	}
 }
