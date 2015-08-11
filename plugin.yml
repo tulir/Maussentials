@@ -31,7 +31,7 @@ commands:
     aliases: [seen, maulastseen, lastseen, mauplayerinfo, playerinfo]
   maureload:
     description: Reload a plugin or a module
-    aliases: [maurel, rel, reloader, plugman, maussentials]
+    aliases: [maurel, maussentialsreloader, maussentialsreload, maussentialsrel, maussentials]
   mauplainsay:
     description: Plain broadcast (no prefixes).
     aliases: [plainsay, maupsay, psay, maups, ps, mauplainbroadcast, plainbroadcast, maupb, pb]
@@ -80,20 +80,9 @@ commands:
   mautpdeny:
     description: Deny a teleportation request
     aliases: [tpdeny, mautpno, tpno, mautpn, tpn]
-  # TODO START
-  maunick:
-    description: Set a players nick
-    aliases: [nick, maunickname, nickname]
-  mauchannel:
-    description: Move to a chat channel
-    aliases: [channel, mauch, ch, mauc, c]
-  mauchanneladmin:
-    description: Manage chat channels
-    aliases: [channeladmin, maucha, cha, mauchadmin, chadmin, mauca, ca]
   mauchatformat:
     description: Set the chat format of a group or an user.
     aliases: [chatformat, maucf, cf]
-  # TODO BREAK
 permissions:
   maussentials.chat.nick:
     description: Set your own nickname.

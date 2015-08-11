@@ -81,25 +81,14 @@ signedit.toolong=The maximum length of a sign line is 16 characters!
 signedit.click=Click a sign to edit it.
 signedit.edited=Edited sign successfully.
 
-# 0: Label
-reloader.help=Usage: /{0} <module/plugin> <action> <name>
-reloader.plugin.help=Usage: /{0} plugin <list/load/unload/reload/enable/disable/restart> [name]
-reloader.module.help=Usage: /{0} module <list/load/unload/reload> [name]
-# 0: Plugin/Module name
-reloader.plugin.enabled=Enabled plugin &6{0}&7 successfully.
-reloader.plugin.disabled=Disabled plugin &6{0}&7 successfully.
-reloader.plugin.restarted=Restarted plugin &6{0}&7 successfully.
-reloader.plugin.notfound=Could not find plugin &6{0}&c!
-reloader.plugin.alreadyenabled=The plugin &6{0}&c is already enabled!
-reloader.plugin.alreadydisabled=The plugin &6{0}&c is already disabled!
-reloader.plugin.disable.self=I'm afraid I can't disable myself.
-reloader.module.loaded=Loaded module &6{0}&7 successfully.
-reloader.module.unloaded=Unloaded module &6{0}&7 successfully.
-reloader.module.reloaded=Reloaded module &6{0}&7 successfully.
-reloader.module.notfound=Could not find module &6{0}&c!
-reloader.module.alreadyloaded=The module &6{0}&c is already loaded!
-reloader.module.alreadyunloaded=The module &6{0}&c is already unloaded!
-reloader.module.list=&aLoaded Module ({0})&f - &2Unloaded Module ({1})&f<br>{2}
+module.help=Usage: /{0} <list/load/unload/reload> [name]
+module.loaded=Loaded module &6{0}&7 successfully.
+module.unloaded=Unloaded module &6{0}&7 successfully.
+module.reloaded=Reloaded module &6{0}&7 successfully.
+module.notfound=Could not find module &6{0}&c!
+module.alreadyloaded=The module &6{0}&c is already loaded!
+module.alreadyunloaded=The module &6{0}&c is already unloaded!
+module.list=&aLoaded Module ({0})&f - &2Unloaded Module ({1})&f<br>{2}
 
 # "In" and "For" separated, as some languages (such as Finnish) have different conjugations for them.
 # No arguments
@@ -244,3 +233,7 @@ tp.request.fail=Teleportation cancelled.
 tp.request.nobody=You have no requests waiting!
 
 mauinfo.noperms=You don't have the permissions to view that info page.
+
+chat.format.player=Set chat format for player &6{0}&7 to {1}&7.
+chat.format.group=Set chat format for group &6{0}&7 to {1}&7.
+chat.format.help=Usage: /{0} <player/group> <format>

@@ -112,32 +112,29 @@ public class Maussentials extends JavaPlugin {
 		getLogger().info("Maussentials v" + getDescription().getVersion() + " by Tulir293 disabled in " + et + "ms.");
 	}
 	
-	/**
-	 * Execute a full reload of Maussentials including all modules.
-	 */
-	public void fullReload() {
-		Language.reloadFallback(this);
-		
-		saveDefaultConfig();
-		File f = new File(getDataFolder(), "languages");
-		if (!f.exists()) f.mkdirs();
-		// Save the default language files
-		saveResource("languages/en_US.lang", true);
-		saveResource("languages/fi_FI.lang", true);
-		saveResource("languages/de_DE.lang", true);
-		// Save the default motd and rules
-		saveResource("infos/motd.mauinfo", false);
-		saveResource("infos/rules.mauinfo", false);
-		
-		reloadConfig();
-		
-		for (MauModule m : modules.values()) {
-			if (m.isLoaded()) {
-				m.unload();
-				m.load(this);
-			}
-		}
-	}
+//	/**
+//	 * Execute a full reload of Maussentials including all modules.
+//	 */
+//	public void fullReload() {
+//		Language.reloadFallback(this);
+//		
+//		saveDefaultConfig();
+//		File f = new File(getDataFolder(), "languages");
+//		if (!f.exists()) f.mkdirs();
+//		// Save the default language files
+//		saveResource("languages/en_US.lang", true);
+//		saveResource("languages/fi_FI.lang", true);
+//		saveResource("languages/de_DE.lang", true);
+//		
+//		reloadConfig();
+//		
+//		for (MauModule m : modules.values()) {
+//			if (m.isLoaded()) {
+//				m.unload();
+//				m.load(this);
+//			}
+//		}
+//	}
 	
 	/**
 	 * The default onCommand method. Returns an error saying that the command is not loaded or
