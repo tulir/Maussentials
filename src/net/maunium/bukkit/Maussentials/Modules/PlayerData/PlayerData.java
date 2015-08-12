@@ -23,6 +23,8 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.SerializableLocation;
 
+import lib.PatPeter.SQLibrary.Database;
+
 /**
  * Player data database systems.
  * 
@@ -315,7 +317,8 @@ public class PlayerData implements Listener, MauModule {
 	 * 
 	 * @param name The username to get the UUID from
 	 * @return The UUID.
-	 * @throws SQLException If database querying or resultset getting throws something.
+	 * @throws SQLException As defined in {@link Database#query(String)}, {@link ResultSet#next()}
+	 *             and {@link ResultSet#getString(String)}
 	 */
 	public UUID getUUIDByName(String name) throws SQLException {
 		ResultSet rs = plugin.getDB().query("SELECT " + COLUMN_UUID + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_USERNAME + "='" + name + "';");
@@ -323,12 +326,28 @@ public class PlayerData implements Listener, MauModule {
 		else return null;
 	}
 	
+	/**
+	 * Get the last time the given UUID logged in.
+	 * 
+	 * @param u The UUID to search.
+	 * @return The timestamp, or -1 if the player has never logged in.
+	 * @throws SQLException As defined in {@link Database#query(String)}, {@link ResultSet#next()}
+	 *             and {@link ResultSet#getLong(String)}
+	 */
 	public long getLastLoginByUUID(UUID u) throws SQLException {
 		ResultSet rs = plugin.getDB().query("SELECT " + COLUMN_LASTLOGIN + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + u.toString() + "';");
 		if (rs.next()) return rs.getLong(COLUMN_LASTLOGIN);
 		else return -1;
 	}
 	
+	/**
+	 * Get the logout/login location of the given UUID.
+	 * 
+	 * @param u The UUID to search.
+	 * @return The location, or null if none found.
+	 * @throws SQLException As defined in {@link Database#query(String)}, {@link ResultSet#next()}
+	 *             and {@link ResultSet#getString(String)}
+	 */
 	public SerializableLocation getLocationByUUID(UUID u) throws SQLException {
 		ResultSet rs = plugin.getDB().query("SELECT " + COLUMN_LOCATION + " FROM " + TABLE_PLAYERS + " WHERE " + COLUMN_UUID + "='" + u.toString() + "';");
 		if (rs.next()) return SerializableLocation.fromString(rs.getString(COLUMN_LOCATION));
