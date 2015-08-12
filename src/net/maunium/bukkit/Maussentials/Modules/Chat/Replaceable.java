@@ -79,7 +79,7 @@ public class Replaceable implements Comparable<Replaceable>, ConfigurationSerial
 	 */
 	public Replaceable(Map<String, Object> serialized) throws DeserializationException {
 		priority = DeserializationUtils.getValue("priority", serialized, int.class, 0);
-		type = DeserializationUtils.getValue("type", serialized, Type.class, Type.STRING);
+		type = Type.valueOf(DeserializationUtils.getValue("type", serialized, String.class, Type.STRING.toString()));
 		toReplace = DeserializationUtils.getValue("to-replace", serialized, String.class);
 		replaceWith = DeserializationUtils.getValue("replace-with", serialized, String.class);
 	}
