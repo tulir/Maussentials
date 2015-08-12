@@ -8,3 +8,9 @@ group-formats:
 player-formats:
   1f97b709-4c25-4feb-a7ee-71343ddbbc26: "&b[&a&lMau&b] &2{DISPLAYNAME}&f: &2{MESSAGE}"
 chat-replace: []
+# Antispam settings
+antispam:
+  # The delay in seconds for the spam status to reset.
+  reset-delay: 6
+  # The minimum difference in characters for the spam status to reset.
+  difference-limit: 5

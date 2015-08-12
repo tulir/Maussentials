@@ -237,3 +237,5 @@ mauinfo.noperms=You don't have the permissions to view that info page.
 chat.format.player=Set chat format for player &6{0}&7 to {1}&7.
 chat.format.group=Set chat format for group &6{0}&7 to {1}&7.
 chat.format.help=Usage: /{0} <player/group> <format>
+
+spamming=Please do not send similar messages too often.

@@ -75,7 +75,7 @@ public class MauChat implements MauModule {
 		// Get the default config.
 		defaultFormat = conf.getString("chat-format.default", "<{DISPLAYNAME}> {MESSAGE}");
 		
-		plugin.getServer().getPluginManager().registerEvents(new ChatListener(this), plugin);
+		plugin.getServer().getPluginManager().registerEvents(new ChatListener(plugin, this), plugin);
 		plugin.getCommand("mauchatformat").setExecutor(new CommandFormat(plugin, this));
 		
 		loaded = true;
@@ -84,7 +84,7 @@ public class MauChat implements MauModule {
 	@Override
 	public void unload() {
 		for (Entry<String, String> e : groupFormats.entrySet())
-			conf.set("groups-formats." + e.getKey().toLowerCase(Locale.ENGLISH), e.getValue());
+			conf.set("group-formats." + e.getKey().toLowerCase(Locale.ENGLISH), e.getValue());
 			
 		for (Entry<UUID, String> e : playerFormats.entrySet())
 			conf.set("player-formats." + e.getKey().toString(), e.getValue());
@@ -161,6 +161,10 @@ public class MauChat implements MauModule {
 		for (Replaceable r : replace)
 			message = r.replaceIn(message);
 		return message;
+	}
+	
+	public YamlConfiguration getConfig() {
+		return conf;
 	}
 	
 	@Override
