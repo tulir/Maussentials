@@ -9,6 +9,12 @@ import org.bukkit.command.CommandSender;
 import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Utils.MauCommandExecutor;
 
+/**
+ * Handler for /mauchatformat
+ * 
+ * @author Tulir293
+ * @since 0.3
+ */
 public class CommandFormat implements MauCommandExecutor {
 	private Maussentials plugin;
 	private MauChat host;
