@@ -10,6 +10,13 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Modules.Util.MauModule;
 import net.maunium.bukkit.Maussentials.Utils.I18n;
 
+/**
+ * The language module for Maussentials allowing proper fallback handling. This class was just an
+ * I18n container up till 0.2
+ * 
+ * @author Tulir293
+ * @since 0.1
+ */
 public class Language implements MauModule {
 	private Maussentials plugin;
 	private String stag, errtag;
@@ -32,6 +39,9 @@ public class Language implements MauModule {
 		loaded = true;
 	}
 	
+	/**
+	 * Reload the fallback language using the given Maussentials instance.
+	 */
 	public static void reloadFallback(Maussentials plugin) {
 		try {
 			fallback = I18n.createInstance(plugin.getResource("languages/en_US.lang"));
@@ -52,11 +62,26 @@ public class Language implements MauModule {
 		return loaded;
 	}
 	
-	public String translate(String node, String prefix, Object... replace) {
+	/**
+	 * Translate the given node with the given arguments and prepend the given prefix.
+	 * 
+	 * @return The translated node, or null if translation not found.
+	 */
+	private String translate(String node, String prefix, Object... replace) {
 		if (loaded) return prefix + i18n.translate(node, replace);
 		else return null;
 	}
 	
+	/**
+	 * Translate the given node with the given arguments and prepend the standard output tag. First
+	 * try using the given Language instance and then use the fallback language.
+	 * 
+	 * @param lang The primary Language instance.
+	 * @param node The node to translate.
+	 * @param replace The arguments to give.
+	 * @return The translated message with the standard output tag prepended or the node if no
+	 *         translation was found.
+	 */
 	public static String translateStd(Language lang, String node, Object... replace) {
 		if (lang != null && lang.isLoaded()) {
 			String s = lang.translate(node, lang.stag, replace);
@@ -77,6 +102,16 @@ public class Language implements MauModule {
 		}
 	}
 	
+	/**
+	 * Translate the given node with the given arguments and prepend the error output tag. First try
+	 * using the given Language instance and then use the fallback language.
+	 * 
+	 * @param lang The primary Language instance.
+	 * @param node The node to translate.
+	 * @param replace The arguments to give.
+	 * @return The translated message with the error output tag prepended or the node if no
+	 *         translation was found.
+	 */
 	public static String translateErr(Language lang, String node, Object... replace) {
 		if (lang != null && lang.isLoaded()) {
 			String s = lang.translate(node, lang.errtag, replace);
@@ -97,6 +132,15 @@ public class Language implements MauModule {
 		}
 	}
 	
+	/**
+	 * Translate the given node with the given arguments. First try using the given Language
+	 * instance and then use the fallback language.
+	 * 
+	 * @param lang The primary Language instance.
+	 * @param node The node to translate.
+	 * @param replace The arguments to give.
+	 * @return The translated message or the node if no translation was found.
+	 */
 	public static String translatePlain(Language lang, String node, Object... replace) {
 		if (lang != null && lang.isLoaded()) {
 			String s = lang.translate(node, "", replace);
