@@ -17,7 +17,8 @@ import net.maunium.bukkit.Maussentials.Maussentials;
 import net.maunium.bukkit.Maussentials.Utils.SerializableLocation;
 
 /**
- * Listeners for the PlayerData class. Moved to separate class, since all listeners need to be made asynchronous.
+ * Listeners for the PlayerData class. Moved to separate class, since all listeners need to be made
+ * asynchronous.
  * 
  * @author Tulir293
  * @since 0.3
@@ -31,10 +32,15 @@ public class PDListeners implements Listener {
 		this.host = host;
 	}
 	
+	/**
+	 * Pre-login event handler. The code is in the event handler itself, since the event is
+	 * asynchronous by default.
+	 */
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerPreLogin(AsyncPlayerPreLoginEvent evt) {
 		if (evt.getAddress() != null && evt.getUniqueId() != null && evt.getName() != null
 				&& evt.getLoginResult().equals(AsyncPlayerPreLoginEvent.Result.ALLOWED)) {
+			// Try to update the name and IP history of the UUID.
 			try {
 				ResultSet rs = plugin.getDB()
 						.query("SELECT * FROM " + PlayerData.TABLE_PLAYERS + " WHERE " + PlayerData.COLUMN_UUID + "='" + evt.getUniqueId() + "';");
@@ -57,6 +63,9 @@ public class PDListeners implements Listener {
 		}
 	}
 	
+	/**
+	 * Login event handler. This just runs {@link PlayerLoginHandler} asynchronously.
+	 */
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onPlayerLogin(PlayerLoginEvent evt) {
 		if (!evt.getResult().equals(PlayerLoginEvent.Result.ALLOWED)) return;
@@ -64,6 +73,12 @@ public class PDListeners implements Listener {
 				new PlayerLoginHandler(evt.getPlayer().getUniqueId(), evt.getPlayer().getName(), evt.getPlayer().getLocation()));
 	}
 	
+	/**
+	 * The runnable that handles login events.
+	 * 
+	 * @author Tulir293
+	 * @since 0.3
+	 */
 	private class PlayerLoginHandler implements Runnable {
 		private UUID uuid;
 		private String name;
@@ -77,6 +92,7 @@ public class PDListeners implements Listener {
 		
 		@Override
 		public void run() {
+			// Try to update the main entry of the UUID.
 			try {
 				host.setEntry(uuid, name, loc);
 				plugin.getLogger().fine("Updated database. New entry: " + uuid + ", " + name);
@@ -87,12 +103,21 @@ public class PDListeners implements Listener {
 		}
 	}
 	
+	/**
+	 * Join event handler. This just runs {@link PlayerJoinHandler} asynchronously.
+	 */
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerJoin(PlayerJoinEvent evt) {
 		plugin.getServer().getScheduler().runTaskAsynchronously(plugin,
 				new PlayerJoinHandler(evt.getPlayer().getUniqueId(), evt.getPlayer().getName(), evt.getPlayer().getLocation()));
 	}
 	
+	/**
+	 * The runnable that handles join events.
+	 * 
+	 * @author Tulir293
+	 * @since 0.3
+	 */
 	private class PlayerJoinHandler implements Runnable {
 		private UUID uuid;
 		private String name;
@@ -106,6 +131,7 @@ public class PDListeners implements Listener {
 		
 		@Override
 		public void run() {
+			// Try to set the login location of the UUID to the given location.
 			try {
 				host.setLocation(uuid, loc);
 				plugin.getLogger().fine("Updated Location for " + name);
@@ -116,12 +142,21 @@ public class PDListeners implements Listener {
 		}
 	}
 	
+	/**
+	 * Quit event handler. This just runs {@link PlayerQuitHandler} asynchronously.
+	 */
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent evt) {
 		plugin.getServer().getScheduler().runTaskAsynchronously(plugin,
 				new PlayerQuitHandler(evt.getPlayer().getUniqueId(), evt.getPlayer().getName(), evt.getPlayer().getLocation()));
 	}
 	
+	/**
+	 * The runnable that handles quit events.
+	 * 
+	 * @author Tulir293
+	 * @since 0.3
+	 */
 	private class PlayerQuitHandler implements Runnable {
 		private UUID uuid;
 		private String name;
@@ -135,6 +170,7 @@ public class PDListeners implements Listener {
 		
 		@Override
 		public void run() {
+			// Try to set the logout time of the UUID to the current time.
 			try {
 				host.setTime(uuid);
 				plugin.getLogger().fine("Updated LastLogin time for " + name);
@@ -142,6 +178,7 @@ public class PDListeners implements Listener {
 				plugin.getLogger().severe("Failed to update LastLogin time for " + name);
 				e.printStackTrace();
 			}
+			// Try to set the logout location of the UUID to the location given.
 			try {
 				host.setLocation(uuid, loc);
 				plugin.getLogger().fine("Updated Location for " + name);
