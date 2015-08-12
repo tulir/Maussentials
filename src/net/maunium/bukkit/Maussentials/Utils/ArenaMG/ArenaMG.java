@@ -5,7 +5,7 @@ import java.util.Set;
 import org.bukkit.plugin.Plugin;
 
 /**
- * The AMG (Arena minigame) base
+ * The AMG (Arena minigame) base. Not yet ready for usage.
  * 
  * @author Tulir293
  * @since 0.3
