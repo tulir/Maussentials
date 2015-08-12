@@ -108,21 +108,19 @@ public class ChatListener implements Listener {
 	public void onChatLater(AsyncPlayerChatEvent evt) {
 		// Get the lowercase message.
 		String msg = evt.getMessage().toLowerCase(Locale.ENGLISH);
-		// Make sure it contains @ chars
-		if (!msg.contains("@")) return;
 		Player rec = null;
 		// Loop through the recipents.
 		for (Player p : evt.getRecipients()) {
-			// If the message contains @PlayerName, highlight the message for the player PlayerName
-			if (msg.contains("@" + p.getName().toLowerCase(Locale.ENGLISH))) {
+			// If the message contains a players name, highlight the message for the player.
+			if (msg.contains(p.getName().toLowerCase(Locale.ENGLISH))) {
 				rec = p;
 				break;
 			}
 		}
 		if (rec == null) return;
-		// Remove PlayerName from the default message recipents.
+		// Remove the player from the default message recipents.
 		evt.getRecipients().remove(rec);
-		// Send the highlighted version to PlayerName.
-		rec.sendMessage(String.format(evt.getFormat(), evt.getPlayer().getDisplayName(), ChatColor.DARK_RED + evt.getMessage()));
+		// Send the highlighted version to the player.
+		rec.sendMessage(String.format(evt.getFormat(), evt.getPlayer().getDisplayName(), ChatColor.AQUA + evt.getMessage()));
 	}
 }
