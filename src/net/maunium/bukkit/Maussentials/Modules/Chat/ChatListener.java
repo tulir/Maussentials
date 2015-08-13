@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -118,7 +119,7 @@ public class ChatListener implements Listener {
 	/**
 	 * High priority chat handler. This highlights messages if a name is mentioned.
 	 */
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onChatLast(AsyncPlayerChatEvent evt) {
 		// Get the lowercase message.
 		String msg = evt.getMessage().toLowerCase(Locale.ENGLISH);
@@ -130,6 +131,7 @@ public class ChatListener implements Listener {
 				evt.getRecipients().remove(p);
 				// Send a highlighted version of the message to the player.
 				p.sendMessage(String.format(evt.getFormat(), evt.getPlayer().getDisplayName(), ChatColor.AQUA + evt.getMessage()));
+				p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 1);
 			}
 		}
 	}
