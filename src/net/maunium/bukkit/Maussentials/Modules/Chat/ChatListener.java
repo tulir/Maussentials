@@ -1,5 +1,6 @@
 package net.maunium.bukkit.Maussentials.Modules.Chat;
 
+import java.util.HashSet;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,8 +34,11 @@ public class ChatListener implements Listener {
 		this.host = host;
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onChat(AsyncPlayerChatEvent evt) {
+	/**
+	 * Low priority chat handler. This filters the message and prevents spamming.
+	 */
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onChatFirst(AsyncPlayerChatEvent evt) {
 		// Filter the message.
 		evt.setMessage(host.filter(evt.getMessage()));
 		
@@ -79,7 +83,13 @@ public class ChatListener implements Listener {
 		MetadataUtils.setFixedMetadata(evt.getPlayer(), PREV_MSG, msg, plugin);
 		// Set the previous message timestamp meta to the current time.
 		MetadataUtils.setFixedMetadata(evt.getPlayer(), PREV_MSG_TIME, System.currentTimeMillis(), plugin);
-		
+	}
+	
+	/**
+	 * Medium priority chat handler. This applies chat formatting.
+	 */
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onChatMid(AsyncPlayerChatEvent evt) {
 		// Get the player group.
 		String g = host.vault.getPrimaryGroup(evt.getPlayer());
 		// Get the player team.
@@ -89,7 +99,7 @@ public class ChatListener implements Listener {
 		// Format the message.
 		// @mauformat=off
 		evt.setFormat(ChatFormatter.formatAll(
-				host.getPlayerFormat(evt.getPlayer())
+			host.getPlayerFormat(evt.getPlayer())
 				.replace("{DISPLAYNAME}", "%s")
 				.replace("{MESSAGE}", "%s")
 				.replace("{GROUP}", g)
@@ -100,27 +110,27 @@ public class ChatListener implements Listener {
 				.replace("{TEAMSUFFIX}", t != null ? t.getSuffix() : "")
 				.replace("{TEAMNAME}", t != null ? t.getName() : "")
 				.replace("{TEAMDISPLAYNAME}", t != null ? t.getDisplayName() : "")
-			));
+			)
+		);
 		// @mauformat=on
 	}
 	
+	/**
+	 * High priority chat handler. This highlights messages if a name is mentioned.
+	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onChatLater(AsyncPlayerChatEvent evt) {
+	public void onChatLast(AsyncPlayerChatEvent evt) {
 		// Get the lowercase message.
 		String msg = evt.getMessage().toLowerCase(Locale.ENGLISH);
-		Player rec = null;
 		// Loop through the recipents.
-		for (Player p : evt.getRecipients()) {
+		for (Player p : new HashSet<Player>(evt.getRecipients())) {
 			// If the message contains a players name, highlight the message for the player.
 			if (msg.contains(p.getName().toLowerCase(Locale.ENGLISH))) {
-				rec = p;
-				break;
+				// Remove the player from the default message recipients.
+				evt.getRecipients().remove(p);
+				// Send a highlighted version of the message to the player.
+				p.sendMessage(String.format(evt.getFormat(), evt.getPlayer().getDisplayName(), ChatColor.AQUA + evt.getMessage()));
 			}
 		}
-		if (rec == null) return;
-		// Remove the player from the default message recipents.
-		evt.getRecipients().remove(rec);
-		// Send the highlighted version to the player.
-		rec.sendMessage(String.format(evt.getFormat(), evt.getPlayer().getDisplayName(), ChatColor.AQUA + evt.getMessage()));
 	}
 }
