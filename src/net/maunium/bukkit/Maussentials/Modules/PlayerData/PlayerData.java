@@ -140,7 +140,7 @@ public class PlayerData implements Listener, MauModule {
 	// @mauformat=off
 	public ResultSet setEntry(UUID uuid, String username, SerializableLocation l) throws SQLException {
 		return plugin.getDB().query(
-				"INSERT OR REPLACE INTO " + TABLE_PLAYERS + " VALUES (" + "'" + uuid.toString() + "','" + username + "','" + System.currentTimeMillis() + "','"
+				"REPLACE INTO " + TABLE_PLAYERS + " VALUES (" + "'" + uuid.toString() + "','" + username + "','" + System.currentTimeMillis() + "','"
 						+ l.toString() + "');");
 	}
 	
@@ -156,12 +156,12 @@ public class PlayerData implements Listener, MauModule {
 	}
 	
 	public ResultSet setHistory(UUID uuid, String username, long changedTo) throws SQLException {
-		return plugin.getDB().query("INSERT OR REPLACE INTO " + TABLE_HISTORY + " VALUES ('" + uuid.toString() + "','" + username + "','" + changedTo + "');");
+		return plugin.getDB().query("REPLACE INTO " + TABLE_HISTORY + " VALUES ('" + uuid.toString() + "','" + username + "','" + changedTo + "');");
 	}
 	
 	public ResultSet setIPs(UUID uuid, String ip) throws SQLException {
 		return plugin.getDB().query(
-				"INSERT OR REPLACE INTO " + TABLE_IPLOGS + " VALUES ('" + uuid.toString() + "','" + ip + "','" + System.currentTimeMillis() + "');");
+				"REPLACE INTO " + TABLE_IPLOGS + " VALUES ('" + uuid.toString() + "','" + ip + "','" + System.currentTimeMillis() + "');");
 	}
 	
 	// @mauformat=on
